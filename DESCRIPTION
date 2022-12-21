@@ -1,12 +1,17 @@
-Package: FuzzyPovertyR
-Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Package: FuzzyPoverty
+Title: Estimation of fuzzy poverty measures
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Federico", "Crescenzi", email = "federico.crescenzi@unitus.it", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID")),
+    person("Lorenzo", "Mori", email = "lorenzo.mori7@unibo.it", role = c("aut")),
+    person("Gianni", "Betti", email = "betti@unisi.it", role = c("ctb")))
+Description: This package estimates fuzzy monetary and fuzzy supplementary poverty measures. It also estimates the sampling variance associated with the point estimates.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
 Encoding: UTF-8
-LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Imports: 
+    dplyr,
+    reshape2
