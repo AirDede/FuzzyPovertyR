@@ -23,8 +23,6 @@
 #' @param ... additional parameters
 #'
 #' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
-#' @export
-#'
 #' @examples
 #' data(eusilc)
 #' HCR <- 0.14
@@ -32,7 +30,7 @@
 #' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
 #' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
 #' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
-
+#' @export
 fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, verbose = TRUE, stratum, psu, f=.01, ...){
 
   breakdown <- as.factor(breakdown)
