@@ -3,7 +3,7 @@
 ##################
 
 #' Fuzzy monetary poverty estimation
-#' 
+#'
 #' @description This function estimates the variance of the fuzzy monetary poverty index
 #'
 #' @param income A numeric vector of incomes.
@@ -26,13 +26,21 @@
 #' @export
 #'
 #' @examples
+#' data(eusilc)
+#' HCR <- 0.14
+#' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
+#' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
+#' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
+#' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
+
 fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, verbose = TRUE, stratum, psu, f=.01, ...){
-  
+
+  breakdown <- as.factor(breakdown)
   N <- length(weight)
   if(is.null(ID)) ID <- seq_len(N)
   if(is.null(M)) M <- N
   switch(type, # creare funzione bootstrap e funzione jacknife da chiamare qui invece che codificarle
-         bootstrap = { 
+         bootstrap = {
            BootDistr <- sapply(1:R, function(x) {
              if(verbose == T) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
              bootidx <- sample(1:N, size = M, replace = T)
@@ -55,9 +63,9 @@ fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = 
            }
            # BootDistr <- sapply(mu.boot, mean) # fm_estimate for each replicate (meaningful only for breakdown?)
            # hist(BootDistr, xlab = '', main = expression(paste("Bootstrap distribution of E(", mu, ')')), probability = T)
-           # var(BootDistr) # 
+           # var(BootDistr) #
          },
-         Jackknife = {
+         jackknife = {
            tab <- data.frame(table(stratum, psu))
            a <- rowSums(with(tab, table(stratum, psu)))
            if(any(a<2)) stop("There should be at least 2 PSUs in each stratum")
@@ -87,36 +95,35 @@ fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = 
                w[case1.idx] <- weight[case1.idx]
                g_hi[i] <- w_h[stratum_h]/(w_h[stratum_h] - w_jh[stratum_h, psu_jh])
                w[case2.idx] <- (weight*g_hi[i])[case2.idx]
-               
+
                if(!is.null(breakdown)){
                  z_hi[[i]] <- fm_construct(income[delete.idx], weight[delete.idx], ID[delete.idx], HCR, interval, alpha, breakdown[delete.idx])$estimate
-                 
+
                } else {
                  z_hi[i] <- fm_construct(income[delete.idx], weight[delete.idx], ID[delete.idx], HCR, interval, alpha)$estimate
-                 
+
                }
              }
-             
+
              if(!is.null(breakdown)){
-               
+
                z_hi.breakdown <- do.call(rbind, z_hi)
                means.breakdown <- rep(1, a_h)%*%t(apply(z_hi.breakdown,2,mean))
                var_h.breakdown <- (1-f)*t(g_hi)%*%(z_hi.breakdown - means.breakdown)^2
                var_h[h,] <- var_h.breakdown
-               
+
              } else {
                var_h[h] <- (1-f)*sum(g_hi*(z_hi - mean(z_hi))^2)
              }
-             
+
            }
            if(!is.null(breakdown)) {
              var.hat <- list(estimate = apply(var_h, 2, sum) )
            } else {
              var.hat <- list(estimate = sum(var_h))
-             
+
            }
          })
-  
   var.hat
 }
 

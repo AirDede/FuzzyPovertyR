@@ -21,6 +21,8 @@
 #' @export
 #'
 #' @examples
+#' data(eusilc)
+#' step2 = fs_transform(eusilc, weight = eusilc$DB090, ID = eusilc$ID)
 #'
 #' @references
 #' Betti, G., Gagliardi, F., Lemmi, A., & Verma, V. (2015). Comparative measures of multidimensional deprivation in the European Union. Empirical Economics, 49(3), 1071-1100.

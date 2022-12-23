@@ -24,8 +24,13 @@
 #' @export
 #'
 #' @examples
+#' fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+#' fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = breakdown, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+#' fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = stratum, psu = psu, verbose = T, f = .01)
+#' fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = breakdown, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = stratum, psu = psu, verbose = T, f = .01)
+
 fs_var <- function(data, weight = NULL, ID = NULL, dimensions, breakdown = NULL, HCR, alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = TRUE, stratum = NULL, psu = NULL, f = .01){
-  
+
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
   N <- nrow(data)
   if(!(type%in%c('bootstrap', 'jackknife'))) stop('incorrect variance estimation method.')
@@ -33,7 +38,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, breakdown = NULL,
   if(is.null(ID)) ID <- seq_len(N)
   if(is.null(weight)) weight <- N
   switch(type,
-         bootstrap = { 
+         bootstrap = {
            BootDistr <- lapply(1:R, function(x) {
              if(verbose == T) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
              bootidx <- sample(1:N, size = M, replace = T)
@@ -49,7 +54,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, breakdown = NULL,
                try(fs_construct(step3.boot, weight.boot, alpha))$estimate # attenzione ai NA, tratto come 0
              }
            })
-           
+
            if(!is.null(breakdown)){
              var.hat <- list(variance = Reduce(modifiedSum, BootDistr)/R)
            } else {
@@ -57,7 +62,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, breakdown = NULL,
              # par(mfrow = c(floor((1+max(dimensions))/2), 2))
              # for(i in 1:nrow(BootDistr)) hist(BootDistr, xlab = '', main = paste(rownames(BootDistr)[i], "Bootstrap distribution"), probability = T)
              # var.hat <- apply(BootDistr, 1, var) # decidere se restituire questo o anche la distributzione come sotto
-             # var.hat <- list(distribution = BootDistr, variance = apply(BootDistr, 1, var)) # 
+             # var.hat <- list(distribution = BootDistr, variance = apply(BootDistr, 1, var)) #
            }
            var.hat
          },
@@ -110,7 +115,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, breakdown = NULL,
                  z_hi[i,] <- step7.jack
                }
              }
-             
+
              if(!is.null(breakdown)){
                # z_hi.bar <- Reduce(modifiedSum, z_hi)/a_h
                z_hi.bar <- array(apply(z_hi, 1:2, mean, na.rm = T), dim = c(J, P+1, a_h), dimnames = list(levels(breakdown),col.labels, NULL ))
@@ -133,6 +138,6 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, breakdown = NULL,
              var.hat <- list(variance = apply(var_h, 2, sum))
            }
          })
-  
+
   var.hat
 }

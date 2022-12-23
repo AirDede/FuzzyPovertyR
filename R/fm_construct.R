@@ -2,14 +2,14 @@
 #--- Fuzzy Monetary ---#
 ########################
 #' Fuzzy monetary poverty estimation
-#' 
-#' @description 
+#'
+#' @description
 #' `fm_construct` constructs fuzzy monetary poverty estimates.
-#' 
+#'
 #' @details
-#' It implements the fuzzy set approach to monetary poverty measurement where 
+#' It implements the fuzzy set approach to monetary poverty measurement where
 #' the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $(0,1)$
-#' 
+#'
 #' @param income A numeric vector of incomes.
 #' @param weight a numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param ID a numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
@@ -20,49 +20,53 @@
 #'
 #' @return
 #' A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.
-#' 
-#' @examples  
-#' 
 #' @export
 #'
+#' @examples
+#' data(eusilc)
+#' HCR <- .154
+#' fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID)
+#' fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
+#' fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
+#'
 fm_construct <- function(income, weight, ID = NULL, HCR, interval = c(1,10), alpha = NULL, breakdown = NULL, ...){ # cambiare ordine dei parametri
-  
+
   N <- length(income)
   if(is.null(ID)) ID <- seq_len(N)
   fm_data <-  data.frame(ID = ID, income = income, weight = weight) %>% arrange(income)
-  
-  
+
+
   income.ord <- fm_data[['income']]
   weight.ord <- fm_data[['weight']] # actually ordered according to income
-  
+
   if(is.null(alpha)){
     cat('Solving non linear equation: E[u] = HCR\n')
-    alpha <- uniroot(fm_objective, 
+    alpha <- uniroot(fm_objective,
                      interval = interval,
                      income.ord = income.ord,
                      weight.ord = weight.ord,
                      HCR = HCR)$root
     cat('Done.\n')
   }
-  
+
   fm_data$mu <- fm_mu(income.ord, weight.ord, alpha)
   estimate <- weighted.mean(fm_data$mu, fm_data$weight)
-  
+
   if(!is.null(breakdown)){
-    
+
     fm_data <- split(fm_data, breakdown)
     estimate <- sapply(fm_data, function(x) weighted.mean(x$mu, x$weight))
-    
+
     # fa funzioni di appartenenza per ogni breakdown. per altro paper :T
-    
+
     # fm_data.list <- split(fm_data, breakdown) %>% lapply(function (x) x %>% arrange(income))
     # mu.list <- lapply(fm_data.list, function(x) fm_mu(x$income, x$weight, alpha))
     # fm_data.list <- Map(cbind, fm_data.list, mu.list); for(i in 1:length(fm_data.list)) colnames(fm_data.list[[i]]) <- c('ID', 'income','weight','membership')
     # fm_estimates <- sapply(fm_data.list, function(x) weighted.mean(x$membership, x$weight))
     # return(list(results = fm_data.list, estimates = fm_estimates, alpha = alpha))
-    
+
   }
-  
+
   return(list(results = fm_data, estimate = estimate, alpha = alpha))
-  
+
 }
