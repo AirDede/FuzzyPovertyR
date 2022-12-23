@@ -11,7 +11,7 @@ fuzzyScaleItem(item, weight, ID, ...)
 
 \item{weight}{A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.}
 
-\item{ID}{A vector of length `nrow(data)` containing individuals IDs. if NULL (the default) row numbers will be used.}
+\item{ID}{A vector of length \code{nrow(data)} containing individuals IDs. if NULL (the default) row numbers will be used.}
 
 \item{...}{other parameters}
 }

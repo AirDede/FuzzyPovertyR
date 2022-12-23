@@ -18,8 +18,7 @@ fm_var(
   verbose = TRUE,
   stratum,
   psu,
-  f = 0.01,
-  ...
+  f = 0.01
 )
 }
 \arguments{
@@ -37,7 +36,7 @@ fm_var(
 
 \item{alpha}{The value of the exponent parameter to use in the non-linear equation as of Betti et. al, 2018.}
 
-\item{type}{The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.}
+\item{type}{The variance estimation method chosen. One between \code{bootstrap} (default) or \code{jackknife}.}
 
 \item{R}{The number of bootstrap replicates.}
 
@@ -45,17 +44,23 @@ fm_var(
 
 \item{verbose}{logical. whether to print the proceeding of the variance estimation procedure.}
 
+\item{stratum}{the vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).}
+
 \item{psu}{the vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).}
 
 \item{f}{the finite population correction fraction (if 'jacknife' is chosen as variance estimation technique).}
-
-\item{...}{additional parameters}
-
-\item{stratum.}{the vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).}
 }
 \value{
 The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
 }
 \description{
 This function estimates the variance of the fuzzy monetary poverty index
+}
+\examples{
+data(eusilc)
+HCR <- 0.14
+fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
+fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
+fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
+fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
 }

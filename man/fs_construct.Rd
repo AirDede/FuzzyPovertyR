@@ -23,3 +23,7 @@ A list of results containing the fuzzy meambership function for each unit, the p
 \description{
 Constructs the fuzzy supplementary poverty measure based on Steps1-6.
 }
+\examples{
+fs_results = fs_construct(steps3_5 = steps3_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+fs_results = fs_construct(steps3_5 = steps3_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
+}

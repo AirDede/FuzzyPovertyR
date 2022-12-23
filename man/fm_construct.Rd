@@ -34,9 +34,17 @@ fm_construct(
 A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.
 }
 \description{
-`fm_construct` constructs fuzzy monetary poverty estimates.
+\code{fm_construct} constructs fuzzy monetary poverty estimates.
 }
 \details{
-It implements the fuzzy set approach to monetary poverty measurement where 
+It implements the fuzzy set approach to monetary poverty measurement where
 the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $(0,1)$
+}
+\examples{
+data(eusilc)
+HCR <- .154
+fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID)
+fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
+fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
+
 }

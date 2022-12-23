@@ -9,7 +9,7 @@ objective(s.ord, w.ord, alpha, HCR)
 \arguments{
 \item{s.ord}{A vector of ordered deprivation scores.}
 
-\item{w.ord}{A vector of ordered sampling weights. In the same order of `s.ord`.}
+\item{w.ord}{A vector of ordered sampling weights. In the same order of \code{s.ord}.}
 
 \item{alpha}{The alpha parameter.}
 

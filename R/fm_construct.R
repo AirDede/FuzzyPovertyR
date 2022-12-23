@@ -20,7 +20,6 @@
 #'
 #' @return
 #' A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.
-#' @export
 #'
 #' @examples
 #' data(eusilc)
@@ -29,6 +28,7 @@
 #' fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
 #' fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
 #'
+#' @export
 fm_construct <- function(income, weight, ID = NULL, HCR, interval = c(1,10), alpha = NULL, breakdown = NULL, ...){ # cambiare ordine dei parametri
 
   N <- length(income)

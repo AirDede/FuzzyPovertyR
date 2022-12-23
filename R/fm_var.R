@@ -1,7 +1,3 @@
-##################
-#--- Variance ---#
-##################
-
 #' Fuzzy monetary poverty estimation
 #'
 #' @description This function estimates the variance of the fuzzy monetary poverty index
@@ -17,12 +13,12 @@
 #' @param R The number of bootstrap replicates.
 #' @param M The size of bootstrap samples. if NULL (default) is chosen as the sample size (i.e. the length of income)
 #' @param verbose logical. whether to print the proceeding of the variance estimation procedure.
-#' @param stratum. the vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).
+#' @param stratum the vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).
 #' @param psu the vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).
 #' @param f the finite population correction fraction (if 'jacknife' is chosen as variance estimation technique).
-#' @param ... additional parameters
 #'
 #' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
+#' @export
 #' @examples
 #' data(eusilc)
 #' HCR <- 0.14
@@ -30,13 +26,13 @@
 #' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
 #' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
 #' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
-#' @export
-fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, verbose = TRUE, stratum, psu, f=.01, ...){
 
-  breakdown <- as.factor(breakdown)
+fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, verbose = TRUE, stratum, psu, f = 0.01) {
+
   N <- length(weight)
   if(is.null(ID)) ID <- seq_len(N)
   if(is.null(M)) M <- N
+  if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
   switch(type, # creare funzione bootstrap e funzione jacknife da chiamare qui invece che codificarle
          bootstrap = {
            BootDistr <- sapply(1:R, function(x) {

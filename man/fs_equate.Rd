@@ -7,7 +7,7 @@
 fs_equate(steps3_5, weight, HCR, interval = c(1, 10))
 }
 \arguments{
-\item{steps3_5}{The results obtained from `fs_weight`.}
+\item{steps3_5}{The results obtained from \code{fs_weight}.}
 
 \item{weight}{A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.}
 
@@ -16,8 +16,11 @@ fs_equate(steps3_5, weight, HCR, interval = c(1, 10))
 \item{interval}{The range to look for the value of alpha.}
 }
 \value{
-The alpha parameter that solves the non-linear equation $E[mu] = HCR$
+The alpha parameter that solves the non-linear equation $E\link{mu} = HCR$
 }
 \description{
 This function solves $E(mu)^(\alpha-1) = HCR$ for alpha.
+}
+\examples{
+alpha <- fs_equate(steps3_5 = steps3_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
 }

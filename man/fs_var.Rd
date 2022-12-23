@@ -29,7 +29,7 @@ fs_var(
 
 \item{ID}{a numeric or character vector of IDs.}
 
-\item{dimensions}{a numeric vector (of length  `ncol(data)`) of assignments of items in data to dimensions.}
+\item{dimensions}{a numeric vector (of length  \code{ncol(data)}) of assignments of items in data to dimensions.}
 
 \item{breakdown}{a factor. if supplied estimates will be calculated for each level (using the same alpha).}
 
@@ -41,7 +41,7 @@ fs_var(
 
 \item{type}{The variance estimation method, default is bootstrap.}
 
-\item{M}{The size of bootstrap samples. Default is `nrow(data)`.}
+\item{M}{The size of bootstrap samples. Default is \code{nrow(data)}.}
 
 \item{R}{The number of bootstrap replicates}
 
@@ -58,4 +58,10 @@ A list containing the estimated variance.
 }
 \description{
 Fuzzy supplementary poverty estimation.
+}
+\examples{
+fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = breakdown, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = stratum, psu = psu, verbose = T, f = .01)
+fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = breakdown, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = stratum, psu = psu, verbose = T, f = .01)
 }

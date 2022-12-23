@@ -11,12 +11,12 @@ fs_transform(data, weight = NULL, ID = NULL, ...)
 
 \item{weight}{A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.}
 
-\item{ID}{A vector of length `nrow(data)` containing individuals IDs. if NULL (the default) row numbers will be used.}
+\item{ID}{A vector of length \code{nrow(data)} containing individuals IDs. if NULL (the default) row numbers will be used.}
 
 \item{...}{other parameters}
 }
 \value{
-a matrix of the same dimension of `data` with items mapped into the (0,1) interval
+a matrix of the same dimension of \code{data} with items mapped into the (0,1) interval
 }
 \description{
 This function maps a set of answers to binary or categorical items to the (0,1) interval.
@@ -26,6 +26,11 @@ The function calculates deprivation score for item j and ind. i as $d_{j,i} = (1
 To obtain consistent measures of supplementary poverty it is important that items are in the right order.
 Lower levels of the items have to correspond to more deprivation while higher levels of the items to a less deprivation.
 Example:
+}
+\examples{
+data(eusilc)
+step2 = fs_transform(eusilc, weight = eusilc$DB090, ID = eusilc$ID)
+
 }
 \references{
 Betti, G., Gagliardi, F., Lemmi, A., & Verma, V. (2015). Comparative measures of multidimensional deprivation in the European Union. Empirical Economics, 49(3), 1071-1100.
