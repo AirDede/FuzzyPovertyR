@@ -1,6 +1,3 @@
-########################
-#--- Fuzzy Monetary ---#
-########################
 #' Fuzzy monetary poverty estimation
 #'
 #' @description
@@ -10,7 +7,7 @@
 #' It implements the fuzzy set approach to monetary poverty measurement where
 #' the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $(0,1)$
 #'
-#' @param income A numeric vector of incomes.
+#' @param income A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
 #' @param weight a numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param ID a numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param HCR The value of the head count ratio (this is not used in the case that alpha is supplied by the user).
@@ -29,7 +26,7 @@
 #' fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
 #'
 #' @export
-fm_construct <- function(income, weight, ID = NULL, HCR, interval = c(1,10), alpha = NULL, breakdown = NULL, ...){ # cambiare ordine dei parametri
+fm_construct <- function(income, weight, ID = NULL, HCR, interval = c(1,10), alpha = NULL, breakdown = NULL){ # cambiare ordine dei parametri
 
   N <- length(income)
   if(is.null(ID)) ID <- seq_len(N)

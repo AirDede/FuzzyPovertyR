@@ -15,14 +15,14 @@ fm_var(
   type = "bootstrap",
   R = 100,
   M = NULL,
-  verbose = TRUE,
   stratum,
   psu,
-  f = 0.01
+  f = 0.01,
+  verbose = TRUE
 )
 }
 \arguments{
-\item{income}{A numeric vector of incomes.}
+\item{income}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
@@ -30,25 +30,25 @@ fm_var(
 
 \item{HCR}{The head count ratio.}
 
-\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
+\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). Ff numeric will be coherced to a factor.}
 
 \item{interval}{The interval to look for the solution of the equation.}
 
-\item{alpha}{The value of the exponent parameter to use in the non-linear equation as of Betti et. al, 2018.}
+\item{alpha}{The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.}
 
 \item{type}{The variance estimation method chosen. One between \code{bootstrap} (default) or \code{jackknife}.}
 
-\item{R}{The number of bootstrap replicates.}
+\item{R}{The number of bootstrap replicates. Default is 500.}
 
-\item{M}{The size of bootstrap samples. if NULL (default) is chosen as the sample size (i.e. the length of income)}
+\item{M}{The size of bootstrap samples. Default is \code{nrow(data)}.}
 
-\item{verbose}{logical. whether to print the proceeding of the variance estimation procedure.}
+\item{stratum}{The vector identifying the stratum (if 'jackknife' is chosen as variance estimation technique).}
 
-\item{stratum}{the vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).}
+\item{psu}{The vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).}
 
-\item{psu}{the vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).}
+\item{f}{The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).}
 
-\item{f}{the finite population correction fraction (if 'jacknife' is chosen as variance estimation technique).}
+\item{verbose}{Logical. whether to print the proceeding of the variance estimation procedure.}
 }
 \value{
 The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.

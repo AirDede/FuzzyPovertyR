@@ -4,12 +4,12 @@
 \alias{fs_equate}
 \title{Fuzzy supplementary poverty estimation}
 \usage{
-fs_equate(steps3_5, weight, HCR, interval = c(1, 10))
+fs_equate(steps4_5, weight, HCR, interval = c(1, 10))
 }
 \arguments{
-\item{steps3_5}{The results obtained from \code{fs_weight}.}
+\item{steps4_5}{The results obtained from \code{fs_weight}.}
 
-\item{weight}{A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.}
+\item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used}
 
 \item{HCR}{The head count ratio.}
 
@@ -22,5 +22,5 @@ The alpha parameter that solves the non-linear equation $E\link{mu} = HCR$
 This function solves $E(mu)^(\alpha-1) = HCR$ for alpha.
 }
 \examples{
-alpha <- fs_equate(steps3_5 = steps3_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
+alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
 }

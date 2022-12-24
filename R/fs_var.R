@@ -1,35 +1,33 @@
 ##################
 #--- Variance ---#
-##################
-
 #' Fuzzy supplementary poverty estimation.
 #'
-#' @param data data a numeric matrix or data frame (? davvero?) of items.
-#' @param weight a numeric vector of sampling weights. if NULL simple random sampling weights will be used
-#' @param ID a numeric or character vector of IDs.
-#' @param dimensions a numeric vector (of length  `ncol(data)`) of assignments of items in data to dimensions.
-#' @param breakdown a factor. if supplied estimates will be calculated for each level (using the same alpha).
-#' @param HCR The value of the head count ratio.
+#' @param data A matrix or data frame (? davvero?) of items.
+#' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
+#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
+#' @param dimensions A numeric vector (of length  `ncol(data)`) of assignments of items in data to dimensions.
+#' @param HCR The head count ratio.
+#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.
 #' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
-#' @param rho The critical value of the correlation coefficient.
-#' @param type The variance estimation method, default is bootstrap.
+#' @param rho The critical value to be used for calculation of weights in the kendall correlation matrix.
+#' @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
+#' @param R The number of bootstrap replicates. Default is 500.
 #' @param M The size of bootstrap samples. Default is `nrow(data)`.
-#' @param R The number of bootstrap replicates
-#' @param verbose logical. whether to print the proceeding of the variance estimation procedure.
-#' @param stratum the vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).
-#' @param psu the vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).
-#' @param f the finite population correction fraction (if 'jacknife' is chosen as variance estimation technique).
+#' @param stratum The vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).
+#' @param psu The vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).
+#' @param f The finite population correction fraction (if 'jacknife' is chosen as variance estimation technique).
+#' @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
 #'
 #' @return A list containing the estimated variance.
 #' @export
 #'
 #' @examples
-#' fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
-#' fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = breakdown, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
-#' fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = stratum, psu = psu, verbose = T, f = .01)
-#' fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = breakdown, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = stratum, psu = psu, verbose = T, f = .01)
+#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
+#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
 
-fs_var <- function(data, weight = NULL, ID = NULL, dimensions, breakdown = NULL, HCR, alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = TRUE, stratum = NULL, psu = NULL, f = .01){
+fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR, breakdown = NULL, alpha, rho = NULL, type = 'bootstrap', R = 500, M = NULL, stratum, psu, f = 0.01, verbose = TRUE){
 
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
   N <- nrow(data)

@@ -6,28 +6,27 @@
 #'
 #' @description Constructs the fuzzy supplementary poverty measure based on Steps1-6.
 #'
-#' @param steps3_5 The results from previous steps.
-#' @param weight A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.
-#' @param alpha The alfa parameter.
-#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
-#' @param ... Other parameters.
+#' @param steps4_5 The results from `fs_equate`.
+#' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
+#' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
+#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.
 #'
 #' @return A list of results containing the fuzzy meambership function for each unit, the point estimate (i.e. the expected value of the function), and the alpha parameter.
 #' @export
 #'
 #' @examples
-#' fs_results = fs_construct(steps3_5 = steps3_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
-#' fs_results = fs_construct(steps3_5 = steps3_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
+#' fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+#' fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
 
-fs_construct <- function(steps3_5, weight, alpha, breakdown = NULL, ...){
+fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
 
-  J <- max(steps3_5$Factor)
+  J <- max(steps4_5$Factor)
 
   res.list <-vector(mode = 'list', length = J+1)
   headers <- c(paste('Factor', 1:J), 'Overall')
   names(res.list) <- headers
 
-  FS.data <- unique(steps3_5[,c('ID','s_i')])
+  FS.data <- unique(steps4_5[,c('ID','s_i')])
   FS.data$weight <- weight # potrebbe essere meglio averla dallo step prima? altrimenti devo aggiungere di nuovo l'opzione in caso uno il peso non ce l'abbia. si il peso se non c'è lo attribuisco prima e me lo porto dietro sempre
 
   s <- FS.data[['s_i']]
@@ -41,7 +40,7 @@ fs_construct <- function(steps3_5, weight, alpha, breakdown = NULL, ...){
   res.list[['Overall']] <- FS.data.ord
 
   for(j in 1:J){
-    FS.data <- unique(steps3_5[steps3_5$Factor==j, c('ID','s_hi')])
+    FS.data <- unique(steps4_5[steps4_5$Factor==j, c('ID','s_hi')])
     FS.data$weight <- weight # potrebbe essere meglio averla dallo step prima? altrimenti devo aggiungere di nuovo l'opzione in caso uno il peso non ce l'abbia
 
     s <- FS.data[['s_hi']]

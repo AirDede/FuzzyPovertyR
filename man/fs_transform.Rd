@@ -9,9 +9,9 @@ fs_transform(data, weight = NULL, ID = NULL, ...)
 \arguments{
 \item{data}{A matrix or a data frame of identified items (see Step 1 of Betti et. al, 2018)}
 
-\item{weight}{A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.}
+\item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used}
 
-\item{ID}{A vector of length \code{nrow(data)} containing individuals IDs. if NULL (the default) row numbers will be used.}
+\item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 
 \item{...}{other parameters}
 }
@@ -29,7 +29,7 @@ Example:
 }
 \examples{
 data(eusilc)
-step2 = fs_transform(eusilc, weight = eusilc$DB090, ID = eusilc$ID)
+step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
 
 }
 \references{

@@ -2,20 +2,20 @@
 #'
 #' @description This function estimates the variance of the fuzzy monetary poverty index
 #'
-#' @param income A numeric vector of incomes.
+#' @param income A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param HCR The head count ratio.
-#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
+#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). Ff numeric will be coherced to a factor.
 #' @param interval The interval to look for the solution of the equation.
-#' @param alpha The value of the exponent parameter to use in the non-linear equation as of Betti et. al, 2018.
+#' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
 #' @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
-#' @param R The number of bootstrap replicates.
-#' @param M The size of bootstrap samples. if NULL (default) is chosen as the sample size (i.e. the length of income)
-#' @param verbose logical. whether to print the proceeding of the variance estimation procedure.
-#' @param stratum the vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).
-#' @param psu the vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).
-#' @param f the finite population correction fraction (if 'jacknife' is chosen as variance estimation technique).
+#' @param R The number of bootstrap replicates. Default is 500.
+#' @param M The size of bootstrap samples. Default is `nrow(data)`.
+#' @param stratum The vector identifying the stratum (if 'jackknife' is chosen as variance estimation technique).
+#' @param psu The vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).
+#' @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).
+#' @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
 #'
 #' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
 #' @export
@@ -27,9 +27,10 @@
 #' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
 #' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
 
-fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, verbose = TRUE, stratum, psu, f = 0.01) {
+fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, stratum, psu, f = 0.01, verbose = TRUE) {
 
-  N <- length(weight)
+  N <- length(income)
+  if(is.null(weight)) weight <- N
   if(is.null(ID)) ID <- seq_len(N)
   if(is.null(M)) M <- N
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
@@ -120,8 +121,6 @@ fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = 
          })
   var.hat
 }
-
-
 
 bootstrap.bill <- function(R, M, income, weight, ID, breakdown = NULL, verbose = T, ...){
   BootDistr <- sapply(1:R, function(x) {

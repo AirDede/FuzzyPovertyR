@@ -1,5 +1,5 @@
 ###################
-#--- Steps 3-5 ---#
+#--- Steps 4-5 ---#
 ###################
 
 #' Fuzzy supplementary poverty estimation
@@ -8,19 +8,18 @@
 #'
 #' @details
 #'
-#' @param dimensions A vector of assignments to a latent dimension for each column in data.
+#' @param dimensions A numeric vector (of length  `ncol(data)`) of assignments of items in data to dimensions.
 #' @param step2 The data frame resulting from step2.
 #' @param rho The critical value to be used for calculation of weights in the kendall correlation matrix.
-#' @param ...
 #'
-#' @return da vedere
+#' @return A data frame of weights and deprivation scores in each dimension identified.
 #' @export
 #'
 #' @example
 #' dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
-#' steps3_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
+#' steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
 
-fs_weight <- function(dimensions, step2, rho = NULL,...){
+fs_weight <- function(dimensions, step2, rho = NULL){
 
   J <- max(dimensions) # number of identified dimensions
   cor.list <- vector(mode = "list", length = J)

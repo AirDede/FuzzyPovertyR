@@ -11,12 +11,11 @@ fm_construct(
   HCR,
   interval = c(1, 10),
   alpha = NULL,
-  breakdown = NULL,
-  ...
+  breakdown = NULL
 )
 }
 \arguments{
-\item{income}{A numeric vector of incomes.}
+\item{income}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
 
 \item{weight}{a numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 

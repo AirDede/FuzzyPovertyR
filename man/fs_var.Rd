@@ -9,49 +9,49 @@ fs_var(
   weight = NULL,
   ID = NULL,
   dimensions,
-  breakdown = NULL,
   HCR,
+  breakdown = NULL,
   alpha,
   rho = NULL,
   type = "bootstrap",
+  R = 500,
   M = NULL,
-  R = 2,
-  verbose = TRUE,
-  stratum = NULL,
-  psu = NULL,
-  f = 0.01
+  stratum,
+  psu,
+  f = 0.01,
+  verbose = TRUE
 )
 }
 \arguments{
-\item{data}{data a numeric matrix or data frame (? davvero?) of items.}
+\item{data}{A matrix or data frame (? davvero?) of items.}
 
-\item{weight}{a numeric vector of sampling weights. if NULL simple random sampling weights will be used}
+\item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used}
 
-\item{ID}{a numeric or character vector of IDs.}
+\item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 
-\item{dimensions}{a numeric vector (of length  \code{ncol(data)}) of assignments of items in data to dimensions.}
+\item{dimensions}{A numeric vector (of length  \code{ncol(data)}) of assignments of items in data to dimensions.}
 
-\item{breakdown}{a factor. if supplied estimates will be calculated for each level (using the same alpha).}
+\item{HCR}{The head count ratio.}
 
-\item{HCR}{The value of the head count ratio.}
+\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.}
 
 \item{alpha}{The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.}
 
-\item{rho}{The critical value of the correlation coefficient.}
+\item{rho}{The critical value to be used for calculation of weights in the kendall correlation matrix.}
 
-\item{type}{The variance estimation method, default is bootstrap.}
+\item{type}{The variance estimation method chosen. One between \code{bootstrap} (default) or \code{jackknife}.}
+
+\item{R}{The number of bootstrap replicates. Default is 500.}
 
 \item{M}{The size of bootstrap samples. Default is \code{nrow(data)}.}
 
-\item{R}{The number of bootstrap replicates}
+\item{stratum}{The vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).}
 
-\item{verbose}{logical. whether to print the proceeding of the variance estimation procedure.}
+\item{psu}{The vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).}
 
-\item{stratum}{the vector identifying the stratum (if 'jacknife' is chosen as variance estimation technique).}
+\item{f}{The finite population correction fraction (if 'jacknife' is chosen as variance estimation technique).}
 
-\item{psu}{the vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).}
-
-\item{f}{the finite population correction fraction (if 'jacknife' is chosen as variance estimation technique).}
+\item{verbose}{Logical. whether to print the proceeding of the variance estimation procedure.}
 }
 \value{
 A list containing the estimated variance.
@@ -60,8 +60,8 @@ A list containing the estimated variance.
 Fuzzy supplementary poverty estimation.
 }
 \examples{
-fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
-fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = breakdown, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
-fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = stratum, psu = psu, verbose = T, f = .01)
-fs_var(data = eusilc, weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = breakdown, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = stratum, psu = psu, verbose = T, f = .01)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
 }

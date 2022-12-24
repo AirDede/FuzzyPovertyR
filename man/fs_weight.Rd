@@ -4,19 +4,17 @@
 \alias{fs_weight}
 \title{Fuzzy supplementary poverty estimation}
 \usage{
-fs_weight(dimensions, step2, rho = NULL, ...)
+fs_weight(dimensions, step2, rho = NULL)
 }
 \arguments{
-\item{dimensions}{A vector of assignments to a latent dimension for each column in data.}
+\item{dimensions}{A numeric vector (of length  \code{ncol(data)}) of assignments of items in data to dimensions.}
 
 \item{step2}{The data frame resulting from step2.}
 
 \item{rho}{The critical value to be used for calculation of weights in the kendall correlation matrix.}
-
-\item{...}{}
 }
 \value{
-da vedere
+A data frame of weights and deprivation scores in each dimension identified.
 }
 \description{
 Calculates the weights of dimensions discovered after factor analysis.

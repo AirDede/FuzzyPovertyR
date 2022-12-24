@@ -13,8 +13,8 @@
 #' Example:
 #'
 #' @param data A matrix or a data frame of identified items (see Step 1 of Betti et. al, 2018)
-#' @param weight A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.
-#' @param ID A vector of length `nrow(data)` containing individuals IDs. if NULL (the default) row numbers will be used.
+#' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
+#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param ... other parameters
 #'
 #' @return a matrix of the same dimension of `data` with items mapped into the (0,1) interval
@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' data(eusilc)
-#' step2 = fs_transform(eusilc, weight = eusilc$DB090, ID = eusilc$ID)
+#' step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
 #'
 #' @references
 #' Betti, G., Gagliardi, F., Lemmi, A., & Verma, V. (2015). Comparative measures of multidimensional deprivation in the European Union. Empirical Economics, 49(3), 1071-1100.

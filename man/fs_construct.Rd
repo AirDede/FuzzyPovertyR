@@ -4,18 +4,16 @@
 \alias{fs_construct}
 \title{Fuzzy supplementary poverty estimation.}
 \usage{
-fs_construct(steps3_5, weight, alpha, breakdown = NULL, ...)
+fs_construct(steps4_5, weight, alpha, breakdown = NULL)
 }
 \arguments{
-\item{steps3_5}{The results from previous steps.}
+\item{steps4_5}{The results from \code{fs_equate}.}
 
-\item{weight}{A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.}
+\item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used}
 
-\item{alpha}{The alfa parameter.}
+\item{alpha}{The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.}
 
-\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
-
-\item{...}{Other parameters.}
+\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.}
 }
 \value{
 A list of results containing the fuzzy meambership function for each unit, the point estimate (i.e. the expected value of the function), and the alpha parameter.
@@ -24,6 +22,6 @@ A list of results containing the fuzzy meambership function for each unit, the p
 Constructs the fuzzy supplementary poverty measure based on Steps1-6.
 }
 \examples{
-fs_results = fs_construct(steps3_5 = steps3_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
-fs_results = fs_construct(steps3_5 = steps3_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
+fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
 }
