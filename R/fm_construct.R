@@ -8,8 +8,8 @@
 #' the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $(0,1)$
 #'
 #' @param income A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
-#' @param weight a numeric vector of sampling weights. if NULL simple random sampling weights will be used.
-#' @param ID a numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
+#' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
+#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param HCR The value of the head count ratio (this is not used in the case that alpha is supplied by the user).
 #' @param interval A numeric vector of length two to look for the value of alpha (if not supplied).
 #' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR

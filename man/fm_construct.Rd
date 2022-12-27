@@ -17,9 +17,9 @@ fm_construct(
 \arguments{
 \item{income}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
 
-\item{weight}{a numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
+\item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
-\item{ID}{a numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
+\item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 
 \item{HCR}{The value of the head count ratio (this is not used in the case that alpha is supplied by the user).}
 
