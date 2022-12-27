@@ -2,7 +2,7 @@
 #'
 #' @description This function estimates the variance of the fuzzy monetary poverty index
 #'
-#' @param income A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
+#' @param monetary A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param HCR The head count ratio.
@@ -22,14 +22,14 @@
 #' @examples
 #' data(eusilc)
 #' HCR <- 0.14
-#' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
-#' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
-#' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
-#' fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
+#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
+#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
+#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
+#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
 
-fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, stratum, psu, f = 0.01, verbose = TRUE) {
+fm_var <- function(monetary, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, stratum, psu, f = 0.01, verbose = TRUE) {
 
-  N <- length(income)
+  N <- length(monetary)
   if(is.null(weight)) weight <- N
   if(is.null(ID)) ID <- seq_len(N)
   if(is.null(M)) M <- N
@@ -40,14 +40,14 @@ fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = 
              if(verbose == T) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
              bootidx <- sample(1:N, size = M, replace = T)
              ID.boot <- ID[bootidx]
-             income.boot <- income[bootidx]
+             monetary.boot <- monetary[bootidx]
              weight.boot <- weight[bootidx]
              if(!is.null(breakdown)) {
                breakdown.boot <- breakdown[bootidx]
-               try(fm_construct(income.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown.boot)$estimate)
+               try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown.boot)$estimate)
                # var.hat <- apply(bootstrap.bill, 1, var)
              } else {
-               try(fm_construct(income.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown)$estimate)
+               try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown)$estimate)
                # var.hat <- var(bootstrap.bill)
              }
            })
@@ -92,10 +92,10 @@ fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = 
                w[case2.idx] <- (weight*g_hi[i])[case2.idx]
 
                if(!is.null(breakdown)){
-                 z_hi[[i]] <- fm_construct(income[delete.idx], weight[delete.idx], ID[delete.idx], HCR, interval, alpha, breakdown[delete.idx])$estimate
+                 z_hi[[i]] <- fm_construct(monetary[delete.idx], weight[delete.idx], ID[delete.idx], HCR, interval, alpha, breakdown[delete.idx])$estimate
 
                } else {
-                 z_hi[i] <- fm_construct(income[delete.idx], weight[delete.idx], ID[delete.idx], HCR, interval, alpha)$estimate
+                 z_hi[i] <- fm_construct(monetary[delete.idx], weight[delete.idx], ID[delete.idx], HCR, interval, alpha)$estimate
 
                }
              }
@@ -122,19 +122,19 @@ fm_var <- function(income, weight, ID = NULL, HCR, breakdown = NULL, interval = 
   var.hat
 }
 
-bootstrap.bill <- function(R, M, income, weight, ID, breakdown = NULL, verbose = T, ...){
+bootstrap.bill <- function(R, M, monetary, weight, ID, breakdown = NULL, verbose = T, ...){
   BootDistr <- sapply(1:R, function(x) {
     if(verbose == T) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
     bootidx <- sample(1:N, size = M, replace = T)
     ID.boot <- ID[bootidx]
-    income.boot <- income[bootidx]
+    monetary.boot <- monetary[bootidx]
     weight.boot <- weight[bootidx]
     if(!is.null(breakdown)) {
       breakdown.boot <- breakdown[bootidx]
-      try(fm_construct(income.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown.boot)$estimate)
+      try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown.boot)$estimate)
       # var.hat <- apply(bootstrap.bill, 1, var)
     } else {
-      try(fm_construct(income.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown)$estimate)
+      try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown)$estimate)
       # var.hat <- var(bootstrap.bill)
     }
   })
