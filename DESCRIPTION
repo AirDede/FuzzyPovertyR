@@ -19,3 +19,7 @@ Imports:
     dplyr,
     reshape2
 LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

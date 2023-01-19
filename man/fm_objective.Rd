@@ -4,10 +4,10 @@
 \alias{fm_objective}
 \title{Fuzzy monetary poverty estimation.}
 \usage{
-fm_objective(income.ord, weight.ord, alpha, HCR)
+fm_objective(monetary.ord, weight.ord, alpha, HCR)
 }
 \arguments{
-\item{income.ord}{A sorted vector of equivalised disposable incomes (in ascending order).}
+\item{monetary.ord}{A sorted vector of a monetary variable (in ascending order).}
 
 \item{weight.ord}{A sorted vector of weights (in the same order of s.ord)}
 

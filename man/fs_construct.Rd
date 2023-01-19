@@ -22,6 +22,11 @@ A list of results containing the fuzzy meambership function for each unit, the p
 Constructs the fuzzy supplementary poverty measure based on Steps1-6.
 }
 \examples{
+data(eusilc)
+step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
+dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
+steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
+alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
 fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
 fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
 }

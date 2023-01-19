@@ -5,7 +5,7 @@
 \title{Fuzzy monetary poverty estimation}
 \usage{
 fm_var(
-  income,
+  monetary,
   weight,
   ID = NULL,
   HCR,
@@ -22,7 +22,7 @@ fm_var(
 )
 }
 \arguments{
-\item{income}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
+\item{monetary}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
@@ -59,8 +59,8 @@ This function estimates the variance of the fuzzy monetary poverty index
 \examples{
 data(eusilc)
 HCR <- 0.14
-fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
-fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
-fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
-fm_var(income = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
 }

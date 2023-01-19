@@ -4,10 +4,10 @@
 \alias{fm_mu}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_mu(income.ord, weight.ord, alpha)
+fm_mu(monetary.ord, weight.ord, alpha)
 }
 \arguments{
-\item{income.ord}{A sorted vector of equivalised disposable incomes (in ascending order).}
+\item{monetary.ord}{A sorted vector of a monetary variable (in ascending order).}
 
 \item{weight.ord}{A sorted vector of weights (in the same order of s.ord)}
 

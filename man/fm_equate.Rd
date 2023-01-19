@@ -4,7 +4,7 @@
 \alias{fm_equate}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_equate(income.ord, weight.ord, interval)
+fm_equate(monetary.ord, weight.ord, interval)
 }
 \arguments{
 \item{s.ord.}{a sorted vector of deprivation scores.}

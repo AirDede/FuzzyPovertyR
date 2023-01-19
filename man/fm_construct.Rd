@@ -5,7 +5,7 @@
 \title{Fuzzy monetary poverty estimation}
 \usage{
 fm_construct(
-  income,
+  monetary,
   weight,
   ID = NULL,
   HCR,
@@ -15,7 +15,7 @@ fm_construct(
 )
 }
 \arguments{
-\item{income}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
+\item{monetary}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
@@ -42,8 +42,8 @@ the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $
 \examples{
 data(eusilc)
 HCR <- .154
-fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID)
-fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
-fm_construct(income = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID)
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
 
 }

@@ -1,0 +1,149 @@
+---
+title: "Using_the_FuzzyPovertyR_package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using_the_FuzzyPovertyR_package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(FuzzyPovertyR)
+rm(list = ls())
+```
+
+## Fuzzy Monetary poverty measures
+
+```{r}
+data(eusilc)
+```
+
+
+1. Estimation of HCR
+- give a function or remind the reader to leaken
+
+if `alpha = NULL` it solves (mettere formula)
+
+```{r}
+fm_construct(monetary = eusilc$eqIncome, weight = eusilc$db090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)
+```
+
+can obtain estimates for subdomains using the `breakdown` argument.
+
+```{r}
+fm_construct(monetary = eusilc$eqIncome, weight = eusilc$db090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, breakdown = eusilc$db040)
+```
+
+### Variance Estimation
+
+```{r}
+data(eusilc)
+HCR <- 0.14
+```
+
+bootstrap
+
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
+```
+
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
+```
+
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
+```
+
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
+```
+
+
+## Fuzzy supplementary
+
+### Step 1 - Identification
+
+```{r}
+data(eusilc)
+step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
+dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
+steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
+alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
+fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
+```
+
+items identifications
+
+
+### Step 2 - Transormation
+
+```{r}
+eusilc = readxl::read_excel("/Users/federico/Library/Mobile Documents/com~apple~CloudDocs/Work_In_Progress/R packages/Development/eusilc.xlsx")
+step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
+step2
+```
+
+### Step 3 - Factor Analysis
+
+
+```{r}
+dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
+```
+
+### Steps 4 and 5 - Calculation of weights and measures within dimensions.
+
+```{r}
+steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
+steps4_5
+```
+
+### Step 6 - Calculation of the parameter $\alpha$.
+
+```{r}
+alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
+```
+
+### Step 7 - Construction of the Fuzzy Supplementary measure.
+
+```{r}
+fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+fs_results
+```
+
+```{r}
+fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
+```
+
+#### Variance
+
+
+```{r}
+?fs_var
+```
+
+Bootstrap
+```{r}
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+```
+
+```{r}
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+```
+
+Jackknife
+
+```{r}
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
+```
+
+
