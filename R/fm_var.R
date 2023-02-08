@@ -28,7 +28,6 @@
 #' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
 
 fm_var <- function(monetary, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, stratum, psu, f = 0.01, verbose = TRUE) {
-
   N <- length(monetary)
   if(is.null(weight)) weight <- N
   if(is.null(ID)) ID <- seq_len(N)

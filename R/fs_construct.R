@@ -28,7 +28,7 @@ fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
   J <- max(steps4_5$Factor)
 
   res.list <-vector(mode = 'list', length = J+1)
-  headers <- c(paste('Factor', 1:J), 'Overall')
+  headers <- c(paste0('FS', 1:J), 'Overall')
   names(res.list) <- headers
 
   FS.data <- unique(steps4_5[,c('ID','s_i')])

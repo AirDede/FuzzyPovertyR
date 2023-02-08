@@ -1,6 +1,7 @@
 ---
 title: "Using_the_FuzzyPovertyR_package"
 output: rmarkdown::html_vignette
+bibliography: bib.bib
 vignette: >
   %\VignetteIndexEntry{Using_the_FuzzyPovertyR_package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -25,88 +26,114 @@ rm(list = ls())
 data(eusilc)
 ```
 
-
-1. Estimation of HCR
-- give a function or remind the reader to leaken
-
-if `alpha = NULL` it solves (mettere formula)
+1.  Estimation of the Head Count Ratio (HCR). The package `FuzzyPovertyR` provides the function `HCR` to estimate the Head Count Ratio from data. It outputs a list of three elements: a classification of units into being poor or not poor, the poverty line, and the value itself.
 
 ```{r}
-fm_construct(monetary = eusilc$eqIncome, weight = eusilc$db090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)
+hcr = HCR(monetary = eusilc$red_eq, weight = eusilc$DB090, p = 0.5, q = 0.6)$HCR
 ```
 
-can obtain estimates for subdomains using the `breakdown` argument.
+2.  Computation of equivalent disposable income
+
+-   have a function (not shown)
 
 ```{r}
-fm_construct(monetary = eusilc$eqIncome, weight = eusilc$db090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, breakdown = eusilc$db040)
+?eq_income
+```
+
+```{r}
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)
+```
+
+can obtain estimates for sub-domains using the `breakdown` argument.
+
+```{r}
+breakd = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, breakdown = eusilc$db040)
 ```
 
 ### Variance Estimation
 
-```{r}
-data(eusilc)
-HCR <- 0.14
-```
-
-bootstrap
+The variance of the Fuzzy Monetary measure can be estimated either via boostrap or using Jackknife Repeated Replications. We recommend the former each time the user has no knowledge of the sampling design, while we recommend the Jackknife when there is full information (see @betti2018simplified). We recommend the user to use the value of `alpha` from the function `fm_construct. However, it is possible to specify different values of the parameter (i.e. alpha`=1). We do not recommend to leave the argument `alpha=NULL` for the computation of variance.
 
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
+alpha = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)$alpha
 ```
 
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
+boot.var = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = alpha, R = 100)
+jack.var = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
 ```
 
+which gives the bootstrap estimate `r boot.var` or the jackknife estimate `r jack.var`.
+
+If there are multiple sub-domains or sub-populations that need variance estimation, the user can specify this breakdown to the `breakdown`\`argument of the function `fm_var`. For example:
+
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
 ```
 
 ```{r}
 fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
 ```
 
-
 ## Fuzzy supplementary
+
+The steps below show how to obtain Fuzzy Supplementary poverty measures.
 
 ### Step 1 - Identification
 
+This step is pretty simple. The user has to select the columns of the data that correspond to the items that he/she has decided to keep in the analysis. The code snippet below loads the data
+
 ```{r}
-data(eusilc)
-step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
-dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
-steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
-alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
-fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
-fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
+data("eusilc")
 ```
 
-items identifications
-
-
-### Step 2 - Transormation
+Step 1 is done with the following selection
 
 ```{r}
-eusilc = readxl::read_excel("/Users/federico/Library/Mobile Documents/com~apple~CloudDocs/Work_In_Progress/R packages/Development/eusilc.xlsx")
-step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
+step1 = eusilc[,4:23]
+```
+
+### Step 2 - Transformation
+
+In this step the items are mapped from their original space to the $[0,1]$ interval using the function `fs_transform`.
+
+```{r}
+step2 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID)
+```
+
+which outputs
+
+```{r}
 step2
 ```
 
 ### Step 3 - Factor Analysis
 
+Papers on Fuzzy Supplementary measure (REFS) use factor analysis to undercover latent dimension in the data. There are multiple approaches to get factor analysis in R which we do not cover in this vignette (REFS). To go trough Step 3 the user has to specify a numeric vector of the same length of the number of items selected in Step 1 that assigns each column to a given dimension.
+
+The user may also skip factor analysis if he has prior knowledge of these dimensions.
 
 ```{r}
 dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
 ```
 
-### Steps 4 and 5 - Calculation of weights and measures within dimensions.
+### Steps 4 and 5 - Calculation of weights and measures within dimensions
+
+These steps computes weights (REF) that are needed to aggregate transformed items values (see Step 2) into one value per dimension per unit.
 
 ```{r}
 steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
+```
+
+The output is a longitudinal data frame
+
+```{r}
 steps4_5
 ```
 
-### Step 6 - Calculation of the parameter $\alpha$.
+### Step 6 - Calculation of the parameter $\alpha$
+
+This step is equivalent to that obtained in the Fuzzy Monetary section. It needs a former estimate of the Head Count Ratio or a value such that the expectation of the Fuzzy Supplementary measure has to be equal to.
 
 ```{r}
 alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
@@ -114,36 +141,29 @@ alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interv
 
 ### Step 7 - Construction of the Fuzzy Supplementary measure.
 
+cambia factor in fs, overall in fs
+
 ```{r}
 fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
 fs_results
 ```
 
+## Variance Estimation
+
+It is also possible to obtain variance estimates for each supplementary measure at different sub-domains or sub-population in the same way as it is for the Fuzzy Monetary approach. Again, we suggest the user to use the Jackknife technique if he/she has good knowledge of strata and PSUs.
+
+The following uses the bootstrap
+
 ```{r}
-fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
-```
-
-#### Variance
-
-
-```{r}
-?fs_var
-```
-
-Bootstrap
-```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)
 ```
 
 ```{r}
 fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
 ```
 
-Jackknife
+The following uses the Jackknife
 
 ```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01)
 ```
-
-
