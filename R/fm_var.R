@@ -71,14 +71,14 @@ fm_var <- function(monetary, weight, ID = NULL, HCR, breakdown = NULL, interval 
            var_h <- rep(0, H)
            if(!is.null(breakdown)) var_h <- matrix(0, nrow = H, ncol = length(unique(breakdown)), dimnames = list(NULL, levels(breakdown)))
            for(h in 1:H){
-             cat('doing for stratum',h,'of',H,'\n')
+             if(verbose == T) cat('doing for stratum',h,'of',H,'\n')
              stratum_h <- strata[h]
              psu_h <- tab$psu[tab$stratum==stratum_h] # psu-s in statum h
              a_h <- length(psu_h)
              z_hi <- g_hi <- rep(0, a_h)
              if(!is.null(breakdown)) z_hi <- vector(mode = 'list', length = a_h)
              for(i in 1:a_h){
-               cat('doing for psu', i, 'of',a_h,'\n')
+               if(verbose == T) cat('doing for psu', i, 'of',a_h,'\n')
                psu_jh <- psu_h[i]
                delete.idx <- !(stratum==stratum_h & psu==psu_jh) # eliminating observations in psu
                # change the weights

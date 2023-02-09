@@ -54,7 +54,7 @@ fm_construct <- function(monetary, weight, ID = NULL, HCR, interval = c(1,10), a
     fm_data <- split(fm_data, breakdown)
     estimate <- sapply(fm_data, function(x) weighted.mean(x$mu, x$weight))
 
-    # fa funzioni di appartenenza per ogni breakdown. per altro paper :T
+    # fa funzioni di appartenenza per ogni breakdown. per altro paper ;T
 
     # fm_data.list <- split(fm_data, breakdown) %>% lapply(function (x) x %>% arrange(monetary))
     # mu.list <- lapply(fm_data.list, function(x) fm_mu(x$monetary, x$weight, alpha))

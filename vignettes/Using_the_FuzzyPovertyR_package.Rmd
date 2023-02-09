@@ -11,6 +11,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  message = FALSE,
+  highlight = TRUE,
+  tidy = TRUE,
   comment = "#>"
 )
 ```
@@ -40,15 +43,27 @@ hcr = HCR(monetary = eusilc$red_eq, weight = eusilc$DB090, p = 0.5, q = 0.6)$HCR
 ?eq_income
 ```
 
-```{r}
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)
-```
-
-can obtain estimates for sub-domains using the `breakdown` argument.
+3.  Construction of the Fuzzy Monetary measure.
 
 ```{r}
-breakd = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, breakdown = eusilc$db040)
+FM = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)
 ```
+
+which outputs a list containing
+
+-   a data frame of individuals' membership functions sorted in descending order (i.e. from most poor to least poor)
+
+```{r}
+head(FM$results)
+```
+
+-   The estimated FM measure (note that this equals the HCR if `breakdown=NULL`). However, one can obtain estimates for sub-domains using the `breakdown` argument.
+
+```{r}
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, breakdown = eusilc$db040)$estimate
+```
+
+-   The `alpha` parameter.
 
 ### Variance Estimation
 
@@ -59,8 +74,8 @@ alpha = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL,
 ```
 
 ```{r}
-boot.var = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = alpha, R = 100)
-jack.var = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
+boot.var = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = alpha, R = 100, verbose = F)
+jack.var = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
 ```
 
 which gives the bootstrap estimate `r boot.var` or the jackknife estimate `r jack.var`.
@@ -68,11 +83,11 @@ which gives the bootstrap estimate `r boot.var` or the jackknife estimate `r jac
 If there are multiple sub-domains or sub-populations that need variance estimation, the user can specify this breakdown to the `breakdown`\`argument of the function `fm_var`. For example:
 
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040, verbose = F)
 ```
 
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040, verbose = F)
 ```
 
 ## Fuzzy supplementary
@@ -104,7 +119,7 @@ step2 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID)
 which outputs
 
 ```{r}
-step2
+head(step2)
 ```
 
 ### Step 3 - Factor Analysis
@@ -128,7 +143,7 @@ steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
 The output is a longitudinal data frame
 
 ```{r}
-steps4_5
+head(steps4_5)
 ```
 
 ### Step 6 - Calculation of the parameter $\alpha$
@@ -141,14 +156,29 @@ alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interv
 
 ### Step 7 - Construction of the Fuzzy Supplementary measure.
 
-cambia factor in fs, overall in fs
-
 ```{r}
 fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
-fs_results
 ```
 
-## Variance Estimation
+Results for unit and each dimension can be obtained using standard R syntax
+
+```{r}
+fs_results$membership$FS1
+```
+
+Aggregated results are available
+
+```{r}
+fs_results$estimate
+```
+
+Again it is possible to obtain results for sub-domains by specifying the `breakdown`\`argument
+
+```{r}
+fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)$estimate
+```
+
+### Variance Estimation
 
 It is also possible to obtain variance estimates for each supplementary measure at different sub-domains or sub-population in the same way as it is for the Fuzzy Monetary approach. Again, we suggest the user to use the Jackknife technique if he/she has good knowledge of strata and PSUs.
 
@@ -159,7 +189,7 @@ fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dime
 ```
 
 ```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)
 ```
 
 The following uses the Jackknife
