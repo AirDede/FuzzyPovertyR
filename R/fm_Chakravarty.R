@@ -12,11 +12,15 @@
 #' @references
 #' Chakravarty, S. R. (2019). An axiomatic approach to multidimensional poverty measurement via fuzzy sets. Poverty, social exclusion and stochastic dominance, 123-141.
 #'
-fm_Chakravarty <- function(x, z){
+fm_Chakravarty <- function(x, z, breakdown){
   N <- length(x)
   y <- rep(NA, N)
   y[x == 0] <- 1
   y[0<=x & x < z] <- (z - x[0<=x & x < z])/z
   y[x>=z] <- 0
-  return(y)
+
+  if(!is.null(breakdown)){
+  y <- tapply(y, INDEX = breakdown, mean)
+  }
+  return(list(estimate = y))
 }

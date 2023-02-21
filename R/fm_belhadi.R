@@ -80,10 +80,11 @@ MemberhsipGradesMatrix <- function(x, P){
 #' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the Tunisian Case. Review of Income and Wealth, 61(3), 465-476.
 #' Belhadj, B., & Matoussi, M. S. (2010). Poverty in tunisia: A fuzzy measurement approach. Swiss Journal of Economics and Statistics, 146(2), 431-450.
 
-fm_ZBM <- function(monetary, hh.size, weight = NULL, breakdown = NULL){
+fm_ZBM <- function(monetary, hh.size = NULL, weight = NULL, breakdown = NULL){
   # Zendini, Belhadi, Matoussi
   N <- length(monetary)
   if(is.null(weight)) weight <- rep(1/N, N)
+  if(is.null(hh.size)) hh.size <- rep(1, N)
 
   #--- Step 0 ---#
   P <- bootP(x = monetary) # bootstrap estimates of percentiles
@@ -102,6 +103,5 @@ fm_ZBM <- function(monetary, hh.size, weight = NULL, breakdown = NULL){
                function(y) data.frame(y, hh.size, weight)) # change with sampling version if needed
     Q <- sapply(states.split, function(X) tapply(X$y, INDEX = breakdown, weighted.mean, x = X$y*X$hh.size, w = X$weight))
   }
-
-  return(Q)
+  return(list(estimate = Q, Membership = MGM))
 }
