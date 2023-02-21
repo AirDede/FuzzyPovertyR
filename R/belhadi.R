@@ -70,33 +70,38 @@ MemberhsipGradesMatrix <- function(x, P){
 #'x3 = rchisq(500, 30)
 #'x = c(x1, x2, x3)
 #'w = sample(1:5, 1500, replace = T) # household sizes
+#'breakdown = sample(letters, size = 1500, replace = T)
 #'
 #'P <- bootP(x)
 #'MGM <- MemberhsipGradesMatrix(x, P)
 #'fm_ZBM(monetary = x, hh.size = w, weight = NULL)
 #'
 #' @references
-#' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the T unisian Case. Review of Income and Wealth, 61(3), 465-476.
+#' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the Tunisian Case. Review of Income and Wealth, 61(3), 465-476.
+#' Belhadj, B., & Matoussi, M. S. (2010). Poverty in tunisia: A fuzzy measurement approach. Swiss Journal of Economics and Statistics, 146(2), 431-450.
 
-fm_ZBM <- function(monetary, hh.size, weight = NULL){
+fm_ZBM <- function(monetary, hh.size, weight = NULL, breakdown = NULL){
   # Zendini, Belhadi, Matoussi
-  #--- Step 0 ---#
   N <- length(monetary)
   if(is.null(weight)) weight <- rep(1/N, N)
+
+  #--- Step 0 ---#
   P <- bootP(x = monetary) # bootstrap estimates of percentiles
   MGM <- MemberhsipGradesMatrix(x = monetary, P = P)
-
   #--- Step 1 ---#
   fuzzy.states <- ecp::e.divisive(MGM)
   k <- fuzzy.states$k.hat
   states.idx <- fuzzy.states$estimates
-
   #--- Step 2-3 ---#
   step2_3 <- apply(MGM, 2, function(x) tapply(x, INDEX = fuzzy.states$cluster, max))
-
   #--- Step 4 ---#
   Q <- apply(step2_3, 1, function(y) weighted.mean(x = y*hh.size, w = weight)) # change with sampling version if needed
 
+  if(!is.null(breakdown)) {
+    states.split <- apply(step2_3, 1,
+               function(y) data.frame(y, hh.size, weight)) # change with sampling version if needed
+    Q <- sapply(states.split, function(X) tapply(X$y, INDEX = breakdown, weighted.mean, x = X$y*X$hh.size, w = X$weight))
+  }
+
   return(Q)
 }
-
