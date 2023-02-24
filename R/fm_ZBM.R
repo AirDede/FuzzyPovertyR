@@ -65,15 +65,15 @@ MemberhsipGradesMatrix <- function(x, P){
 #' @examples
 #' # three poverty states
 #' x1 = rchisq(500, 15)
-#'x2 = rchisq(500, 10)
-#'x3 = rchisq(500, 30)
-#'x = c(x1, x2, x3)
-#'w = sample(1:5, 1500, replace = T) # household sizes
-#'breakdown = sample(letters[1:3], size = 1500, replace = T,  prob = c(3,1,1))
+#' x2 = rchisq(500, 10)
+#' x3 = rchisq(500, 30)
+#' x = c(x1, x2, x3)
+#' w = sample(1:5, 1500, replace = T) # household sizes
+#' breakdown = sample(letters[1:3], size = 1500, replace = T,  prob = c(3,1,1))
 #'
-#'P <- bootP(x)
-#'MGM <- MemberhsipGradesMatrix(x, P)
-#'fm_ZBM(monetary = x, hh.size = w, weight = NULL, K = 3, breakdown = breakdown)
+#' P <- bootP(x)
+#' MGM <- MemberhsipGradesMatrix(x, P)
+#' fm_ZBM(monetary = x, hh.size = w, weight = NULL, K = 3, breakdown = breakdown)
 #'
 #' @references
 #' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the Tunisian Case. Review of Income and Wealth, 61(3), 465-476.
