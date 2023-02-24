@@ -62,7 +62,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
              weight.boot <- weight[bootidx]
              if(!is.null(breakdown)) breakdown <- breakdown[bootidx]
              if(fm=="ZBM") hh.size.boot <- hh.size[bootidx]
-             try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, breakdown, HCR, interval, alpha, hh.size.boot, K , z1, z2, b, z)$estimate)
+             try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, K , z1, z2, b, z, breakdown)$estimate)
              # if(!is.null(breakdown)) {
              #   breakdown.boot <- breakdown[bootidx]
              #   try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown.boot, z)$estimate)
@@ -122,7 +122,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
                w[case2.idx] <- (weight*g_hi[i])[case2.idx]
 
                if(!is.null(breakdown)){
-                 z_hi[[i]] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], breakdown[delete.idx], HCR, interval, alpha, hh.size, K , z1, z2, b, z)$estimate
+                 z_hi[[i]] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size, K , z1, z2, b, z, breakdown[delete.idx])$estimate
 
                } else {
                  z_hi[i] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size, K , z1, z2, b, z)$estimate

@@ -38,11 +38,11 @@
 
 #' @export
 fm_construct <- function(monetary, weight, fm = "verma", ID = NULL,
-                         breakdown = NULL,
                          HCR, interval = c(1,10), alpha = NULL,
                          hh.size, K,
                          z1, z2, b,
-                         z){ # cambiare ordine dei parametri
+                         z,
+                         breakdown = NULL){ # cambiare ordine dei parametri
 
   switch(fm,
          verma = {res <- fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown)},
