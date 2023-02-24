@@ -5,10 +5,7 @@
 #' @param monetary A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
-#' @param HCR The head count ratio.
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). Ff numeric will be coherced to a factor.
-#' @param interval The interval to look for the solution of the equation.
-#' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
 #' @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
 #' @param R The number of bootstrap replicates. Default is 500.
 #' @param M The size of bootstrap samples. Default is `nrow(data)`.
@@ -16,21 +13,37 @@
 #' @param psu The vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).
 #' @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).
 #' @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
+#' @param HCR If fm="verma". The value of the head count ratio.
+#' @param interval If fm="verma". A numeric vector of length two to look for the value of alpha (if not supplied).
+#' @param alpha If fm="verma". The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
+#' @param hh.size If fm="ZBM". A numeric vector of household size.
+#' @param k If fm="ZBM". The number of change points locations to estimate.
+#' @param z1 If fm="belhadj".
+#' @param z2 If fm="belhadj".
+#' @param b If fm="belhadj". The shape parameter (if b=1 the mf is linear between z1 and z2)
+#' @param z If fm="chakravarty".
 #'
 #' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
 #' @export
 #' @examples
 #' data(eusilc)
 #' HCR <- 0.14
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
+#' hh.size <- rep(1, 1000)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, K = 3)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = 1000, z2 = 2000, b = 2)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000)
 
-fm_var <- function(monetary, weight, fm, ID = NULL, HCR,
-                   breakdown = NULL, interval = c(1,10),
-                   alpha = NULL, type = 'bootstrap', R = 100,
-                   M = NULL, stratum, psu, f = 0.01, verbose = TRUE, hh.size = NULL) {
+fm_var <- function(monetary, weight, fm, ID = NULL,
+                   breakdown = NULL, type = 'bootstrap',
+                   R = 100, M = NULL,
+                   stratum, psu, f = 0.01,
+                   verbose = TRUE,
+                   HCR, interval = c(1,10), alpha = NULL,
+                   hh.size, K,
+                   z1, z2, b,
+                   z) {
 
   N <- length(monetary)
   if(is.null(weight)) weight <- N
@@ -46,7 +59,8 @@ fm_var <- function(monetary, weight, fm, ID = NULL, HCR,
              monetary.boot <- monetary[bootidx]
              weight.boot <- weight[bootidx]
              if(!is.null(breakdown)) breakdown <- breakdown[bootidx]
-             try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown, z1, z2, b, z, k)$estimate)
+             if(fm=="ZBM") hh.size.boot <- hh.size[bootidx]
+             try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, breakdown, HCR, interval, alpha, hh.size.boot, K , z1, z2, b, z)$estimate)
              # if(!is.null(breakdown)) {
              #   breakdown.boot <- breakdown[bootidx]
              #   try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown.boot, z)$estimate)
