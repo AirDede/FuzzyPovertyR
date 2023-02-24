@@ -33,7 +33,9 @@ fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown 
 fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu)
 fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, K = 3)
 fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = 1000, z2 = 2000, b = 2)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = 1000, z2 = 2000, b = 2, stratum = eusilc$stratum, psu = eusilc$psu)
 fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)
 
 fm_var <- function(monetary, weight, fm, ID = NULL,
                    breakdown = NULL, type = 'bootstrap',
@@ -120,10 +122,10 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
                w[case2.idx] <- (weight*g_hi[i])[case2.idx]
 
                if(!is.null(breakdown)){
-                 z_hi[[i]] <- fm_construct(monetary[delete.idx], weight[delete.idx], ID[delete.idx], HCR, interval, alpha, breakdown[delete.idx])$estimate
+                 z_hi[[i]] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], breakdown[delete.idx], HCR, interval, alpha, hh.size, K , z1, z2, b, z)$estimate
 
                } else {
-                 z_hi[i] <- fm_construct(monetary[delete.idx], weight[delete.idx], ID[delete.idx], HCR, interval, alpha)$estimate
+                 z_hi[i] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size, K , z1, z2, b, z)$estimate
 
                }
              }
