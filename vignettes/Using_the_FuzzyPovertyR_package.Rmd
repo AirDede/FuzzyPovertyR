@@ -25,18 +25,31 @@ rm(list = ls())
 
 ## Fuzzy Monetary poverty measures
 
+The package lets the user choose among different membership functions trough the argument `fm` of the `fm_construct` function. The membership function available are
+
+- `fm="verma"` (see @betti2008fuzzy)
+- `fm="ZBM"` (see @zedini2015new and @belhadj2010poverty)
+- `fm="belhadj"` (see @besma2015employment)
+- `fm="chakravarty" (see @chakravarty2019axiomatic)
+
+The dataset coming from the package is
 ```{r}
 data(eusilc)
 ```
 
+For each of the functions below the `breakdown` argument can be specified in case the user's want to obtain estimates for given sub-domains.
+
+### Verma
+
+For the computation of a fuzzy poverty index go trough the following steps:
+
 1.  Estimation of the Head Count Ratio (HCR). The package `FuzzyPovertyR` provides the function `HCR` to estimate the Head Count Ratio from data. It outputs a list of three elements: a classification of units into being poor or not poor, the poverty line, and the value itself.
 
 ```{r}
-hcr = HCR(monetary = eusilc$red_eq, weight = eusilc$DB090, p = 0.5, q = 0.6)$HCR
+hcr = HCR(monetary = eusilc$red_eq, weight = eusilc$DB090, p = 0.5, q = 0.6)$HCR # add poverty threshold
 ```
 
 2.  Computation of equivalent disposable income
-
 -   have a function (not shown)
 
 ```{r}
@@ -65,31 +78,39 @@ fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0
 
 -   The `alpha` parameter.
 
-### Variance Estimation
-
-The variance of the Fuzzy Monetary measure can be estimated either via boostrap or using Jackknife Repeated Replications. We recommend the former each time the user has no knowledge of the sampling design, while we recommend the Jackknife when there is full information (see @betti2018simplified). We recommend the user to use the value of `alpha` from the function `fm_construct. However, it is possible to specify different values of the parameter (i.e. alpha`=1). We do not recommend to leave the argument `alpha=NULL` for the computation of variance.
-
 ```{r}
-alpha = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)$alpha
+plot(FM$results$mu, type = "l")
 ```
 
-```{r}
-boot.var = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = alpha, R = 100, verbose = F)
-jack.var = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
-```
+### ZBM
 
-which gives the bootstrap estimate `r boot.var` or the jackknife estimate `r jack.var`.
+The computation of the fuzzy index using the @zedini2015new mf needs `fm = "ZBM`. The output is list containing the 
 
-If there are multiple sub-domains or sub-populations that need variance estimation, the user can specify this breakdown to the `breakdown`\`argument of the function `fm_var`. For example:
+- `estimates` for each state discovered using the function `e.divide` of the  `ecp` package.
+- the fuzzy memeberships for each poverty set
 
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040, verbose = F)
+hh.size = sample(1:4, 1000, replace = T, prob = c(4,3,2,1))
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size, K = 3)$estimate
 ```
+
+### Belhadj 
+
+The following code outputs a fuzzy index using the memebrship function specification as @besma2015employment. The arguments `z1`, `z2` and `b` need user's specification. The value `z` that correspond to the flex points of the mf or to the point where the two mf touch together is calculated by the function. The parameter `b` (>=1) rules the shape of the membership functions (set `b=1` for linearity)
 
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040, verbose = F)
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = 1500, z2 = 2000, b = 1) # use id to return ordered as verma
 ```
 
+### Chakravarty
+
+@chakravarty2019axiomatic axiomatic fuzzy index is obtained setting. The argument `z` needs user's specification.
+
+```{r}
+fm_construct(monetary = eusilc$red_eq, eusilc$DB090, fm = "chakravarty", z = 1500)
+```
+
+*** 
 ## Fuzzy supplementary
 
 The steps below show how to obtain Fuzzy Supplementary poverty measures.
@@ -178,7 +199,33 @@ Again it is possible to obtain results for sub-domains by specifying the `breakd
 fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)$estimate
 ```
 
-### Variance Estimation
+***
+## Variance Estimation
+
+### Monetary Indexes
+
+The variance of each Fuzzy Monetary measure can be estimated either via Boostrap or Jackknife Repeated Replications. We recommend the former each time the user has no knowledge of the sampling design, while we recommend the Jackknife when there is full information on the design and of the PSUs (see @betti2018simplified). 
+
+In case of `fm="verma"`, we recommend the user to use the value of `alpha` from obtained from the function `fm_construct`. It is possible to specify different values of the parameter (i.e. `alpha=1`). We do not recommend to leave the argument `alpha=NULL` for the computation of variance.
+
+```{r}
+alpha = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)$alpha
+```
+
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .14, alpha = alpha, verbose = F)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
+```
+
+which gives the bootstrap estimate `r boot.var` or the jackknife estimate `r jack.var`.
+
+If there are multiple sub-domains or sub-populations that need variance estimation, the user can specify this breakdown to the `breakdown` argument of the function `fm_var`. For example:
+
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = alpha, verbose = F)
+```
+
+### Supplementary Indexes
 
 It is also possible to obtain variance estimates for each supplementary measure at different sub-domains or sub-population in the same way as it is for the Fuzzy Monetary approach. Again, we suggest the user to use the Jackknife technique if he/she has good knowledge of strata and PSUs.
 
