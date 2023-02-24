@@ -27,7 +27,11 @@
 #' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
 #' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
 
-fm_var <- function(monetary, weight, ID = NULL, HCR, breakdown = NULL, interval = c(1,10), alpha = NULL, type = 'bootstrap', R = 100, M = NULL, stratum, psu, f = 0.01, verbose = TRUE) {
+fm_var <- function(monetary, weight, fm, ID = NULL, HCR,
+                   breakdown = NULL, interval = c(1,10),
+                   alpha = NULL, type = 'bootstrap', R = 100,
+                   M = NULL, stratum, psu, f = 0.01, verbose = TRUE, hh.size = NULL) {
+
   N <- length(monetary)
   if(is.null(weight)) weight <- N
   if(is.null(ID)) ID <- seq_len(N)
@@ -41,19 +45,30 @@ fm_var <- function(monetary, weight, ID = NULL, HCR, breakdown = NULL, interval 
              ID.boot <- ID[bootidx]
              monetary.boot <- monetary[bootidx]
              weight.boot <- weight[bootidx]
-             if(!is.null(breakdown)) {
-               breakdown.boot <- breakdown[bootidx]
-               try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown.boot)$estimate)
-               # var.hat <- apply(bootstrap.bill, 1, var)
-             } else {
-               try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown)$estimate)
-               # var.hat <- var(bootstrap.bill)
-             }
-           })
+             if(!is.null(breakdown)) breakdown <- breakdown[bootidx]
+             try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown, z1, z2, b, z, k)$estimate)
+             # if(!is.null(breakdown)) {
+             #   breakdown.boot <- breakdown[bootidx]
+             #   try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown.boot, z)$estimate)
+             #   # var.hat <- apply(bootstrap.bill, 1, var)
+             # } else {
+             #   try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown, z)$estimate)
+             #   # var.hat <- var(bootstrap.bill)
+             # }
+           }, simplify = "array")
            if(!is.null(breakdown)){
-             var.hat <- apply(BootDistr, 1, var)
+               if (fm=="ZBM") {
+               # bootDistr.idx <- sapply(BootDistr, function(x) dim(x)[2]==k) # keep only
+               # BootDistr <- BootDistr[bootDistr.idx]
+               var.hat <- apply(BootDistr, 1:2, var) # verificare che sia corretta
+               } else {
+
+               var.hat <- apply(BootDistr, 1, var)
+             }
+
            } else {
              var.hat <- var(BootDistr)
+             # mettere un if per belhadj (ma belhadj è multidimensionale per me forse va meglio sotto FS)
            }
            # BootDistr <- sapply(mu.boot, mean) # fm_estimate for each replicate (meaningful only for breakdown?)
            # hist(BootDistr, xlab = '', main = expression(paste("Bootstrap distribution of E(", mu, ')')), probability = T)

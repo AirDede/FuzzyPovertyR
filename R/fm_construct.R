@@ -24,20 +24,24 @@
 #' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID)
 #' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
 #' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
-#'
-#' @export
-fm_construct <- function(monetary, weight, type = "verma", ID = NULL, HCR, interval = c(1,10), alpha = NULL, hh.size = NULL, breakdown = NULL, z){ # cambiare ordine dei parametri
+#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
+#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, fm = "ZBM")$estimate
+#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, fm = "ZBM")$estimate
+#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, fm = "chakravarty", z = 1)
+#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, fm = "belhadj", z1 = 10, z2 = 20, b = 2, z = 1)
 
-  switch(type,
+#' @export
+fm_construct <- function(monetary, weight, fm = "verma", ID = NULL, HCR, #spostare dove ci sono i parametri da mettere
+                         interval = c(1,10), alpha = NULL,
+                         hh.size = NULL, breakdown = NULL,
+                         z1, z2, b,
+                         z, k){ # cambiare ordine dei parametri
+
+  switch(fm,
          verma = {res <- fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown)},
          ZBM = {res <- fm_ZBM(monetary, hh.size, weight, breakdown)},
+         belhadj = {res <- fm_belhadj2015(monetary, z1, z2, b, breakdown, weight)},
          chakravarty = {res <- fm_Chakravarty(monetary, z, breakdown)})
   return(res)
 
 }
-
-data(eusilc)
-HCR <- .154
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, type = "ZBM")
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, type = "chakravarty", z = 1)
