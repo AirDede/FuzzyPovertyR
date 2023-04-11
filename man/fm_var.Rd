@@ -7,18 +7,25 @@
 fm_var(
   monetary,
   weight,
+  fm,
   ID = NULL,
-  HCR,
   breakdown = NULL,
-  interval = c(1, 10),
-  alpha = NULL,
   type = "bootstrap",
   R = 100,
   M = NULL,
   stratum,
   psu,
   f = 0.01,
-  verbose = TRUE
+  verbose = TRUE,
+  HCR,
+  interval = c(1, 10),
+  alpha = NULL,
+  hh.size,
+  K,
+  z1,
+  z2,
+  b,
+  z
 )
 }
 \arguments{
@@ -28,13 +35,7 @@ fm_var(
 
 \item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 
-\item{HCR}{The head count ratio.}
-
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). Ff numeric will be coherced to a factor.}
-
-\item{interval}{The interval to look for the solution of the equation.}
-
-\item{alpha}{The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.}
 
 \item{type}{The variance estimation method chosen. One between \code{bootstrap} (default) or \code{jackknife}.}
 
@@ -49,6 +50,24 @@ fm_var(
 \item{f}{The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).}
 
 \item{verbose}{Logical. whether to print the proceeding of the variance estimation procedure.}
+
+\item{HCR}{If fm="verma". The value of the head count ratio.}
+
+\item{interval}{If fm="verma". A numeric vector of length two to look for the value of alpha (if not supplied).}
+
+\item{alpha}{If fm="verma". The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
+
+\item{hh.size}{If fm="ZBM". A numeric vector of household size.}
+
+\item{z1}{If fm="belhadj".}
+
+\item{z2}{If fm="belhadj".}
+
+\item{b}{If fm="belhadj". The shape parameter (if b=1 the mf is linear between z1 and z2)}
+
+\item{z}{If fm="chakravarty".}
+
+\item{k}{If fm="ZBM". The number of change points locations to estimate.}
 }
 \value{
 The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
@@ -59,8 +78,12 @@ This function estimates the variance of the fuzzy monetary poverty index
 \examples{
 data(eusilc)
 HCR <- 0.14
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'bootstrap', alpha = 5, R = 100, breakdown = eusilc$db040)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = eusilc$ID, HCR = HCR, type = 'jackknife', alpha = 5, stratum = eusilc$stratum, psu = eusilc$psu, breakdown = eusilc$db040)
+hh.size <- rep(1, 1000)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, K = 3)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = 1000, z2 = 2000, b = 2)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = 1000, z2 = 2000, b = 2, stratum = eusilc$stratum, psu = eusilc$psu)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)
 }

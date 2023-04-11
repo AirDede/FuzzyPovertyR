@@ -41,9 +41,9 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
                    breakdown = NULL, type = 'bootstrap',
                    R = 100, M = NULL,
                    stratum, psu, f = 0.01,
-                   verbose = TRUE,
+                   verbose = FALSE,
                    HCR, interval = c(1,10), alpha = NULL,
-                   hh.size, K,
+                   hh.size, k=2,
                    z1, z2, b,
                    z) {
 
@@ -55,14 +55,20 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
   switch(type, # creare funzione bootstrap e funzione jacknife da chiamare qui invece che codificarle
          bootstrap = {
            BootDistr <- sapply(1:R, function(x) {
-             if(verbose == T) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
+             if(verbose == T) {
+               if(R%%100==0) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
+             }
              bootidx <- sample(1:N, size = M, replace = T)
              ID.boot <- ID[bootidx]
              monetary.boot <- monetary[bootidx]
              weight.boot <- weight[bootidx]
              if(!is.null(breakdown)) breakdown <- breakdown[bootidx]
-             if(fm=="ZBM") hh.size.boot <- hh.size[bootidx]
-             try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, K , z1, z2, b, z, breakdown)$estimate)
+             if(fm=="ZBM") {
+               hh.size.boot <- hh.size[bootidx]
+               try(do.call(cbind, fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z1, z2, b, z, breakdown)$estimate))
+             } else {
+               try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z1, z2, b, z, breakdown)$estimate)
+             }
              # if(!is.null(breakdown)) {
              #   breakdown.boot <- breakdown[bootidx]
              #   try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown.boot, z)$estimate)
@@ -74,8 +80,6 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
            }, simplify = "array")
            if(!is.null(breakdown)){
                if (fm=="ZBM") {
-               # bootDistr.idx <- sapply(BootDistr, function(x) dim(x)[2]==k) # keep only
-               # BootDistr <- BootDistr[bootDistr.idx]
                var.hat <- apply(BootDistr, 1:2, var) # verificare che sia corretta
                } else {
 

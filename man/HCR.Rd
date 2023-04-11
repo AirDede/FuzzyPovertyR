@@ -4,7 +4,7 @@
 \alias{HCR}
 \title{Head Count Ratio (HCR)}
 \usage{
-HCR(monetary, weight = NULL, p = 0.5, q = 0.6)
+HCR(monetary, weight = NULL, p = 0.5, q = 0.6, poverty.line = NULL)
 }
 \arguments{
 \item{monetary}{A numeric vector of a monetary variable (i.e. income or expenditure)}
@@ -14,6 +14,8 @@ HCR(monetary, weight = NULL, p = 0.5, q = 0.6)
 \item{p}{The quantile to be calculated from the monetary variable. Default is the median.}
 
 \item{q}{The percentage of the quantile to be used in determining the poverty line. default is 0.6.}
+
+\item{poverty.line}{The poverty line. If it is NULL it is estimated from data.}
 }
 \value{
 A list containing the classification of the units as poor (TRUE) and not-poor (FALSE), the estimated Head Count Ratio, and the poverty line.
@@ -31,5 +33,6 @@ N <- 100
 p <- 0.5
 q <- 0.6
 monetary <- rchisq(N, 15) # monetary variable
+HCR(monetary)
 
 }

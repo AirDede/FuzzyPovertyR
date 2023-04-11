@@ -30,7 +30,7 @@ The package lets the user choose among different membership functions trough the
 - `fm="verma"` (see @betti2008fuzzy)
 - `fm="ZBM"` (see @zedini2015new and @belhadj2010poverty)
 - `fm="belhadj"` (see @besma2015employment)
-- `fm="chakravarty" (see @chakravarty2019axiomatic)
+- `fm="chakravarty"`  (see @chakravarty2019axiomatic)
 
 The dataset coming from the package is
 ```{r}
@@ -91,7 +91,7 @@ The computation of the fuzzy index using the @zedini2015new mf needs `fm = "ZBM`
 
 ```{r}
 hh.size = sample(1:4, 1000, replace = T, prob = c(4,3,2,1))
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size, K = 3)$estimate
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size)$estimate
 ```
 
 ### Belhadj 
@@ -99,7 +99,7 @@ fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", hh.siz
 The following code outputs a fuzzy index using the memebrship function specification as @besma2015employment. The arguments `z1`, `z2` and `b` need user's specification. The value `z` that correspond to the flex points of the mf or to the point where the two mf touch together is calculated by the function. The parameter `b` (>=1) rules the shape of the membership functions (set `b=1` for linearity)
 
 ```{r}
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = 1500, z2 = 2000, b = 1) # use id to return ordered as verma
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = 1500, z2 = 2000, b = 4) # use id to return ordered as verma
 ```
 
 ### Chakravarty
@@ -193,13 +193,14 @@ Aggregated results are available
 fs_results$estimate
 ```
 
-Again it is possible to obtain results for sub-domains by specifying the `breakdown`\`argument
+Again it is possible to obtain results for sub-domains by specifying the `breakdown`argument
 
 ```{r}
 fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)$estimate
 ```
 
 ***
+
 ## Variance Estimation
 
 ### Monetary Indexes
@@ -217,12 +218,23 @@ fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma",  type = "b
 fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
 ```
 
-which gives the bootstrap estimate `r boot.var` or the jackknife estimate `r jack.var`.
+which gives the bootstrap estimate or the jackknife estimate.
 
 If there are multiple sub-domains or sub-populations that need variance estimation, the user can specify this breakdown to the `breakdown` argument of the function `fm_var`. For example:
 
 ```{r}
 fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = alpha, verbose = F)
+```
+```{r}
+hh.size <- rep(1, 1000)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size)
+```
+
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = 1000, z2 = 2000, b = 2)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = 1000, z2 = 2000, b = 2, stratum = eusilc$stratum, psu = eusilc$psu)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)
 ```
 
 ### Supplementary Indexes

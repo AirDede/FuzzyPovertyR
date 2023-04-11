@@ -39,14 +39,14 @@
 #' @export
 fm_construct <- function(monetary, weight, fm = "verma", ID = NULL,
                          HCR, interval = c(1,10), alpha = NULL,
-                         hh.size, K,
+                         hh.size, k=2,
                          z1, z2, b,
                          z,
                          breakdown = NULL){ # cambiare ordine dei parametri
 
   switch(fm,
          verma = {res <- fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown)},
-         ZBM = {res <- fm_ZBM(monetary, hh.size, weight, breakdown, K)},
+         ZBM = {res <- fm_ZBM(monetary, hh.size, weight, breakdown, k)},
          belhadj = {res <- fm_belhadj2015(monetary, z1, z2, b, breakdown, weight)},
          chakravarty = {res <- fm_Chakravarty(monetary, z, breakdown)})
   return(res)
