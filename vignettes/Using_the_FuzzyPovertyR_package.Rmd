@@ -32,7 +32,8 @@ The package lets the user choose among different membership functions trough the
 - `fm="belhadj"` (see @besma2015employment)
 - `fm="chakravarty"`  (see @chakravarty2019axiomatic)
 
-The dataset coming from the package is
+The dataset coming from the package is loaded in the environment with 
+
 ```{r}
 data(eusilc)
 ```
@@ -87,16 +88,17 @@ plot(FM$results$mu, type = "l")
 The computation of the fuzzy index using the @zedini2015new mf needs `fm = "ZBM`. The output is list containing the 
 
 - `estimates` for each state discovered using the function `e.divide` of the  `ecp` package.
-- the fuzzy memeberships for each poverty set
+- the fuzzy memberships for each poverty set
 
 ```{r}
 hh.size = sample(1:4, 1000, replace = T, prob = c(4,3,2,1))
 fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size)$estimate
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size, breakdown = eusilc$db040)$estimate
 ```
 
 ### Belhadj 
 
-The following code outputs a fuzzy index using the memebrship function specification as @besma2015employment. The arguments `z1`, `z2` and `b` need user's specification. The value `z` that correspond to the flex points of the mf or to the point where the two mf touch together is calculated by the function. The parameter `b` (>=1) rules the shape of the membership functions (set `b=1` for linearity)
+The following code outputs a fuzzy index using the membership function specification as @besma2015employment. The arguments `z1`, `z2` and `b` need user's specification. The value `z` that correspond to the flex points of the mf or to the point where the two mf touch together is calculated by the function. The parameter `b` (>=1) rules the shape of the membership functions (set `b=1` for linearity)
 
 ```{r}
 fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = 1500, z2 = 2000, b = 4) # use id to return ordered as verma
@@ -254,5 +256,7 @@ fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dime
 The following uses the Jackknife
 
 ```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, 
+       breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', 
+       stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01)
 ```

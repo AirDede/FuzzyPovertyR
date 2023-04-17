@@ -118,18 +118,14 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR, breakdown = 
                # z_hi.bar <- Reduce(modifiedSum, z_hi)/a_h
                z_hi.bar <- array(apply(z_hi, 1:2, mean, na.rm = T), dim = c(J, P+1, a_h), dimnames = list(levels(breakdown),col.labels, NULL ))
                squared.dev <- (z_hi - z_hi.bar)^2
-               # apply(
-               #   lapply(1:a_h, function(i) g_hi[i]*squared.dev[,,i]), # array of multiplication inside stratum as of formula 4 Betti et al (2018)
-               #   3, # doing for psu-s in stratum h
-               #   sum # summation
-               # )
-               var_h[h,,] <- Reduce('+', lapply(1:a_h, function(i) g_hi[i]*squared.dev[,,i])) # oppure usare modified sum
+                var_h[h,,] <- Reduce('+', lapply(1:a_h, function(i) g_hi[i]*squared.dev[,,i])) # oppure usare modified sum
              } else {
                z_hi.bar <- apply(z_hi, 2, mean)
                z_hi.bar <- rep(1, a_h)%*%t(z_hi.bar) # matrix of means
                var_h[h,] <- (1-f)*t(g_hi)%*%((z_hi - z_hi.bar)^2)
              }
            }
+
            if(!is.null(breakdown)){
              var.hat <- list(variance = apply(var_h, 2:3, sum))
            } else {

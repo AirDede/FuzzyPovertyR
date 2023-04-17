@@ -43,7 +43,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
                    stratum, psu, f = 0.01,
                    verbose = FALSE,
                    HCR, interval = c(1,10), alpha = NULL,
-                   hh.size, k=2,
+                   hh.size, k=3,
                    z1, z2, b,
                    z) {
 
@@ -102,9 +102,14 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
            H <- length(strata) # can be also a character string then
            w_jh <- tapply(weight, list(stratum, psu), sum, na.rm = T) # sum of the weights inside the strata
            w_h <- rowSums(w_jh) # sum of the weights inside the strata
-           z_h = vector(mode = 'list', length = H)
+           z_h <- vector(mode = 'list', length = H)
            var_h <- rep(0, H)
-           if(!is.null(breakdown)) var_h <- matrix(0, nrow = H, ncol = length(unique(breakdown)), dimnames = list(NULL, levels(breakdown)))
+           if(!is.null(breakdown)) {
+             J <- length(unique(breakdown))
+             var_h <- matrix(0, nrow = H, ncol = J, dimnames = list(NULL, levels(as.factor(breakdown))))
+             if(fm=="ZBM") var_h <- array(NA, dim = c(H, J, k), dimnames = list(NULL, levels(as.factor(breakdown)), 1:k))
+
+           }
            for(h in 1:H){
              if(verbose == T) cat('doing for stratum',h,'of',H,'\n')
              stratum_h <- strata[h]
@@ -112,6 +117,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
              a_h <- length(psu_h)
              z_hi <- g_hi <- rep(0, a_h)
              if(!is.null(breakdown)) z_hi <- vector(mode = 'list', length = a_h)
+             if(!is.null(breakdown) & fm == "ZBM") z_hi <- array(0, dim = c(J, k, a_h), dimnames = list(levels(breakdown), NULL, NULL))
              for(i in 1:a_h){
                if(verbose == T) cat('doing for psu', i, 'of',a_h,'\n')
                psu_jh <- psu_h[i]
@@ -126,28 +132,40 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
                w[case2.idx] <- (weight*g_hi[i])[case2.idx]
 
                if(!is.null(breakdown)){
-                 z_hi[[i]] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size, K , z1, z2, b, z, breakdown[delete.idx])$estimate
-
+                 if(fm=="ZBM") {
+                   z_hi[,,i] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z, breakdown[delete.idx])$estimate
+                 } else{
+                   z_hi[[i]] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z, breakdown[delete.idx])$estimate
+                 }
                } else {
-                 z_hi[i] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size, K , z1, z2, b, z)$estimate
-
+                 z_hi[i] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z)$estimate
                }
              }
 
              if(!is.null(breakdown)){
 
+               if(fm=="ZBM"){
+                 z_hi.bar <- array(apply(z_hi, 1:2, mean, na.rm = T), dim = c(J, k, a_h), dimnames = list(levels(breakdown), NULL ))
+                 squared.dev <- (z_hi - z_hi.bar)^2
+                 var_h[h,,] <- Reduce('+', lapply(1:a_h, function(i) g_hi[i]*squared.dev[,,i])) # oppure usare modified sum
+               } else {
                z_hi.breakdown <- do.call(rbind, z_hi)
                means.breakdown <- rep(1, a_h)%*%t(apply(z_hi.breakdown,2,mean))
                var_h.breakdown <- (1-f)*t(g_hi)%*%(z_hi.breakdown - means.breakdown)^2
                var_h[h,] <- var_h.breakdown
+               }
 
-             } else {
+             } else { # if not breakdown
                var_h[h] <- (1-f)*sum(g_hi*(z_hi - mean(z_hi))^2)
              }
-
            }
+
            if(!is.null(breakdown)) {
+             if(fm=="ZBM"){
+               var.hat <- list(variance = apply(var_h, 2:3, sum))
+             } else {
              var.hat <- list(estimate = apply(var_h, 2, sum) )
+             }
            } else {
              var.hat <- list(estimate = sum(var_h))
 

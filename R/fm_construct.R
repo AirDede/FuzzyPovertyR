@@ -39,7 +39,7 @@
 #' @export
 fm_construct <- function(monetary, weight, fm = "verma", ID = NULL,
                          HCR, interval = c(1,10), alpha = NULL,
-                         hh.size, k=2,
+                         hh.size, k=3,
                          z1, z2, b,
                          z,
                          breakdown = NULL){ # cambiare ordine dei parametri
