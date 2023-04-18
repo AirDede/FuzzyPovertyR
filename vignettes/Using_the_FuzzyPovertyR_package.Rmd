@@ -112,7 +112,8 @@ fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1
 fm_construct(monetary = eusilc$red_eq, eusilc$DB090, fm = "chakravarty", z = 1500)
 ```
 
-*** 
+***
+
 ## Fuzzy supplementary
 
 The steps below show how to obtain Fuzzy Supplementary poverty measures.
@@ -225,18 +226,28 @@ which gives the bootstrap estimate or the jackknife estimate.
 If there are multiple sub-domains or sub-populations that need variance estimation, the user can specify this breakdown to the `breakdown` argument of the function `fm_var`. For example:
 
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = alpha, verbose = F)
+cbind(
+  Bootstrap = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = alpha, verbose = F),
+  Jackknife = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = .14, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)$estimate)
 ```
-```{r}
+```{r message = FALSE}
 hh.size <- rep(1, 1000)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size)
+  Bootstrap.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, verbose = F)
+  Jackknife.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "jackknife", hh.size = hh.size, stratum = eusilc$stratum, psu = eusilc$psu)$estimate
+  
 ```
 
 ```{r}
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = 1000, z2 = 2000, b = 2)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = 1000, z2 = 2000, b = 2, stratum = eusilc$stratum, psu = eusilc$psu)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)
+z1 = 1000; z2 = 2000; b = 2
+cbind(
+  Bootstrap = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = z1, z2 = z2, b = b), 
+  Jackknife = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = z1, z2 = z2, b = b, stratum = eusilc$stratum, psu = eusilc$psu)$estimate)
+```
+
+```{r}
+cbind(
+  Bootstrap = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000),
+  Jackknife = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)$estimate)
 ```
 
 ### Supplementary Indexes

@@ -54,9 +54,9 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
   switch(type, # creare funzione bootstrap e funzione jacknife da chiamare qui invece che codificarle
          bootstrap = {
-           BootDistr <- sapply(1:R, function(x) {
+           BootDistr <- sapply(1:R, function(r) {
              if(verbose == T) {
-               if(R%%100==0) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
+               if(R%%100==0) cat('Bootstrap Replicate : ', r, 'of', R, '\n')
              }
              bootidx <- sample(1:N, size = M, replace = T)
              ID.boot <- ID[bootidx]
@@ -65,7 +65,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
              if(!is.null(breakdown)) breakdown <- breakdown[bootidx]
              if(fm=="ZBM") {
                hh.size.boot <- hh.size[bootidx]
-               try(do.call(cbind, fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z1, z2, b, z, breakdown)$estimate))
+               try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z1, z2, b, z, breakdown)$estimate)
              } else {
                try(fm_construct(monetary.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z1, z2, b, z, breakdown)$estimate)
              }
@@ -82,7 +82,6 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
                if (fm=="ZBM") {
                var.hat <- apply(BootDistr, 1:2, var) # verificare che sia corretta
                } else {
-
                var.hat <- apply(BootDistr, 1, var)
              }
 
@@ -162,7 +161,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
 
            if(!is.null(breakdown)) {
              if(fm=="ZBM"){
-               var.hat <- list(variance = apply(var_h, 2:3, sum))
+               var.hat <- list(estimate = apply(var_h, 2:3, sum))
              } else {
              var.hat <- list(estimate = apply(var_h, 2, sum) )
              }
