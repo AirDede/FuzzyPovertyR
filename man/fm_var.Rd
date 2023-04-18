@@ -16,12 +16,12 @@ fm_var(
   stratum,
   psu,
   f = 0.01,
-  verbose = TRUE,
+  verbose = FALSE,
   HCR,
   interval = c(1, 10),
   alpha = NULL,
   hh.size,
-  K,
+  k = 3,
   z1,
   z2,
   b,
@@ -59,6 +59,8 @@ fm_var(
 
 \item{hh.size}{If fm="ZBM". A numeric vector of household size.}
 
+\item{k}{If fm="ZBM". The number of change points locations to estimate.}
+
 \item{z1}{If fm="belhadj".}
 
 \item{z2}{If fm="belhadj".}
@@ -66,8 +68,6 @@ fm_var(
 \item{b}{If fm="belhadj". The shape parameter (if b=1 the mf is linear between z1 and z2)}
 
 \item{z}{If fm="chakravarty".}
-
-\item{k}{If fm="ZBM". The number of change points locations to estimate.}
 }
 \value{
 The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.

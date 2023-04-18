@@ -13,7 +13,7 @@ fm_construct(
   interval = c(1, 10),
   alpha = NULL,
   hh.size,
-  J,
+  k = 3,
   z1,
   z2,
   b,
@@ -38,6 +38,8 @@ fm_construct(
 
 \item{hh.size}{If fm="ZBM". A numeric vector of household size.}
 
+\item{k}{If fm="ZBM". The number of change points locations to estimate.}
+
 \item{z1}{If fm="belhadj".}
 
 \item{z2}{If fm="belhadj".}
@@ -47,8 +49,6 @@ fm_construct(
 \item{z}{If fm="chakravarty".}
 
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
-
-\item{k}{If fm="ZBM". The number of change points locations to estimate.}
 }
 \value{
 If fm="verma". It returns a list containing the (fuzzy) membership function for each individual in the sample,

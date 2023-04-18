@@ -4,7 +4,7 @@
 \alias{fm_ZBM}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_ZBM(monetary, hh.size, weight, breakdown, J)
+fm_ZBM(monetary, hh.size, weight, breakdown, k)
 }
 \arguments{
 \item{monetary}{A numeric vector of a monetary variable (or poverty predicate)}
@@ -13,7 +13,7 @@ fm_ZBM(monetary, hh.size, weight, breakdown, J)
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used}
 
-\item{J}{The number of change points locations to estimate}
+\item{k}{The number of change points locations to estimate}
 }
 \value{
 The membership grades for each poverty state
@@ -32,7 +32,7 @@ breakdown = sample(letters[1:3], size = 1500, replace = T,  prob = c(3,1,1))
 
 P <- bootP(x)
 MGM <- MemberhsipGradesMatrix(x, P)
-fm_ZBM(monetary = x, hh.size = w, weight = NULL, K = 3, breakdown = breakdown)
+fm_ZBM(monetary = x, hh.size = w, weight = NULL, k = 3, breakdown = breakdown)
 
 }
 \references{
