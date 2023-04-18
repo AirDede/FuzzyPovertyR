@@ -101,7 +101,8 @@ fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", hh.siz
 The following code outputs a fuzzy index using the membership function specification as @besma2015employment. The arguments `z1`, `z2` and `b` need user's specification. The value `z` that correspond to the flex points of the mf or to the point where the two mf touch together is calculated by the function. The parameter `b` (>=1) rules the shape of the membership functions (set `b=1` for linearity)
 
 ```{r}
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = 1500, z2 = 2000, b = 4) # use id to return ordered as verma
+z1 = 1500; z2 = 2000; b = 4
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = z1, z2 = z2, b = b) # use id to return ordered as verma
 ```
 
 ### Chakravarty
@@ -234,7 +235,6 @@ cbind(
 hh.size <- rep(1, 1000)
   Bootstrap.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, verbose = F)
   Jackknife.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "jackknife", hh.size = hh.size, stratum = eusilc$stratum, psu = eusilc$psu)$estimate
-  
 ```
 
 ```{r}
