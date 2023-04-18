@@ -235,6 +235,7 @@ cbind(
 hh.size <- rep(1, 1000)
   Bootstrap.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, verbose = F)
   Jackknife.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "jackknife", hh.size = hh.size, stratum = eusilc$stratum, psu = eusilc$psu)$estimate
+cbind(Bootstrap.zbm, Jackknife.zbm)
 ```
 
 ```{r}
