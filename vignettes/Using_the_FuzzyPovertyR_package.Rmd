@@ -54,7 +54,7 @@ hcr = HCR(monetary = eusilc$red_eq, weight = eusilc$DB090, p = 0.5, q = 0.6)$HCR
 -   have a function (not shown)
 
 ```{r}
-?eq_income
+# eq_income
 ```
 
 3.  Construction of the Fuzzy Monetary measure.
@@ -103,7 +103,7 @@ The following code outputs a fuzzy index using the membership function specifica
 ```{r}
 z1 = 1500; z2 = 2000; b = 4
 fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = z1, z2 = z2, b = b) # use id to return ordered as verma?
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = z1, z2 = z2, b = b, breakdown = eusilc$db040) # use id to return ordered as verma?
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = z1, z2 = z2, b = b, breakdown = eusilc$db040)$estimate # use id to return ordered as verma?
 ```
 
 ### Chakravarty
@@ -111,7 +111,7 @@ fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1
 @chakravarty2019axiomatic axiomatic fuzzy index is obtained setting. The argument `z` needs user's specification.
 
 ```{r}
-fm_construct(monetary = eusilc$red_eq, eusilc$DB090, fm = "chakravarty", z = 1500)
+chakravarty = fm_construct(monetary = eusilc$red_eq, eusilc$DB090, fm = "chakravarty", z = 1500)
 ```
 
 ***
@@ -234,7 +234,7 @@ cbind(
 ```
 ```{r message = FALSE}
 hh.size <- rep(1, 1000)
-  Bootstrap.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, verbose = F)
+  Bootstrap.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, verbose = F, R = 5)
   Jackknife.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "jackknife", hh.size = hh.size, stratum = eusilc$stratum, psu = eusilc$psu)$estimate
 cbind(Bootstrap.zbm, Jackknife.zbm)
 ```

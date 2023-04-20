@@ -33,7 +33,7 @@ fs_weight <- function(dimensions, step2, rho = NULL){
   # calcolare i coefficienti di variazione degli (1-s)
   result <- step2 %>%
     reshape2::melt(id.vars = 'ID', variable.name = 'Item', value.name = 's') %>%
-    dplyr::inner_join(data.frame(Item = Items, Factor = dimensions)) %>%
+    dplyr::inner_join(data.frame(Item = Items, Factor = dimensions), by = 'Item') %>%
     dplyr::group_by(Factor, Item) %>% # raggruppo per item, dimensione
     dplyr::mutate(w_a = sd(s) / mean(s) ) %>%
     dplyr::inner_join(wb.jh_df) %>% # aggiungo i pesi dallo step prima

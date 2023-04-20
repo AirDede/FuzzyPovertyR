@@ -4,7 +4,7 @@
 \alias{fm_Chakravarty}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_Chakravarty(x, z, breakdown)
+fm_Chakravarty(x, z, weight, breakdown)
 }
 \arguments{
 \item{x}{A numeric vector of a poverty predicate}

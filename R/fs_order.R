@@ -14,8 +14,6 @@
 #' @examples ##
 #' @examples fs_order(data=data, vec_order)
 #'
-#' @author Federico Crescenzi
-#' @references NA
 #'
 
 
