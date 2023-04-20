@@ -56,6 +56,21 @@ MemberhsipGradesMatrix <- function(x, P){
 
 #' Fuzzy monetary poverty estimation
 #'
+#' @param x A numeric vector of fuzzy numbers
+#'
+#' @return the convolution of fuzzy numbers
+
+Fuzzy_conv <- function(x) {
+  Min <- Vectorize(function(a,b) min(a,b), vectorize.args = "b")
+  Max <- Vectorize(function(a,b) max(a,b), vectorize.args = "b")
+  l <- length(x)
+  m <- Min(x[1], x[2:l])
+  P <- Max(m[1], m[2:length(m)])
+  return(P)
+}
+
+#' Fuzzy monetary poverty estimation
+#'
 #' @param monetary A numeric vector of a monetary variable (or poverty predicate)
 #' @param hh.size A numeric vector with the size of the houshold
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
@@ -82,7 +97,6 @@ MemberhsipGradesMatrix <- function(x, P){
 fm_ZBM <- function(monetary, hh.size, weight, breakdown, k){
   # Zendini, Belhadi, Matoussi
   N <- length(monetary)
-  if(is.null(weight)) weight <- rep(1/N, N)
   if(is.null(hh.size)) hh.size <- rep(1, N)
 
   #--- Step 0 ---#
@@ -105,10 +119,13 @@ fm_ZBM <- function(monetary, hh.size, weight, breakdown, k){
 
     states.split <- split(data.frame(step2_3.mat, hh.size, weight), breakdown)
     Q <- t(sapply(states.split, function(Z) apply(Z[,1:k], 2, function(z) weighted.mean(x = z*Z[["hh.size"]], w = Z[["weight"]]))))
-
+    colnames(Q) = c(1:k)
+    P <- apply(Q, 1, Fuzzy_conv)
   } else {
-        Q <- apply(step2_3.mat, 2, function(y) weighted.mean(x = y*hh.size, w = weight)) # change with sampling version if needed
+        Q <- apply(step2_3.mat, 2, function(y) weighted.mean(x = y*hh.size, w = weight))
+        P <- Fuzzy_conv(Q)
   }
-  return(list(estimate = Q, Membership = MGM))
+  return(list( mu = MGM, estimate = Q, P = P ))
 }
+
 

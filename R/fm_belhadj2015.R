@@ -89,11 +89,13 @@ z_fun <- function(x, z1, z2, b){
 fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight){
   # uniroot(ddx_ub2, z2, b, interval = c(0, 100))
   z <- uniroot(z_fun, z1, z2, b, interval = c(z1, z2), extendInt = "yes")$root
-  u <- belhadj2015(x, z1, z2, z, b)
+  mu <- belhadj2015(x, z1, z2, z, b)
   if(!is.null(breakdown)) {
-    u <- tapply( (u*weight)/sum(weight), INDEX = breakdown, mean)
+    estimate <- tapply( (u*weight)/sum(weight), INDEX = breakdown, mean)
+  } else {
+    estimate <- weighted.mean(x = mu, w = weight)
   }
-  return(list(estimate = u, z_star = z))
+  return(list(mu = mu, estimate = estimate, z_star = z))
 }
 
 

@@ -43,12 +43,13 @@ fm_construct <- function(monetary, weight, fm = "verma", ID = NULL,
                          z1, z2, b,
                          z,
                          breakdown = NULL){ # cambiare ordine dei parametri
-
+  N <- length(monetary)
+  if(is.null(weight)) weight <- rep(N, N)
   switch(fm,
          verma = {res <- fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown)},
          ZBM = {res <- fm_ZBM(monetary, hh.size, weight, breakdown, k)},
          belhadj = {res <- fm_belhadj2015(monetary, z1, z2, b, breakdown, weight)},
-         chakravarty = {res <- fm_Chakravarty(monetary, z, breakdown)})
+         chakravarty = {res <- fm_Chakravarty(monetary, z, weight, breakdown)})
   return(res)
 
 }

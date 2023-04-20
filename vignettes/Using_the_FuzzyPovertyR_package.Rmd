@@ -102,7 +102,8 @@ The following code outputs a fuzzy index using the membership function specifica
 
 ```{r}
 z1 = 1500; z2 = 2000; b = 4
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = z1, z2 = z2, b = b) # use id to return ordered as verma
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = z1, z2 = z2, b = b) # use id to return ordered as verma?
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = z1, z2 = z2, b = b, breakdown = eusilc$db040) # use id to return ordered as verma?
 ```
 
 ### Chakravarty
@@ -237,12 +238,18 @@ hh.size <- rep(1, 1000)
   Jackknife.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "jackknife", hh.size = hh.size, stratum = eusilc$stratum, psu = eusilc$psu)$estimate
 cbind(Bootstrap.zbm, Jackknife.zbm)
 ```
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = NULL, type = "bootstrap", z1 = z1, z2 = z2, b = b)
+```
 
 ```{r}
 z1 = 1000; z2 = 2000; b = 2
 cbind(
   Bootstrap = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = z1, z2 = z2, b = b), 
   Jackknife = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = z1, z2 = z2, b = b, stratum = eusilc$stratum, psu = eusilc$psu)$estimate)
+```
+```{r}
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = NULL, type = "bootstrap", z = 2000)
 ```
 
 ```{r}
