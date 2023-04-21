@@ -134,6 +134,11 @@ verma.break$estimate
 
 -   The `alpha` parameter.
 
+    ```{r}
+    alpha = verma$alpha
+    alpha
+    ```
+
 ### ZBM
 
 The computation of the fuzzy index using the @zedini2015new membership function needs `fm = "ZBM"`. Note that in this cases you need to specify an additional argument `hh.size` which is the size of the household and an argument `k` denoting the number of poverty states that you want to investigate (see @zedini2015new for further details) . Leaving the `hh.size` argument empty is equivalent to say the household size for each unit is equal to 1. The default for `k` is `k=3` which corresponds to belonging to the states Weak deprivation, Medium Deprivation and Strong deprivation.
