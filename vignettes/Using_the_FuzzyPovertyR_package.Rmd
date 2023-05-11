@@ -63,7 +63,7 @@ $$
 -   `fm="belhadj"` (see @besma2015employment)
 
     $$
-        \mu_Q(x_i) = \begin{cases}        1    & y_i < z_1\\        \mu^1 = 1-\frac{1}{2}\left(\frac{y_i-z_1}{z_1}\right)^b	& z_1 \le y_i < z^{*}\\        \mu^2 = 1-\frac{1}{2}\left(\frac{z_2 - y_i}{z_2}\right)^b   & z^{*} \le y_i < z_2\\        0  	& y_i \ge z_2    \end{cases}
+        \mu_Q(x_i) = \begin{cases}        1    & y_i < z_1\\        \mu^1 = 1-\frac{1}{2}\left(\frac{y_i-z_1}{z_1}\right)^b & z_1 \le y_i < z^{*}\\        \mu^2 = 1-\frac{1}{2}\left(\frac{z_2 - y_i}{z_2}\right)^b   & z^{*} \le y_i < z_2\\        0     & y_i \ge z_2    \end{cases}
     $$
 
 $$
@@ -170,7 +170,7 @@ The value `z` that correspond to the flex points of the mf or to the point where
 The parameter `b` (\>=1) rules the shape of the membership functions (set `b=1` for linearity)
 
 ```{r}
-z1 = 1500; z2 = 2000; b = 4
+z1 = 500; z2 = 1700; b = 2
 belhadj = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", z1 = z1, z2 = z2, b = b) # use id to return ordered as verma?
 ```
 

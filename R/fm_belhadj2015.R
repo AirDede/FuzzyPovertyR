@@ -91,7 +91,8 @@ fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight){
   z <- uniroot(z_fun, z1, z2, b, interval = c(z1, z2), extendInt = "yes")$root
   mu <- belhadj2015(x, z1, z2, z, b)
   if(!is.null(breakdown)) {
-    estimate <- tapply( (mu*weight)/sum(weight), INDEX = breakdown, mean)
+    # estimate <- tapply( (mu*weight)/sum(weight), INDEX = breakdown, mean)
+    estimate <- sapply(split(data.frame(mu, weight), f = breakdown), function(X) weighted.mean(X[["mu"]], w = X[["weight"]]))
   } else {
     estimate <- weighted.mean(x = mu, w = weight)
   }
