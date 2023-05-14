@@ -3,7 +3,7 @@ title: "FuzzyPovertyR"
 output: rmarkdown::html_vignette
 bibliography: bib.bib
 vignette: >
-  %\VignetteIndexEntry{Using_the_FuzzyPovertyR_package}
+  %\VignetteIndexEntry{FuzzyPovertyR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
