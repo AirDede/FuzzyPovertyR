@@ -49,7 +49,8 @@ fm_construct <- function(monetary, weight, fm = "verma", ID = NULL,
          verma = {res <- fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown)},
          ZBM = {res <- fm_ZBM(monetary, hh.size, weight, breakdown, k)},
          belhadj = {res <- fm_belhadj2015(monetary, z1, z2, b, breakdown, weight)},
-         chakravarty = {res <- fm_Chakravarty(monetary, z, weight, breakdown)})
+         chakravarty = {res <- fm_Chakravarty(monetary, z, weight, breakdown)},
+         cerioli = {res <- fm_cerioli(monetary, z1, z2, weight, breakdown)})
   return(res)
 
 }
