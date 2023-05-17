@@ -8,9 +8,11 @@
 #' @return The value of the objective function
 #'
 #' @examples
-fm_objective <- function(monetary.ord, weight.ord, alpha, HCR){
-
-  FM <- fm_mu(monetary.ord, weight.ord, alpha)
+fm_objective <- function(monetary.ord, weight.ord, alpha, HCR, fm){
+  switch(fm,
+         verma = {FM <- fm_mu(monetary.ord, weight.ord, alpha)},
+         verma2 = {FM <- fm_mu2(monetary.ord, weight.ord, alpha)},
+         TFR = {FM <- fm_mu_TFR(monetary.ord, weight.ord, alpha)})
   print(paste0('trying with alpha: ', round(alpha, 3) , ' Expected Value: ', round(weighted.mean(x = FM, w = weight.ord), 3)))
   return( weighted.mean(x = FM, w = weight.ord) - HCR )
 }

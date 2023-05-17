@@ -19,8 +19,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(FuzzyPovertyR)
 rm(list = ls())
+library(FuzzyPovertyR)
 ```
 
 ## Introduction
@@ -39,7 +39,7 @@ data(eusilc)
 
 The package lets the user choose among different membership functions trough the argument `fm` of the `fm_construct` function. The membership function available are
 
--   `fm="verma"` (see @betti2008fuzzy)
+- `fm="verma"` (see @betti2008fuzzy)
 
 $$
 \begin{split}
@@ -105,7 +105,8 @@ if needed, the package has a built-in function `eq_income` to calculate the equi
 3.  Construction of the Fuzzy Monetary measure.
 
 ```{r}
-verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL)
+verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "verma2") # opposite sign don't match say something in vignette
+verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "TFR")
 ```
 
 When `alpha = NULL` (the default) this function solves a non-linear equation finding the value $\alpha$ in `interval` that equates the expected value of the poverty measure to the Head Count Ratio calculated above (see #eq-betti2006). This can be avoided by specifying a numeric value of $\alpha$.
@@ -195,6 +196,12 @@ chakravarty.break = fm_construct(monetary = eusilc$red_eq, eusilc$DB090, fm = "c
 
 ```{r}
 knitr::kable(data.frame(verma.break$estimate, belhadj.break$estimate, chakravarty.break$estimate), col.names = c("Verma", "Belhadj", "Chakravarty"), digits = 4)
+```
+
+### Verma2
+
+```{r}
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "verma")
 ```
 
 ------------------------------------------------------------------------

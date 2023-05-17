@@ -12,7 +12,7 @@
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param HCR The value of the head count ratio (this is not used in the case that alpha is supplied by the user).
 #' @param interval A numeric vector of length two to look for the value of alpha (if not supplied).
-#' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
+#' @param alpha The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
 #'
 #' @return
@@ -25,7 +25,6 @@
 #' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
 #' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
 #'
-#' @export
 fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown){ # cambiare ordine dei parametri
 
   N <- length(monetary)
@@ -42,7 +41,8 @@ fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown){ # c
                      interval = interval,
                      monetary.ord = monetary.ord,
                      weight.ord = weight.ord,
-                     HCR = HCR)$root
+                     HCR = HCR,
+                     fm = "verma")$root
     cat('Done.\n')
   }
 

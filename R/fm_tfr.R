@@ -16,18 +16,21 @@
 #'
 #' @examples
 #'
-fm_TFR=function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
+fm_TFR = function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
   N <- length(monetary)
-  if (is.null(ID))
-    ID <- seq_len(N)
+  if (is.null(ID)) ID <- seq_len(N)
   fm_data <- data.frame(ID = ID, monetary = monetary, weight = weight) %>%
     arrange(monetary)
   monetary.ord <- fm_data[["monetary"]]
   weight.ord <- fm_data[["weight"]]
   if (is.null(alpha)) {
     cat("Solving non linear equation: E[u] = HCR\n")
-    alpha <- uniroot(fm_objective, interval = interval, monetary.ord = monetary.ord,
-                     weight.ord = weight.ord, HCR = HCR)$root
+    alpha <- uniroot(fm_objective,
+                     interval = interval,
+                     monetary.ord = monetary.ord,
+                     weight.ord = weight.ord,
+                     HCR = HCR,
+                     fm = "TFR")$root
     cat("Done.\n")
   }
   fm_data$mu <- fm_mu_TFR(monetary.ord, weight.ord, alpha)
@@ -42,7 +45,7 @@ fm_TFR=function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
 }
 
 
-fm_mu_TFR=function (monetary.ord, weight.ord, alpha) {
+fm_mu_TFR = function (monetary.ord, weight.ord, alpha) {
   N = length(monetary.ord)
   tot1 = sum(monetary.ord[2:N])
   F <- rep(0, N)
