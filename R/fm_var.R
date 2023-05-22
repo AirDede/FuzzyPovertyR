@@ -95,12 +95,12 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
          },
          jackknife = {
            tab <- data.frame(table(stratum, psu))
-           a <- rowSums(with(tab, table(stratum, psu)))
+           a <- tapply(tab$Freq, tab$stratum, sum)
            if(any(a<2)) stop("There should be at least 2 PSUs in each stratum")
            strata <- unique(stratum)
            H <- length(strata) # can be also a character string then
            w_jh <- tapply(weight, list(stratum, psu), sum, na.rm = T) # sum of the weights inside the strata
-           w_h <- rowSums(w_jh) # sum of the weights inside the strata
+           w_h <- rowSums(w_jh, na.rm = T) # sum of the weights inside the strata
            z_h <- vector(mode = 'list', length = H)
            var_h <- rep(0, H)
            if(!is.null(breakdown)) {
