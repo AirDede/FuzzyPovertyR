@@ -9,34 +9,34 @@
 #' @return The item rescaled according to Betti et. al 2018.
 #'
 #' @examples
-#' 
-#' @references 
+#'
+#' @references
 #' #' Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
 
 fuzzyScaleItem = function(item, weight, ID, ...){
   ordered_item = factor(item, ordered = T)
-  
+
   weight_sum = sum(weight)
-  
+
   # compute weights
   outW <- data.frame(ID = 1:length(ordered_item), # ID riga
-                     ordered_item, 
-                     weight = weight) %>% 
-    dplyr::arrange(ordered_item) %>% 
-    dplyr::group_by(ordered_item) %>% 
+                     ordered_item,
+                     weight = weight) %>%
+    dplyr::arrange(ordered_item) %>%
+    dplyr::group_by(ordered_item) %>%
     dplyr::mutate(f = sum(weight)/weight_sum) # per ogni livello di item sommo i pesi e divido per la somma dei pesi
-  
+
   tmp <- unique(data.frame(ordered_item = outW$ordered_item,
                            f = outW$f))
-  
-  tmp <- data.frame(tmp, F_cum = cumsum(tmp$f)) 
-  
+
+  tmp <- data.frame(tmp, F_cum = cumsum(tmp$f))
+
   # join weights with individual information
-  outW2 = outW %>% 
+  outW2 = outW %>%
     dplyr::inner_join(tmp %>% select(ordered_item, F_cum), by = c("ordered_item" = "ordered_item")) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(d = (1 - F_cum) / (1 - min(F_cum)), 
-                  s = 1 - d,
+    dplyr::mutate(s = (1 - F_cum) / (1 - min(F_cum)), # changed to ensure comparability with betti due to R factor coding
+                  d = 1 - s,
                   Item = item) %>%
     # filter(item != Weight) %>% # PERCHé QUESTO PASSAGGIO?
     dplyr::arrange(ID) %>% dplyr::select(ID,
@@ -44,7 +44,7 @@ fuzzyScaleItem = function(item, weight, ID, ...){
                                          Item_level = ordered_item,
                                          F_cum, # POSSO ANCHE OMETTERE
                                          d,s )
-  
+
   return(outW2)
-  
+
 }

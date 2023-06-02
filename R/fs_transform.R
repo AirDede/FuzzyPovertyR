@@ -29,12 +29,12 @@
 #'
 #' Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
 #'
-fs_transform = function(data, weight = NULL, ID = NULL, ...) {
+fs_transform = function(data, weight = NULL, ID = NULL, depr.score = "s", ...) {
   N <- nrow(data)
   if(is.null(ID)) ID <- seq_len(N)
   if(is.null(weight)) weight <- rep(N,N)
   deprivation_scores <- apply(data, 2, fuzzyScaleItem, weight, ID)
-  transformed_items <- data.frame( ID, do.call(cbind, lapply(deprivation_scores, function(x) x[['s']]) ), row.names = ID )
+  transformed_items <- data.frame( ID, do.call(cbind, lapply(deprivation_scores, function(x) x[[depr.score]]) ), row.names = ID )
   return(transformed_items)
 
 }
