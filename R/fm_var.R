@@ -15,7 +15,7 @@
 #' @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
 #' @param HCR If fm="verma". The value of the head count ratio.
 #' @param interval If fm="verma". A numeric vector of length two to look for the value of alpha (if not supplied).
-#' @param alpha If fm="verma". The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
+#' @param alpha If fm="verma". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param hh.size If fm="ZBM". A numeric vector of household size.
 #' @param k If fm="ZBM". The number of change points locations to estimate.
 #' @param z1 If fm="belhadj".
@@ -112,7 +112,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
            for(h in 1:H){
              if(verbose == T) cat('doing for stratum',h,'of',H,'\n')
              stratum_h <- strata[h]
-             psu_h <- tab$psu[tab$stratum==stratum_h] # psu-s in statum h
+             psu_h <- tab$psu[tab$stratum==stratum_h & tab$Freq > 0] # psu-s in statum h
              a_h <- length(psu_h)
              z_hi <- g_hi <- rep(0, a_h)
              if(!is.null(breakdown)) z_hi <- vector(mode = 'list', length = a_h)
@@ -132,12 +132,12 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
 
                if(!is.null(breakdown)){
                  if(fm=="ZBM") {
-                   z_hi[,,i] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z, breakdown[delete.idx])$estimate
+                   z_hi[,,i] <- fm_construct(monetary[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z, breakdown[delete.idx])$estimate
                  } else{
-                   z_hi[[i]] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z, breakdown[delete.idx])$estimate
+                   z_hi[[i]] <- fm_construct(monetary[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z, breakdown[delete.idx])$estimate
                  }
                } else {
-                 z_hi[i] <- fm_construct(monetary[delete.idx], weight[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z)$estimate
+                 z_hi[i] <- fm_construct(monetary[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z)$estimate
                }
              }
 
@@ -161,12 +161,12 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
 
            if(!is.null(breakdown)) {
              if(fm=="ZBM"){
-               var.hat <- list(estimate = apply(var_h, 2:3, sum))
+               var.hat <- list(estimate = apply(var_h, 2:3, sum, na.rm = T))
              } else {
-             var.hat <- list(estimate = apply(var_h, 2, sum) )
+             var.hat <- list(estimate = apply(var_h, 2, sum, na.rm = T) )
              }
            } else {
-             var.hat <- list(estimate = sum(var_h))
+             var.hat <- list(estimate = sum(var_h, na.rm = T))
 
            }
          })

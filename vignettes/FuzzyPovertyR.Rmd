@@ -240,6 +240,7 @@ In this step the items are mapped from their original space to the $[0,1]$ inter
 
 ```{r}
 step2 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID)
+step2.1 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID, depr.score = "d") %>% round(6)
 ```
 
 which outputs
