@@ -100,7 +100,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR, breakdown = 
                w[case2.idx] <- (weight*g_hi[i])[case2.idx]
                ID.jack <- ID[delete.idx]
                data.jack <- data[delete.idx,]
-               weight.jack <- weight[delete.idx]
+               weight.jack <- w[delete.idx]
                step2.jack <- fs_transform(data.jack, weight.jack, ID = NULL)
                step3.jack <- fs_weight(dimensions, step2.jack, rho)
                if(!is.null(breakdown)){
