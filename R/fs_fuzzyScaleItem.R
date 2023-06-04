@@ -43,7 +43,7 @@ fuzzyScaleItem = function(item, weight, ID, ...){
                                          Item,
                                          Item_level = ordered_item,
                                          F_cum, # POSSO ANCHE OMETTERE
-                                         d,s )
+                                         d,s ) %>% round(5)
 
   return(outW2)
 

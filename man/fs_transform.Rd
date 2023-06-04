@@ -4,7 +4,7 @@
 \alias{fs_transform}
 \title{Fuzzy supplementary poverty estimation}
 \usage{
-fs_transform(data, weight = NULL, ID = NULL, ...)
+fs_transform(data, weight = NULL, ID = NULL, depr.score = "s", ...)
 }
 \arguments{
 \item{data}{A matrix or a data frame of identified items (see Step 1 of Betti et. al, 2018)}

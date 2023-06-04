@@ -4,7 +4,7 @@
 \alias{fm_objective}
 \title{Fuzzy monetary poverty estimation.}
 \usage{
-fm_objective(monetary.ord, weight.ord, alpha, HCR)
+fm_objective(monetary.ord, weight.ord, alpha, HCR, fm)
 }
 \arguments{
 \item{monetary.ord}{A sorted vector of a monetary variable (in ascending order).}

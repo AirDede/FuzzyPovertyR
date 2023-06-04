@@ -55,7 +55,7 @@ fm_var(
 
 \item{interval}{If fm="verma". A numeric vector of length two to look for the value of alpha (if not supplied).}
 
-\item{alpha}{If fm="verma". The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
+\item{alpha}{If fm="verma". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
 
 \item{hh.size}{If fm="ZBM". A numeric vector of household size.}
 

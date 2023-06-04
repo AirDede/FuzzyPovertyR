@@ -26,11 +26,13 @@
 #' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
 #'
 fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown){ # cambiare ordine dei parametri
-
   N <- length(monetary)
   if(is.null(ID)) ID <- seq_len(N)
-  fm_data <-  data.frame(ID = ID, monetary = monetary, weight = weight) %>% arrange(monetary)
-
+  if(!is.null(breakdown)) {
+    fm_data <-  data.frame(ID = ID, monetary = monetary, weight = weight, breakdown = breakdown) %>% arrange(monetary)
+  } else {
+    fm_data <-  data.frame(ID = ID, monetary = monetary, weight = weight) %>% arrange(monetary)
+  }
 
   monetary.ord <- fm_data[['monetary']]
   weight.ord <- fm_data[['weight']] # actually ordered according to monetary
@@ -51,8 +53,8 @@ fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown){ # c
 
   if(!is.null(breakdown)){
 
-    fm_data <- split(fm_data, breakdown)
-    estimate <- sapply(fm_data, function(x) weighted.mean(x$mu, x$weight))
+    fm_data.list <- split(fm_data, f = ~ breakdown)
+    estimate <- sapply(fm_data.list, function(x) weighted.mean(x$mu, x$weight))
 
     # fa funzioni di appartenenza per ogni breakdown. per altro paper ;T
 
