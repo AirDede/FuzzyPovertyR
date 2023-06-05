@@ -23,7 +23,7 @@
 #' fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
 #' fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
 
-fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
+fs_construct <- function(steps4_5, weight, alpha, breakdown){
 
   J <- max(steps4_5$Factor)
 
@@ -32,6 +32,7 @@ fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
   names(res.list) <- headers
 
   FS.data <- unique(steps4_5[,c('ID','s_i')])
+  if(!is.null(breakdown)) FS.data <- data.frame(unique(steps4_5[,c('ID','s_i')]), breakdown)
   FS.data$weight <- weight # potrebbe essere meglio averla dallo step prima? altrimenti devo aggiungere di nuovo l'opzione in caso uno il peso non ce l'abbia. si il peso se non c'è lo attribuisco prima e me lo porto dietro sempre
 
   s <- FS.data[['s_i']]
@@ -46,6 +47,7 @@ fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
 
   for(j in 1:J){
     FS.data <- unique(steps4_5[steps4_5$Factor==j, c('ID','s_hi')])
+    if(!is.null(breakdown)) FS.data <- data.frame(unique(steps4_5[steps4_5$Factor==j, c('ID','s_hi')]), breakdown)
     FS.data$weight <- weight # potrebbe essere meglio averla dallo step prima? altrimenti devo aggiungere di nuovo l'opzione in caso uno il peso non ce l'abbia
 
     s <- FS.data[['s_hi']]
@@ -62,7 +64,7 @@ fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
 
   if(!is.null(breakdown)){
     P <- length(unique(breakdown))
-    estimate <- sapply(1:(J+1), function(j) sapply(split(res.list[[j]], breakdown), function(x) weighted.mean(x$mu, x$weight)))
+    estimate <- sapply(1:(J+1), function(j) sapply(split(res.list[[j]], f = ~ res.list[[j]]$breakdown), function(x) weighted.mean(x$mu, x$weight)))
     colnames(estimate) <- headers
   }
 

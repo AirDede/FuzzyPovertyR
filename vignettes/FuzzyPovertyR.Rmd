@@ -299,9 +299,9 @@ FS$membership$FS1
 
 -   `estimate` the average of the membership function for each dimension
 
-    ```{r}
+```{r}
     FS$estimate
-    ```
+```
 
 -   `alpha` the parameter $\alpha$ estimated from data.
 
