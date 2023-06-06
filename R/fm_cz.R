@@ -21,7 +21,7 @@ fm_cerioli<- function (x, z1, z2, weight, breakdown) {
   y[z1 <= x & x < z2] <- (z2 - x[z1 <= x & x < z2])/(z2-z1)
   y[x >= z2] <- 0
   if (!is.null(breakdown)) {
-    estimate <- sapply(split(data.frame(y, weight), f = breakdown),
+    estimate <- sapply(split(data.frame(y, weight, breakdown), f = ~ breakdown),
                        function(X) weighted.mean(X[["y"]], w = X[["weight"]]))
   }
   else {
