@@ -105,7 +105,7 @@ if needed, the package has a built-in function `eq_income` to calculate the equi
 3.  Construction of the Fuzzy Monetary measure.
 
 ```{r}
-verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "verma2") # opposite sign don't match say something in vignette
+# verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "verma2") # opposite sign don't match say something in vignette
 verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "TFR")
 ```
 

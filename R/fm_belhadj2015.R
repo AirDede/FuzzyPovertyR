@@ -92,7 +92,7 @@ fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight){
   mu <- belhadj2015(x, z1, z2, z, b)
   if(!is.null(breakdown)) {
     # estimate <- tapply( (mu*weight)/sum(weight), INDEX = breakdown, mean)
-    estimate <- sapply(split(data.frame(mu, weight), f = breakdown), function(X) weighted.mean(X[["mu"]], w = X[["weight"]]))
+    estimate <- sapply(split(data.frame(mu, weight, breakdown), f = ~ breakdown), function(X) weighted.mean(X[["mu"]], w = X[["weight"]]))
   } else {
     estimate <- weighted.mean(x = mu, w = weight)
   }
