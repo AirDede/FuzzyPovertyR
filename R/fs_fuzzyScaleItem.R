@@ -34,7 +34,7 @@ fuzzyScaleItem = function(item, weight, ID, ...){
   outW2 = outW %>%
     dplyr::inner_join(tmp %>% select(ordered_item, F_cum), by = c("ordered_item" = "ordered_item")) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(s = (1 - F_cum) / (1 - min(F_cum)), # changed to ensure comparability with betti due to R factor coding
+    dplyr::mutate(s = round((1 - F_cum) / (1 - min(F_cum)),5), # changed to ensure comparability with betti due to R factor coding
                   d = 1 - s,
                   Item = item) %>%
     # filter(item != Weight) %>% # PERCHé QUESTO PASSAGGIO?
@@ -42,7 +42,7 @@ fuzzyScaleItem = function(item, weight, ID, ...){
                                          Item,
                                          Item_level = ordered_item,
                                          F_cum, # POSSO ANCHE OMETTERE
-                                         d,s ) %>% round(5)
+                                         d,s )
 
   return(outW2)
 

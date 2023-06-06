@@ -231,6 +231,7 @@ This step is pretty simple. The user has to select the columns of the data that 
 Step 1 is done with the following selection
 
 ```{r}
+# eusilc = na.omit(eusilc)
 step1 = eusilc[,4:23]
 ```
 
@@ -240,7 +241,7 @@ In this step the items are mapped from their original space to the $[0,1]$ inter
 
 ```{r}
 step2 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID)
-step2.1 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID, depr.score = "d") %>% round(6)
+# step2.1 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID, depr.score = "d")
 ```
 
 which outputs
