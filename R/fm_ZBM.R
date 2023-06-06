@@ -117,7 +117,7 @@ fm_ZBM <- function(monetary, hh.size, weight, breakdown, k){
 
   if(!is.null(breakdown)) {
 
-    states.split <- split(data.frame(step2_3.mat, hh.size, weight), breakdown)
+    states.split <- split(data.frame(step2_3.mat, hh.size, weight, breakdown), f= ~ breakdown)
     Q <- t(sapply(states.split, function(Z) apply(Z[,1:k], 2, function(z) weighted.mean(x = z*Z[["hh.size"]], w = Z[["weight"]]))))
     colnames(Q) = c(1:k)
     P <- apply(Q, 1, Fuzzy_conv)
