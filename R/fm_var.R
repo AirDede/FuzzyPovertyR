@@ -80,9 +80,9 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
            }, simplify = "array")
            if(!is.null(breakdown)){
                if (fm=="ZBM") {
-               var.hat <- apply(BootDistr, 1:2, var) # verificare che sia corretta
+               var.hat <- apply(BootDistr, 1:2, var, na.rm = TRUE)
                } else {
-               var.hat <- apply(BootDistr, 1, var)
+               var.hat <- apply(BootDistr, 1, var, na.rm = TRUE)
              }
 
            } else {

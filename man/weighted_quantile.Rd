@@ -19,3 +19,11 @@ a weighted quantile
 \description{
 This function calculates a weighted quantile
 }
+\examples{
+
+N <- 100
+p <- 0.5
+x <- rchisq(N, 15) # monetary variable
+w <- rep(1/N, N) # sampling weights
+weighted.quantile(x,w,p=0.5)
+}

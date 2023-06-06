@@ -7,7 +7,7 @@
 #' @param p the order of quantile
 #'
 #' @return a weighted quantile
-#' @example
+#' @examples
 #'
 #' N <- 100
 #' p <- 0.5

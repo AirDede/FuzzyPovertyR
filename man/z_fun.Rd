@@ -15,6 +15,9 @@ z_fun(x, z1, z2, b)
 
 \item{b}{Parameter}
 }
+\value{
+the difference between memberhip functions
+}
 \description{
 Fuzzy monetary poverty estimation
 }

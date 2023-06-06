@@ -21,6 +21,9 @@ fm_TFR(monetary, weight, ID, HCR, interval, alpha, breakdown)
 
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
 }
+\value{
+The membership function of the Total Fuzzy and Relative indicator.
+}
 \description{
 constructs fuzzy monetary poverty estimates.
 }

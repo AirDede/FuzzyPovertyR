@@ -8,10 +8,9 @@
 #'
 #' @return The weight obtained for item j in dimension h as of Formula 12 of Betti and Verma 2008.
 #'
-#' @examples
-#' @references 
+#' @references
 #' Betti, G., & Verma, V. (2008). Fuzzy measures of the incidence of relative poverty and deprivation: a multi-dimensional perspective. Statistical Methods and Applications, 17(2), 225-250.
-#' 
+#'
 wb.jh <- function(j, step2, dimensions, rho, ...){
   col_sel <- (dimensions==j)
   X <- step2[,col_sel]
@@ -21,6 +20,6 @@ wb.jh <- function(j, step2, dimensions, rho, ...){
   wb_jh.denom.first <- apply(cor.mat.h, 2, function(x) 1/(1 + sum( x[x < rho], na.rm = T )) ) # remove na for NA in cor matrix
   wb_jh.denom.sec <- apply(cor.mat.h, 2, function(x) 1/sum(x[x > rho], na.rm = T ) ) # remove na for NA in cor matrix
   wb_jh <- (wb_jh.denom.first*wb_jh.denom.sec) # returns the weights for items j_1, j_2,..., j_h in the h dimension.
-  
+
   return(wb_jh)
 }

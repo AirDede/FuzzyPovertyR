@@ -6,7 +6,7 @@
 #'
 #' @description Calculates the weights of dimensions discovered after factor analysis.
 #'
-#' @details
+#' @details This function calculates the two set of weights w_a and w_b (see References)
 #'
 #' @param dimensions A numeric vector (of length  `ncol(data)`) of assignments of items in data to dimensions.
 #' @param step2 The data frame resulting from step2.
@@ -15,9 +15,11 @@
 #' @return A data frame of weights and deprivation scores in each dimension identified.
 #' @export
 #'
-#' @example
+#' @examples
 #' dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
 #' steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
+#' @references
+#' Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
 
 fs_weight <- function(dimensions, step2, rho = NULL){
 

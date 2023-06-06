@@ -7,7 +7,6 @@
 #'
 #' @return The value of the objective function
 #'
-#' @examples
 fm_objective <- function(monetary.ord, weight.ord, alpha, HCR, fm){
   switch(fm,
          verma = {FM <- fm_mu(monetary.ord, weight.ord, alpha)},

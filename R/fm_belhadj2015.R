@@ -8,7 +8,7 @@
 #'
 #' @return The fuzzy membership function as of Belhadj (2015).
 #'
-#' @examples
+#'
 belhadj2015 <- function(x, z1, z2, z, b){
   y <- x
   y[x<z1] <- 1
@@ -24,10 +24,8 @@ belhadj2015 <- function(x, z1, z2, z, b){
 #' @param z1 Parameter
 #' @param b Parameter
 #'
-#' @return
-#' @export
+#' @return returns one of the two memebership functions as of Belhadj (2015).
 #'
-#' @examples
 ub1 <- function(x, z1, b){
   return( 1-0.5*((x-z1)/z1)^b)
 }
@@ -38,9 +36,7 @@ ub1 <- function(x, z1, b){
 #' @param z2 Parameter
 #' @param b Parameter
 #'
-#' @return
-#'
-#' @examples
+#' @return returns one of the two memebership functions as of Belhadj (2015).
 #'
 ub2 <- function(x, z2, b){
   return( 0.5*((z2-x)/z2)^b )
@@ -57,9 +53,7 @@ ub2 <- function(x, z2, b){
 #' @param z2 Parameter
 #' @param b Parameter
 #'
-#' @export
-#'
-#' @examples
+#' @return the difference between memberhip functions
 #'
 z_fun <- function(x, z1, z2, b){
   return( ub1(x, z1, b) - ub2(x, z2, b))

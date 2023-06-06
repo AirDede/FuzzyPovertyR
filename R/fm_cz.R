@@ -9,10 +9,8 @@
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param breakdown A factor of sub-domains to calculate estimates for.
 #'
-#' @return
-#' a list containing the membership function values and its expected value
+#' @return a list containing the membership function values and its expected value
 #'
-#' @examples
 #'
 fm_cerioli<- function (x, z1, z2, weight, breakdown) {
   N <- length(x)

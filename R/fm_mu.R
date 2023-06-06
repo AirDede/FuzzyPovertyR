@@ -8,7 +8,6 @@
 #'
 #' @return A numeric vector containing the estimated membership function.
 #'
-#' @examples
 fm_mu <- function(monetary.ord, weight.ord, alpha){
 
   N = length(monetary.ord)

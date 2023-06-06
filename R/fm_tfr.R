@@ -11,11 +11,9 @@
 #' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
 #'
-#' @return
+#' @return The membership function of the Total Fuzzy and Relative indicator.
 #'
-#'
-#' @examples
-#'
+
 fm_TFR = function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
   N <- length(monetary)
   if (is.null(ID)) ID <- seq_len(N)
@@ -40,8 +38,7 @@ fm_TFR = function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
   estimate <- weighted.mean(fm_data$mu, fm_data$weight)
   if (!is.null(breakdown)) {
     fm_data <- split(data.frame(fm_data), f = ~ fm_data$breakdown)
-    estimate <- sapply(fm_data, function(x) weighted.mean(x$mu,
-                                                          x$weight))
+    estimate <- sapply(fm_data, function(x) weighted.mean(x$mu, x$weight))
   }
   out <- list(results = fm_data, estimate = estimate, alpha = alpha)
   return(out)

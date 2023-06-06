@@ -8,7 +8,6 @@
 #'
 #' @return The item rescaled according to Betti et. al 2018.
 #'
-#' @examples
 #'
 #' @references
 #' #' Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
