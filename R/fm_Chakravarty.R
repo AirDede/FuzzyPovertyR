@@ -22,7 +22,7 @@ fm_Chakravarty <- function(x, z, weight, breakdown){
   y[x>=z] <- 0
 
   if(!is.null(breakdown)){
-  estimate <- sapply(split(data.frame(y, weight), f = breakdown), function(X) weighted.mean(X[["y"]], w = X[["weight"]]))
+  estimate <- sapply(split(data.frame(y, weight, breakdown), f = ~ breakdown), function(X) weighted.mean(X[["y"]], w = X[["weight"]]))
   } else {
     estimate <- weighted.mean(x = y, w = weight)
   }
