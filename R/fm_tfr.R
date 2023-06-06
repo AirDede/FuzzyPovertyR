@@ -19,11 +19,14 @@
 fm_TFR = function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
   N <- length(monetary)
   if (is.null(ID)) ID <- seq_len(N)
-  fm_data <- data.frame(ID = ID, monetary = monetary, weight = weight) %>%
-    arrange(monetary)
+  fm_data <- data.frame(ID = ID, monetary = monetary, weight = weight)
+  if(!is.null(breakdown)) fm_data <- data.frame(fm_data, breakdown = breakdown)
+
+  fm_data <- fm_data %>% dplyr::arrange(monetary)
+
   monetary.ord <- fm_data[["monetary"]]
   weight.ord <- fm_data[["weight"]]
-  if (is.null(alpha)) {
+  if(is.null(alpha)) {
     cat("Solving non linear equation: E[u] = HCR\n")
     alpha <- uniroot(fm_objective,
                      interval = interval,
@@ -36,7 +39,7 @@ fm_TFR = function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
   fm_data$mu <- fm_mu_TFR(monetary.ord, weight.ord, alpha)
   estimate <- weighted.mean(fm_data$mu, fm_data$weight)
   if (!is.null(breakdown)) {
-    fm_data <- split(fm_data, breakdown)
+    fm_data <- split(data.frame(fm_data), f = ~ fm_data$breakdown)
     estimate <- sapply(fm_data, function(x) weighted.mean(x$mu,
                                                           x$weight))
   }
