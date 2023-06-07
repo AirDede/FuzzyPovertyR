@@ -288,6 +288,7 @@ alpha = fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interva
 
 ```{r}
 FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+FS
 ```
 
 The output of the `fs_construct` function is a list containing:

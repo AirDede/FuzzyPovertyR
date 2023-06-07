@@ -23,7 +23,7 @@
 #' fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
 #' fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
 
-fs_construct <- function(steps4_5, weight, alpha, breakdown){
+fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
 
   J <- max(steps4_5$Factor)
 
@@ -60,6 +60,7 @@ fs_construct <- function(steps4_5, weight, alpha, breakdown){
     res.list[[j]] <- FS.data.ord
 
   }
+
   estimate <- sapply(res.list, function(x) weighted.mean(x$mu, x$weight))
 
   if(!is.null(breakdown)){

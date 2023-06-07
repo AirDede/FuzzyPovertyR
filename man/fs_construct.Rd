@@ -4,7 +4,7 @@
 \alias{fs_construct}
 \title{Fuzzy supplementary poverty estimation.}
 \usage{
-fs_construct(steps4_5, weight, alpha, breakdown)
+fs_construct(steps4_5, weight, alpha, breakdown = NULL)
 }
 \arguments{
 \item{steps4_5}{The results from \code{fs_equate}.}

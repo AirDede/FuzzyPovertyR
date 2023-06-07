@@ -4,7 +4,7 @@
 \alias{fuzzyScaleItem}
 \title{Fuzzy supplementary poverty estimation}
 \usage{
-fuzzyScaleItem(item, weight, ID)
+fuzzyScaleItem(item, weight, ID, ...)
 }
 \arguments{
 \item{item}{A factor or numeric vector representing answers to an item (a column of data) that has to be rescaled. it will be converted to an ordered factor.}
