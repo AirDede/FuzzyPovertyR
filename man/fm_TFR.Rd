@@ -17,7 +17,7 @@ fm_TFR(monetary, weight, ID, HCR, interval, alpha, breakdown)
 
 \item{interval}{A numeric vector of length two to look for the value of alpha (if not supplied).}
 
-\item{alpha}{The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
+\item{alpha}{The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
 
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
 }

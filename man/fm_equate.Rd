@@ -7,11 +7,11 @@
 fm_equate(monetary.ord, weight.ord, interval)
 }
 \arguments{
-\item{s.ord.}{a sorted vector of deprivation scores.}
+\item{monetary.ord}{a sorted vector of a monetary variable}
 
-\item{w.ord}{a sorted vector of weights (in the same order of s.ord)}
+\item{weight.ord}{a sorted vector of weights (in the same order of monetary.ord)}
 
-\item{interval.}{The interval to look for the solution of the equation.}
+\item{interval}{The interval to look for the solution of the equation.}
 }
 \value{
 the obtained exponent alfa

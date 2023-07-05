@@ -18,6 +18,11 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r, echo=FALSE}
+library(dplyr)
+library(kableExtra)
+```
+
 ```{r setup}
 rm(list = ls())
 library(FuzzyPovertyR)
@@ -359,7 +364,7 @@ Jackknife.zbm = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZB
 ```
 
 ```{r echo=FALSE}
-kableExtra::kbl(data.frame(Bootstrap.zbm, Jackknife.zbm), digits = 4, col.names = rep(1:3,2)) %>% kableExtra::add_header_above(c(" ", "Bootstrap" = 3, "Jackknife" = 3))
+kbl(data.frame(Bootstrap.zbm, Jackknife.zbm), digits = 4, col.names = rep(1:3,2)) %>% kableExtra::add_header_above(c(" ", "Bootstrap" = 3, "Jackknife" = 3))
 ```
 
 ### Belhadj

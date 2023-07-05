@@ -13,6 +13,8 @@ fs_transform(data, weight = NULL, ID = NULL, depr.score = "s", ...)
 
 \item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 
+\item{depr.score}{The deprivation score to be used (see d or s in Betti et al (2018))}
+
 \item{...}{other parameters}
 }
 \value{

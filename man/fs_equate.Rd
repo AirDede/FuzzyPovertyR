@@ -16,11 +16,15 @@ fs_equate(steps4_5, weight, HCR, interval = c(1, 10))
 \item{interval}{The range to look for the value of alpha.}
 }
 \value{
-The alpha parameter that solves the non-linear equation $E\link{mu} = HCR$
+The alpha parameter that solves the non-linear equation $E(mu) = HCR$
 }
 \description{
-This function solves $E(mu)^(\alpha-1) = HCR$ for alpha.
+This function solves $E(mu)^(alpha-1) = HCR$ for alpha.
 }
 \examples{
+data(eusilc)
+step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
+dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
+steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
 alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
 }

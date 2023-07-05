@@ -8,7 +8,7 @@
 #' @param dimensions A numeric vector (of length  `ncol(data)`) of assignments of items in data to dimensions.
 #' @param HCR The head count ratio.
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.
-#' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
+#' @param alpha The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
 #' @param rho The critical value to be used for calculation of weights in the kendall correlation matrix.
 #' @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
 #' @param R The number of bootstrap replicates. Default is 500.
@@ -22,10 +22,10 @@
 #' @export
 #'
 #' @examples
-#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
-#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = T)
-#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
-#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', stratum = eusilc$stratum, psu = eusilc$psu, verbose = T, f = .01)
+#' dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
+#' fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL,
+#' dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = 2,
+#' rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = TRUE)
 
 fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR, breakdown = NULL, alpha, rho = NULL, type = 'bootstrap', R = 500, M = NULL, stratum, psu, f = 0.01, verbose = TRUE){
 

@@ -4,7 +4,8 @@
 #' @param data a data-set of n columns with the considered items
 #' @param vec_order a vector length n with TRUE or FALSE. True if the order of the variable is to be inverted, False otherwise
 #'
-#' @return A dataset with the same item of data  with inverted order for those with vec_order[i]=True
+#' @import dplyr
+#' @return A dataset with the same item of data  with inverted order for those with vec_order==TRUE
 #' @export
 #'
 #' @examples #Create data
@@ -19,7 +20,6 @@
 
 
 fs_order <- function(data, vec_order){
-  require("plyr")
 
   if (!(all(vec_order) %in% c(T, F)))
     stop("Incorrect order parameter.")
@@ -34,7 +34,7 @@ fs_order <- function(data, vec_order){
     newdata[,i]=data[,i]
     newdata=as.data.frame(newdata)
     colnames(newdata)[i]="extract"
-    newdata=plyr::join(newdata, dataex, by="extract")
+    newdata=dplyr::inner_join(newdata, dataex, by="extract")
 
     if (i==1){order_data=newdata[,ncol(data)+1]
     } else{order_data=cbind(order_data,newdata[,ncol(data)+1])

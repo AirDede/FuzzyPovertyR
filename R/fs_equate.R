@@ -6,17 +6,21 @@
 #
 #' Fuzzy supplementary poverty estimation
 #'
-#' @description This function solves $E(mu)^(\alpha-1) = HCR$ for alpha.
+#' @description This function solves $E(mu)^(alpha-1) = HCR$ for alpha.
 #'
 #' @param steps4_5 The results obtained from `fs_weight`.
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
 #' @param HCR The head count ratio.
 #' @param interval The range to look for the value of alpha.
 #'
-#' @return The alpha parameter that solves the non-linear equation $E[mu] = HCR$
+#' @return The alpha parameter that solves the non-linear equation $E(mu) = HCR$
 #' @export
 #'
 #' @examples
+#' data(eusilc)
+#' step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
+#' dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
+#' steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
 #' alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
 fs_equate <- function(steps4_5, weight, HCR, interval = c(1,10) ){ # weight has to be attached to the data frame. should not be specified each time.
 

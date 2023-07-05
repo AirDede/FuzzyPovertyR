@@ -10,6 +10,10 @@ fm_Chakravarty(x, z, weight, breakdown)
 \item{x}{A numeric vector of a poverty predicate}
 
 \item{z}{The parameter of the f.m. function (see Chakravarty (2006))}
+
+\item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
+
+\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
 }
 \value{
 The membership grades
@@ -19,8 +23,8 @@ Fuzzy monetary poverty estimation
 }
 \examples{
 x = rchisq(1000, 15)
-fm_Chakravarty(x, z = 10)
-fm_construct(monetary = x, weight, breakdown = breakdown, fm = "chakravarty", z = 10)
+breakdown = sample(letters, size = length(x), replace = TRUE )
+fm_construct(monetary = x, weight = NULL, breakdown = breakdown, fm = "chakravarty", z = 10)
 
 }
 \references{

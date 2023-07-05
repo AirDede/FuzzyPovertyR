@@ -2,14 +2,16 @@
 #'
 #' @param x A numeric vector of a poverty predicate
 #' @param z The parameter of the f.m. function (see Chakravarty (2006))
+#' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
+#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
 #'
 #' @return The membership grades
 #' @export
 #'
 #' @examples
 #' x = rchisq(1000, 15)
-#' fm_Chakravarty(x, z = 10)
-#' fm_construct(monetary = x, weight, breakdown = breakdown, fm = "chakravarty", z = 10)
+#' breakdown = sample(letters, size = length(x), replace = TRUE )
+#' fm_construct(monetary = x, weight = NULL, breakdown = breakdown, fm = "chakravarty", z = 10)
 #'
 #' @references
 #' Chakravarty, S. R. (2019). An axiomatic approach to multidimensional poverty measurement via fuzzy sets. Poverty, social exclusion and stochastic dominance, 123-141.

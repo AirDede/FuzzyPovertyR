@@ -33,6 +33,8 @@ fm_var(
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
+\item{fm}{the type of membership function to use}
+
 \item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). Ff numeric will be coherced to a factor.}
@@ -79,11 +81,7 @@ This function estimates the variance of the fuzzy monetary poverty index
 data(eusilc)
 HCR <- 0.14
 hh.size <- rep(1, 1000)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, K = 3)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = 1000, z2 = 2000, b = 2)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = 1000, z2 = 2000, b = 2, stratum = eusilc$stratum, psu = eusilc$psu)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)
+fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090,
+fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
+
 }

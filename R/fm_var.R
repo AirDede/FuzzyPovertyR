@@ -4,6 +4,7 @@
 #'
 #' @param monetary A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
+#' @param fm the type of membership function to use
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). Ff numeric will be coherced to a factor.
 #' @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
@@ -29,14 +30,9 @@
 #' data(eusilc)
 #' HCR <- 0.14
 #' hh.size <- rep(1, 1000)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = hh.size, K = 3)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = 1000, z2 = 2000, b = 2)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = 1000, z2 = 2000, b = 2, stratum = eusilc$stratum, psu = eusilc$psu)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000)
-#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)
-
+#' fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090,
+#' fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
+#'
 fm_var <- function(monetary, weight, fm, ID = NULL,
                    breakdown = NULL, type = 'bootstrap',
                    R = 100, M = NULL,
@@ -173,21 +169,21 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
   var.hat
 }
 
-bootstrap.bill <- function(R, M, monetary, weight, ID, breakdown = NULL, verbose = T, ...){
-  BootDistr <- sapply(1:R, function(x) {
-    if(verbose == T) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
-    bootidx <- sample(1:N, size = M, replace = T)
-    ID.boot <- ID[bootidx]
-    monetary.boot <- monetary[bootidx]
-    weight.boot <- weight[bootidx]
-    if(!is.null(breakdown)) {
-      breakdown.boot <- breakdown[bootidx]
-      try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown.boot)$estimate)
-      # var.hat <- apply(bootstrap.bill, 1, var)
-    } else {
-      try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown)$estimate)
-      # var.hat <- var(bootstrap.bill)
-    }
-  })
-  return(BootDistr)
-}
+# bootstrap.bill <- function(R, M, monetary, weight, ID, breakdown = NULL, verbose = T, ...){
+#   BootDistr <- sapply(1:R, function(x) {
+#     if(verbose == T) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
+#     bootidx <- sample(1:N, size = M, replace = T)
+#     ID.boot <- ID[bootidx]
+#     monetary.boot <- monetary[bootidx]
+#     weight.boot <- weight[bootidx]
+#     if(!is.null(breakdown)) {
+#       breakdown.boot <- breakdown[bootidx]
+#       try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown.boot)$estimate)
+#       # var.hat <- apply(bootstrap.bill, 1, var)
+#     } else {
+#       try(fm_construct(monetary.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown)$estimate)
+#       # var.hat <- var(bootstrap.bill)
+#     }
+#   })
+#   return(BootDistr)
+# }

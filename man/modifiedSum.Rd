@@ -7,7 +7,9 @@
 modifiedSum(x, y)
 }
 \arguments{
-\item{y}{}
+\item{x}{a numeric vector}
+
+\item{y}{a numeric vector}
 }
 \value{
 the sum of x,y

@@ -15,6 +15,7 @@
 #' @param data A matrix or a data frame of identified items (see Step 1 of Betti et. al, 2018)
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
+#' @param depr.score The deprivation score to be used (see d or s in Betti et al (2018))
 #' @param ... other parameters
 #'
 #' @return a matrix of the same dimension of `data` with items mapped into the (0,1) interval

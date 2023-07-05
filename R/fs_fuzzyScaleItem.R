@@ -6,6 +6,7 @@
 #' @param ID A vector of length `nrow(data)` containing individuals IDs. if NULL (the default) row numbers will be used.
 #' @param ... other parameters
 #'
+#' @import dplyr
 #' @return The item rescaled according to Betti et. al 2018.
 #'
 #'

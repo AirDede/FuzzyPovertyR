@@ -7,13 +7,6 @@
 #' @param p the order of quantile
 #'
 #' @return a weighted quantile
-#' @examples
-#'
-#' N <- 100
-#' p <- 0.5
-#' x <- rchisq(N, 15) # monetary variable
-#' w <- rep(1/N, N) # sampling weights
-#' weighted.quantile(x,w,p=0.5)
 
 weighted_quantile <- function(x, w, p) {
 

@@ -8,9 +8,10 @@
 #'
 #' @param steps4_5 The results from `fs_equate`.
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
-#' @param alpha The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
+#' @param alpha The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.
 #'
+#' @import dplyr
 #' @return A list of results containing the fuzzy meambership function for each unit, the point estimate (i.e. the expected value of the function), and the alpha parameter.
 #' @export
 #'
@@ -19,9 +20,14 @@
 #' step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
 #' dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
 #' steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
-#' alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
-#' fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
-#' fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
+#' alpha <- fs_equate(steps4_5 = steps4_5,
+#' weight = eusilc$DB090, HCR = .16, interval = c(1,10))
+#'
+#' fs_results = fs_construct(steps4_5 = steps4_5,
+#' weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+#'
+#' fs_results = fs_construct(steps4_5 = steps4_5,
+#' weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
 
 fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
 
@@ -52,7 +58,7 @@ fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
 
     s <- FS.data[['s_hi']]
 
-    FS.data.ord <- FS.data %>% arrange(s)
+    FS.data.ord <- FS.data %>% dplyr::arrange(s)
     s.ord <- FS.data.ord[['s_hi']]
     w.ord <- FS.data.ord$weight
 

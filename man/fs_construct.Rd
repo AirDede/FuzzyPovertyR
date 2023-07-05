@@ -11,7 +11,7 @@ fs_construct(steps4_5, weight, alpha, breakdown = NULL)
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used}
 
-\item{alpha}{The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.}
+\item{alpha}{The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.}
 
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.}
 }
@@ -26,7 +26,12 @@ data(eusilc)
 step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
 dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
 steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
-alpha <- fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
-fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
-fs_results = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = breakdown)
+alpha <- fs_equate(steps4_5 = steps4_5,
+weight = eusilc$DB090, HCR = .16, interval = c(1,10))
+
+fs_results = fs_construct(steps4_5 = steps4_5,
+weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+
+fs_results = fs_construct(steps4_5 = steps4_5,
+weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
 }

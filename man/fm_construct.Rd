@@ -34,7 +34,7 @@ fm_construct(
 
 \item{interval}{If fm="verma". A numeric vector of length two to look for the value of alpha (if not supplied).}
 
-\item{alpha}{If fm="verma". The value of the exponent in equation $E(mu)^(\alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
+\item{alpha}{If fm="verma". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
 
 \item{hh.size}{If fm="ZBM". A numeric vector of household size.}
 
@@ -64,10 +64,7 @@ the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $
 \examples{
 data(eusilc)
 HCR <- .154
-hh.size <- sample(1:4, 1000, replace = T)
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", HCR = HCR, ID = eusilc$ID)
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size, K = 3)
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, breakdown = eusilc$db040, fm = "chakravarty", z = 1)
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, z1 = 1000, z2 = 2000, b = 2)
+hh.size <- sample(1:4, 1000, replace = TRUE)
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090,
+fm = "verma", HCR = HCR, ID = eusilc$ID)
 }

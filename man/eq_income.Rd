@@ -4,14 +4,14 @@
 \alias{eq_income}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-eq_income(monetary, ncomp, age16 = NULL, scale.eq, newscale = NULL)
+eq_income(monetary, ncomp, age, scale.eq, newscale)
 }
 \arguments{
 \item{monetary}{A numeric vector of a monetary variable (i.e. income or expenditure)}
 
 \item{ncomp}{A numerical vector of the total number of components for the j-th family.}
 
-\item{age16}{A numerical vector of the number of components for the j-th family less than 16 years-old}
+\item{age}{A numerical vector of the number of components for the j-th family less than 16 years-old}
 
 \item{scale.eq}{The equivalence scale. Options are: Carbonaro, n.par (non parametric), OECD7050, modifiedOECD or new}
 
@@ -31,18 +31,10 @@ ncomp=rep(c(1,3,5,7,4),20) #n componenti
 age16=ncomp-1 #componenti < 16
 eq_income(monetary=aa, ncomp=ncomp, scale.eq="carbonaro") #carbonaro
 eq_income(monetary=aa, ncomp=ncomp, scale.eq="n.par") #non-parametric
-eq_income(monetary=aa, ncomp=ncomp,age16=age16, scale.eq="OECD7050") #OECD7050
-eq_income(monetary=aa, ncomp=ncomp,age16=age16, scale.eq="modifiedOECD") #modifiedOECD
+eq_income(monetary=aa, ncomp=ncomp, age=age16, scale.eq="OECD7050") #OECD7050
+eq_income(monetary=aa, ncomp=ncomp, age=age16, scale.eq="modifiedOECD") #modifiedOECD
 newscal=data.frame("ncomp"=c(1:9), "s.eq"=runif(9,1,10)) # new
 ncomp=rep(c(10,3,5,7,4),20)
 eq_income(monetary=aa, ncomp=ncomp,scale.eq="new", newscale=newscal)
 
-\dontrun{
-#error 1
-eq_income(monetary=aa, ncomp=ncomp,scale.eq="error", newscale=newscal)
-#error 2
-ncomp=rep(c(1,3,5,7,4),20)
-age16=ncomp+1
-eq_income(monetary=aa, ncomp=ncomp,age16=age16, scale.eq="OECD7050")
-}
 }

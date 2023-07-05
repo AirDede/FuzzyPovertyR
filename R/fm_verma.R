@@ -18,13 +18,6 @@
 #' @return
 #' A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.
 #'
-#' @examples
-#' data(eusilc)
-#' HCR <- .154
-#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID)
-#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040)
-#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, HCR = HCR, ID = eusilc$ID, breakdown = eusilc$db040, alpha = 2)
-#'
 fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown){ # cambiare ordine dei parametri
   N <- length(monetary)
   if(is.null(ID)) ID <- seq_len(N)

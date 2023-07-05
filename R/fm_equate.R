@@ -7,9 +7,9 @@
 #' Calculates the exponent parameter alpha of the non-linear equation of Betti et al, 2018 so that
 #' the expected value of the fuzzy membership function equated the head count ratio.
 #'
-#' @param s.ord. a sorted vector of deprivation scores.
-#' @param w.ord a sorted vector of weights (in the same order of s.ord)
-#' @param interval. The interval to look for the solution of the equation.
+#' @param monetary.ord a sorted vector of a monetary variable
+#' @param weight.ord a sorted vector of weights (in the same order of monetary.ord)
+#' @param interval The interval to look for the solution of the equation.
 #'
 #' @return the obtained exponent alfa
 

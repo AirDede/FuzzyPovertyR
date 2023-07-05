@@ -1,7 +1,7 @@
 #' Fuzzy supplementary poverty estimation.
 #'
-#' @param x
-#' @param y
+#' @param x a numeric vector
+#' @param y a numeric vector
 #'
 #' @return the sum of x,y
 #'

@@ -1,27 +1,27 @@
 Package: FuzzyPovertyR
-Title: Estimation of fuzzy poverty measures
+Title: Estimation of Fuzzy Poverty Measures
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Federico", "Crescenzi", email = "federico.crescenzi@unitus.it", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID")),
-    person("Lorenzo", "Mori", email = "lorenzo.mori7@unibo.it", role = c("aut")),
-    person("Gianni", "Betti", email = "betti@unisi.it", role = c("ctb")))
+    person("Federico", "Crescenzi", , "federico.crescenzi@unitus.it", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0701-4398")),
+    person("Lorenzo", "Mori", , "lorenzo.mori7@unibo.it", role = "aut",
+           comment = c(ORCID = "0000-0003-4152-9712")),
+    person("Gianni", "Betti", , "betti@unisi.it", role = "ctb",
+           comment = c(ORCID = "0000-0002-0414-7806"))
+  )
 Description: This package estimates fuzzy monetary and fuzzy supplementary poverty measures. It also estimates the sampling variance associated with the point estimates.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Depends:
-    dplyr,
-    reshape2,
-    ecp
 Imports: 
     dplyr,
     reshape2,
-    ecp
+    ecp,
+    stats
 LazyData: true
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    kableExtra
 VignetteBuilder: knitr

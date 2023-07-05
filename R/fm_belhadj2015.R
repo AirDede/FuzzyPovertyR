@@ -70,15 +70,6 @@ z_fun <- function(x, z1, z2, b){
 #'
 #' @return a list containing the fuzzy membership function and the value of z found as of Belhadj(2015).
 #'
-#' @examples
-#' x = sort(rchisq(1000, 15))
-#' z1 = 10; z2 = 30
-#' b = 4
-#' breakdown = sample(letters, 1000, replace = T)
-#' weight = rep(1, 1000)
-#' fm_belhadj2015(x, z1, z2, b, breakdown, weight)
-#' fm_construct(monetary = x, weight, fm = "belhadj", z1 = z1, z2 = z2, b = b)
-#' fm_construct(monetary = x, weight, breakdown = breakdown, fm = "belhadj", z1 = z1, z2 = z2, b = b)
 #'
 fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight){
   # uniroot(ddx_ub2, z2, b, interval = c(0, 100))

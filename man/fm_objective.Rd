@@ -14,6 +14,8 @@ fm_objective(monetary.ord, weight.ord, alpha, HCR, fm)
 \item{alpha}{The value of the exponent parameter to use in the non-linear equation as of Betti et. al, 2018.}
 
 \item{HCR}{The head count ratio.}
+
+\item{fm}{the type of membership function to use}
 }
 \value{
 The value of the objective function
