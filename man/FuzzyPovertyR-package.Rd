@@ -4,21 +4,21 @@
 \name{FuzzyPovertyR-package}
 \alias{FuzzyPovertyR}
 \alias{FuzzyPovertyR-package}
-\title{FuzzyPovertyR: Estimation of fuzzy poverty measures}
+\title{FuzzyPovertyR: Estimation of Fuzzy Poverty Measures}
 \description{
-This package estimates fuzzy monetary and fuzzy supplementary poverty measures. It also estimates the sampling variance associated with the point estimates.
+Functions to estimate fuzzy poverty indices and their sampling variance. Betti et. al, (2018) \doi{ 10.1111/insr.12219}.
 }
 \author{
-\strong{Maintainer}: Federico Crescenzi \email{federico.crescenzi@unitus.it} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Federico Crescenzi \email{federico.crescenzi@unitus.it} (\href{https://orcid.org/0000-0002-0701-4398}{ORCID})
 
 Authors:
 \itemize{
-  \item Lorenzo Mori \email{lorenzo.mori7@unibo.it}
+  \item Lorenzo Mori \email{lorenzo.mori7@unibo.it} (\href{https://orcid.org/0000-0003-4152-9712}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item Gianni Betti \email{betti@unisi.it} [contributor]
+  \item Gianni Betti \email{betti@unisi.it} (\href{https://orcid.org/0000-0002-0414-7806}{ORCID}) [contributor]
 }
 
 }
