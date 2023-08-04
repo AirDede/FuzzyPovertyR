@@ -25,14 +25,14 @@ fm_TFR = function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
   monetary.ord <- fm_data[["monetary"]]
   weight.ord <- fm_data[["weight"]]
   if(is.null(alpha)) {
-    cat("Solving non linear equation: E[u] = HCR\n")
+    message("Solving non linear equation: E[u] = HCR\n")
     alpha <- uniroot(fm_objective,
                      interval = interval,
                      monetary.ord = monetary.ord,
                      weight.ord = weight.ord,
                      HCR = HCR,
                      fm = "TFR")$root
-    cat("Done.\n")
+    message("Done.\n")
   }
   fm_data$mu <- fm_mu_TFR(monetary.ord, weight.ord, alpha)
   estimate <- weighted.mean(fm_data$mu, fm_data$weight)

@@ -18,7 +18,7 @@
 #' @return
 #' A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.
 #'
-fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown){ # cambiare ordine dei parametri
+fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown, verbose){ # cambiare ordine dei parametri
   N <- length(monetary)
   if(is.null(ID)) ID <- seq_len(N)
   if(!is.null(breakdown)) {
@@ -31,14 +31,14 @@ fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown){ # c
   weight.ord <- fm_data[['weight']] # actually ordered according to monetary
 
   if(is.null(alpha)){
-    cat('Solving non linear equation: E[u] = HCR\n')
+    message('Solving non linear equation: E[u] = HCR\n')
     alpha <- uniroot(fm_objective,
                      interval = interval,
                      monetary.ord = monetary.ord,
                      weight.ord = weight.ord,
                      HCR = HCR,
                      fm = "verma")$root
-    cat('Done.\n')
+    message('Done.\n')
   }
 
   fm_data$mu <- fm_mu(monetary.ord, weight.ord, alpha)

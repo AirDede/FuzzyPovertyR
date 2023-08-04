@@ -24,7 +24,6 @@ library(kableExtra)
 ```
 
 ```{r setup}
-rm(list = ls())
 library(FuzzyPovertyR)
 ```
 
