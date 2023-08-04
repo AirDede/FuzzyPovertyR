@@ -9,7 +9,7 @@ Authors@R: c(
     person("Gianni", "Betti", , "betti@unisi.it", role = "ctb",
            comment = c(ORCID = "0000-0002-0414-7806"))
   )
-Description: Functions to estimate fuzzy poverty indices and their sampling variance. Betti et. al, (2018) <doi: 10.1111/insr.12219>.
+Description: FuzzyPovertyR is an r package to estimate fuzzy measures of poverty and deprivation. It also estimates the sampling variance of these measures using bootstrap or jackknife repeated replications.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
