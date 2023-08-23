@@ -6,7 +6,6 @@
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
 #'
 #' @return The membership grades
-#' @export
 #'
 #' @examples
 #' x = rchisq(1000, 15)

@@ -14,12 +14,13 @@
 #' @param interval A numeric vector of length two to look for the value of alpha (if not supplied).
 #' @param alpha The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
+#' @param verbose Logical. whether to print the proceeding of the procedure.
 #'
 #' @return
 #' A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.
 #'
 #'
-fm_verma2 <- function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
+fm_verma2 <- function (monetary, weight, ID, HCR, interval, alpha, breakdown, verbose) {
   N <- length(monetary)
   if (is.null(ID)) ID <- seq_len(N)
   fm_data <- data.frame(ID = ID, monetary = monetary, weight = weight)
@@ -29,14 +30,15 @@ fm_verma2 <- function (monetary, weight, ID, HCR, interval, alpha, breakdown) {
   monetary.ord <- fm_data[["monetary"]]
   weight.ord <- fm_data[["weight"]]
   if (is.null(alpha)) {
-    message("Solving non linear equation: E[u] = HCR\n")
+    if(verbose) cat("Solving non linear equation: E[u] = HCR\n")
     alpha <- uniroot(fm_objective,
                      interval = interval,
                      monetary.ord = monetary.ord,
                      weight.ord = weight.ord,
                      HCR = HCR,
-                     fm = "verma2")$root
-    message("Done.\n")
+                     fm = "verma2",
+                     verbose)$root
+    if(verbose) cat("Done.\n")
   }
   fm_data$mu <- fm_mu2(monetary.ord, weight.ord, alpha)
   estimate <- weighted.mean(fm_data$mu, fm_data$weight)

@@ -20,6 +20,6 @@ fm_equate <- function(monetary.ord, weight.ord, interval){
                    monetary.ord = monetary.ord,
                    weight.ord = weight.ord,
                    HCR = HCR)$root
-  cat('Done.\n')
+  if(verbose) cat('Done.\n')
   return(alpha)
 }

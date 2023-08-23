@@ -51,7 +51,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
   switch(type, # creare funzione bootstrap e funzione jacknife da chiamare qui invece che codificarle
          bootstrap = {
            BootDistr <- sapply(1:R, function(r) {
-             if(verbose == T) {
+             if(verbose == TRUE) {
                if(R%%100==0) cat('Bootstrap Replicate : ', r, 'of', R, '\n')
              }
              bootidx <- sample(1:N, size = M, replace = T)
@@ -106,7 +106,7 @@ fm_var <- function(monetary, weight, fm, ID = NULL,
 
            }
            for(h in 1:H){
-             if(verbose == T) cat('doing for stratum',h,'of',H,'\n')
+             if(verbose == TRUE) cat('doing for stratum',h,'of',H,'\n')
              stratum_h <- strata[h]
              psu_h <- tab$psu[tab$stratum==stratum_h & tab$Freq > 0] # psu-s in statum h
              a_h <- length(psu_h)

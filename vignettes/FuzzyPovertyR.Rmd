@@ -109,8 +109,8 @@ if needed, the package has a built-in function `eq_income` to calculate the equi
 3.  Construction of the Fuzzy Monetary measure.
 
 ```{r}
-# verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "verma2") # opposite sign don't match say something in vignette
-verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "TFR")
+verma = fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL,
+                     HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "TFR")
 ```
 
 When `alpha = NULL` (the default) this function solves a non-linear equation finding the value $\alpha$ in `interval` that equates the expected value of the poverty measure to the Head Count Ratio calculated above (see #eq-betti2006). This can be avoided by specifying a numeric value of $\alpha$.
@@ -205,7 +205,7 @@ knitr::kable(data.frame(verma.break$estimate, belhadj.break$estimate, chakravart
 ### Verma2
 
 ```{r}
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "verma")
+fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,20), alpha = NULL, fm = "verma2")
 ```
 
 ------------------------------------------------------------------------
@@ -393,7 +393,7 @@ cbind(
   Jackknife = fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)$estimate)
 ```
 
-### FS
+### Fuzzy supplementary
 
 ```{r}
 fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)$variance %>% t() %>% knitr::kable(digits = 4)

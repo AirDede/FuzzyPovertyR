@@ -1,10 +1,6 @@
-###################
-#--- Steps 4-5 ---#
-###################
-
 #' Fuzzy supplementary poverty estimation
 #'
-#' @description Calculates the weights of dimensions discovered after factor analysis.
+#' @description Step 4 and Step 5. Calculates the weights of dimensions discovered after factor analysis.
 #'
 #' @details This function calculates the two set of weights w_a and w_b (see References)
 #'

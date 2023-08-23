@@ -1,10 +1,6 @@
-################
-#--- Step 2 ---#
-################
-
 #' Fuzzy supplementary poverty estimation
 #'
-#' @description This function maps a set of answers to binary or categorical items to the (0,1) interval.
+#' @description Step 2. This function maps a set of answers to binary or categorical items to the (0,1) interval.
 #'
 #' @details
 #' The function calculates deprivation score for item j and ind. i as $d_{j,i} = (1-F(c_{j,i})) / (1-F(1)) where F(c_{j,i})$ is the value of j-th item cumulation function for the i individual.

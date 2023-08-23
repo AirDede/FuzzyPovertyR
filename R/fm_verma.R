@@ -14,6 +14,7 @@
 #' @param interval A numeric vector of length two to look for the value of alpha (if not supplied).
 #' @param alpha The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
+#' @param verbose Logical. whether to print the proceeding of the procedure.
 #'
 #' @return
 #' A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.
@@ -31,14 +32,15 @@ fm_verma <- function(monetary, weight, ID, HCR, interval, alpha, breakdown, verb
   weight.ord <- fm_data[['weight']] # actually ordered according to monetary
 
   if(is.null(alpha)){
-    message('Solving non linear equation: E[u] = HCR\n')
+    if(verbose) cat('Solving non linear equation: E[u] = HCR\n')
     alpha <- uniroot(fm_objective,
                      interval = interval,
                      monetary.ord = monetary.ord,
                      weight.ord = weight.ord,
                      HCR = HCR,
-                     fm = "verma")$root
-    message('Done.\n')
+                     fm = "verma",
+                     verbose)$root
+    if(verbose) cat('Done.\n')
   }
 
   fm_data$mu <- fm_mu(monetary.ord, weight.ord, alpha)

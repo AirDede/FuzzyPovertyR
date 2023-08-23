@@ -1,10 +1,6 @@
-################
-#--- Step 7 ---#
-################
-
 #' Fuzzy supplementary poverty estimation.
 #'
-#' @description Constructs the fuzzy supplementary poverty measure based on Steps1-6.
+#' @description Step 7. Constructs the fuzzy supplementary poverty measure based on Steps1-6.
 #'
 #' @param steps4_5 The results from `fs_equate`.
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
