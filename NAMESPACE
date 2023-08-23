@@ -2,7 +2,6 @@
 
 export(HCR)
 export(eq_income)
-export(fm_Chakravarty)
 export(fm_construct)
 export(fm_var)
 export(fs_construct)

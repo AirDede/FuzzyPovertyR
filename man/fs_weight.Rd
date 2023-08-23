@@ -17,7 +17,7 @@ fs_weight(dimensions, step2, rho = NULL)
 A data frame of weights and deprivation scores in each dimension identified.
 }
 \description{
-Calculates the weights of dimensions discovered after factor analysis.
+Step 4 and Step 5. Calculates the weights of dimensions discovered after factor analysis.
 }
 \details{
 This function calculates the two set of weights w_a and w_b (see References)

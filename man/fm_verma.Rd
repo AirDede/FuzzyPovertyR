@@ -4,7 +4,7 @@
 \alias{fm_verma}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown)
+fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown, verbose)
 }
 \arguments{
 \item{monetary}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
@@ -20,6 +20,8 @@ fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown)
 \item{alpha}{The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
 
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
+
+\item{verbose}{Logical. whether to print the proceeding of the procedure.}
 }
 \value{
 A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.

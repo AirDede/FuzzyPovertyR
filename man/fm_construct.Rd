@@ -18,7 +18,8 @@ fm_construct(
   z2,
   b,
   z,
-  breakdown = NULL
+  breakdown = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -49,6 +50,8 @@ fm_construct(
 \item{z}{If fm="chakravarty".}
 
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
+
+\item{verbose}{Logical. whether to print the proceeding of the procedure.}
 }
 \value{
 If fm="verma". It returns a list containing the (fuzzy) membership function for each individual in the sample,

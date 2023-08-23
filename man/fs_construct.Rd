@@ -19,7 +19,7 @@ fs_construct(steps4_5, weight, alpha, breakdown = NULL)
 A list of results containing the fuzzy meambership function for each unit, the point estimate (i.e. the expected value of the function), and the alpha parameter.
 }
 \description{
-Constructs the fuzzy supplementary poverty measure based on Steps1-6.
+Step 7. Constructs the fuzzy supplementary poverty measure based on Steps1-6.
 }
 \examples{
 data(eusilc)

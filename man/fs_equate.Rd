@@ -4,7 +4,7 @@
 \alias{fs_equate}
 \title{Fuzzy supplementary poverty estimation}
 \usage{
-fs_equate(steps4_5, weight, HCR, interval = c(1, 10))
+fs_equate(steps4_5, weight, HCR, interval = c(1, 10), verbose)
 }
 \arguments{
 \item{steps4_5}{The results obtained from \code{fs_weight}.}
@@ -14,12 +14,14 @@ fs_equate(steps4_5, weight, HCR, interval = c(1, 10))
 \item{HCR}{The head count ratio.}
 
 \item{interval}{The range to look for the value of alpha.}
+
+\item{verbose}{Logical. whether to print the proceeding of the procedure.}
 }
 \value{
 The alpha parameter that solves the non-linear equation $E(mu) = HCR$
 }
 \description{
-This function solves $E(mu)^(alpha-1) = HCR$ for alpha.
+Step 6. This function solves $E(mu)^(alpha-1) = HCR$ for alpha.
 }
 \examples{
 data(eusilc)

@@ -4,7 +4,7 @@
 \alias{fm_objective}
 \title{Fuzzy monetary poverty estimation.}
 \usage{
-fm_objective(monetary.ord, weight.ord, alpha, HCR, fm)
+fm_objective(monetary.ord, weight.ord, alpha, HCR, fm, verbose)
 }
 \arguments{
 \item{monetary.ord}{A sorted vector of a monetary variable (in ascending order).}
@@ -16,6 +16,8 @@ fm_objective(monetary.ord, weight.ord, alpha, HCR, fm)
 \item{HCR}{The head count ratio.}
 
 \item{fm}{the type of membership function to use}
+
+\item{verbose}{prints the proceeding of the routine.}
 }
 \value{
 The value of the objective function

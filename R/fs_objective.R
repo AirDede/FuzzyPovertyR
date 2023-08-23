@@ -10,7 +10,7 @@
 #'
 #' @return The difference between the expected value of the membership function and the head count ratio.
 #'
-objective <- function(s.ord, w.ord, alpha, HCR, verbose){
+fs_objective <- function(s.ord, w.ord, alpha, HCR, verbose){
   FS <- fs_mu(s.ord, w.ord, alpha)
   if(verbose) cat('trying with alpha: ', round(alpha, 4) , ' Expected Value: ', round(weighted.mean(x = FS, w = w.ord), 4), "\n")
   return( weighted.mean(x = FS, w = w.ord) - HCR )

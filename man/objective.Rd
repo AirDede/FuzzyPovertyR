@@ -4,7 +4,7 @@
 \alias{objective}
 \title{Fuzzy supplementary poverty estimation}
 \usage{
-objective(s.ord, w.ord, alpha, HCR)
+objective(s.ord, w.ord, alpha, HCR, verbose)
 }
 \arguments{
 \item{s.ord}{A vector of ordered deprivation scores.}
@@ -14,6 +14,8 @@ objective(s.ord, w.ord, alpha, HCR)
 \item{alpha}{The alpha parameter.}
 
 \item{HCR}{The head count ratio.}
+
+\item{verbose}{Logical. whether to print the proceeding of the procedure.}
 }
 \value{
 The difference between the expected value of the membership function and the head count ratio.
