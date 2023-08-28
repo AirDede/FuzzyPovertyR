@@ -7,17 +7,17 @@
 #' Calculates the exponent parameter alpha of the non-linear equation of Betti et al, 2018 so that
 #' the expected value of the fuzzy membership function equated the head count ratio.
 #'
-#' @param monetary.ord a sorted vector of a monetary variable
-#' @param weight.ord a sorted vector of weights (in the same order of monetary.ord)
+#' @param predicate.ord a sorted vector of a predicate variable
+#' @param weight.ord a sorted vector of weights (in the same order of predicate.ord)
 #' @param interval The interval to look for the solution of the equation.
 #'
 #' @return the obtained exponent alfa
 
-fm_equate <- function(monetary.ord, weight.ord, interval){
+fm_equate <- function(predicate.ord, weight.ord, interval){
 
   alpha <- uniroot(fm_objective,
                    interval = interval,
-                   monetary.ord = monetary.ord,
+                   predicate.ord = predicate.ord,
                    weight.ord = weight.ord,
                    HCR = HCR)$root
   if(verbose) cat('Done.\n')

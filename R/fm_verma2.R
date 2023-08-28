@@ -7,7 +7,7 @@
 #' It implements the fuzzy set approach to monetary poverty measurement where
 #' the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $(0,1)$
 #'
-#' @param monetary A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
+#' @param predicate A numeric vector of a predicate variable (i.e. equivalised income or expenditure)
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param HCR The value of the head count ratio (this is not used in the case that alpha is supplied by the user).
@@ -20,27 +20,27 @@
 #' A list containing the (fuzzy) membership function for each individual in the sample, the estimated expected value of the function, the alpha parameter.
 #'
 #'
-fm_verma2 <- function (monetary, weight, ID, HCR, interval, alpha, breakdown, verbose) {
-  N <- length(monetary)
+fm_verma2 <- function (predicate, weight, ID, HCR, interval, alpha, breakdown, verbose) {
+  N <- length(predicate)
   if (is.null(ID)) ID <- seq_len(N)
-  fm_data <- data.frame(ID = ID, monetary = monetary, weight = weight)
+  fm_data <- data.frame(ID = ID, predicate = predicate, weight = weight)
   if(!is.null(breakdown)) fm_data <- data.frame(fm_data, breakdown)
-  fm_data <- fm_data %>% dplyr::arrange(monetary)
+  fm_data <- fm_data %>% dplyr::arrange(predicate)
 
-  monetary.ord <- fm_data[["monetary"]]
+  predicate.ord <- fm_data[["predicate"]]
   weight.ord <- fm_data[["weight"]]
   if (is.null(alpha)) {
     if(verbose) cat("Solving non linear equation: E[u] = HCR\n")
     alpha <- uniroot(fm_objective,
                      interval = interval,
-                     monetary.ord = monetary.ord,
+                     predicate.ord = predicate.ord,
                      weight.ord = weight.ord,
                      HCR = HCR,
                      fm = "verma2",
                      verbose)$root
     if(verbose) cat("Done.\n")
   }
-  fm_data$mu <- fm_mu2(monetary.ord, weight.ord, alpha)
+  fm_data$mu <- fm_mu2(predicate.ord, weight.ord, alpha)
   estimate <- weighted.mean(fm_data$mu, fm_data$weight)
   if (!is.null(breakdown)) {
     fm_data <- split(data.frame(fm_data), f = ~ fm_data$breakdown)
@@ -50,24 +50,24 @@ fm_verma2 <- function (monetary, weight, ID, HCR, interval, alpha, breakdown, ve
   return(out)
 }
 
-#' Fuzzy monetary poverty estimation
+#' Fuzzy predicate poverty estimation
 #'
-#' @param monetary.ord A ordered numeric vector of a monetary variable (i.e. equivalised income or expenditure)
+#' @param predicate.ord A ordered numeric vector of a predicate variable (i.e. equivalised income or expenditure)
 #' @param weight.ord A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param alpha The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #'
 #' @return A numeric vector containing the estimated membership function.
 #'
-fm_mu2 <- function (monetary.ord, weight.ord, alpha) {
-  N = length(monetary.ord)
-  tot2 = sum((monetary.ord * weight.ord)[2:N])
+fm_mu2 <- function (predicate.ord, weight.ord, alpha) {
+  N = length(predicate.ord)
+  tot2 = sum((predicate.ord * weight.ord)[2:N])
   L <- rep(0, N)
-  cond <- monetary.ord > monetary.ord[1]
-  tot2 <- sum((monetary.ord * weight.ord) * cond)
+  cond <- predicate.ord > predicate.ord[1]
+  tot2 <- sum((predicate.ord * weight.ord) * cond)
   i <- 1
   while (i < N) {
-    flag_i <- monetary.ord > monetary.ord[i]
-    L[i] <- sum((monetary.ord * weight.ord)[flag_i])/tot2
+    flag_i <- predicate.ord > predicate.ord[i]
+    L[i] <- sum((predicate.ord * weight.ord)[flag_i])/tot2
     i <- i + 1
   }
   u <- L^(alpha)

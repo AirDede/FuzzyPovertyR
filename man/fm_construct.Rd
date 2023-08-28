@@ -5,7 +5,7 @@
 \title{Fuzzy monetary poverty estimation}
 \usage{
 fm_construct(
-  monetary,
+  predicate,
   weight,
   fm = "verma",
   ID = NULL,
@@ -23,7 +23,7 @@ fm_construct(
 )
 }
 \arguments{
-\item{monetary}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
+\item{predicate}{A numeric vector representing the poverty predicate (i.e. income or expenditure)}
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
@@ -68,6 +68,6 @@ the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $
 data(eusilc)
 HCR <- .154
 hh.size <- sample(1:4, 1000, replace = TRUE)
-fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090,
+fm_construct(predicate = eusilc$red_eq, weight = eusilc$DB090,
 fm = "verma", HCR = HCR, ID = eusilc$ID)
 }

@@ -4,10 +4,10 @@
 \alias{fm_mu_TFR}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_mu_TFR(monetary.ord, weight.ord, alpha)
+fm_mu_TFR(predicate.ord, weight.ord, alpha)
 }
 \arguments{
-\item{monetary.ord}{A ordered numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
+\item{predicate.ord}{A ordered numeric vector of a predicate variable (i.e. equivalised income or expenditure)}
 
 \item{weight.ord}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 

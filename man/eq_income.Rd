@@ -2,12 +2,12 @@
 % Please edit documentation in R/eq_income.R
 \name{eq_income}
 \alias{eq_income}
-\title{Fuzzy monetary poverty estimation}
+\title{Fuzzy predicate poverty estimation}
 \usage{
-eq_income(monetary, ncomp, age, scale.eq, newscale)
+eq_income(predicate, ncomp, age, scale.eq, newscale)
 }
 \arguments{
-\item{monetary}{A numeric vector of a monetary variable (i.e. income or expenditure)}
+\item{predicate}{A numeric vector representing the poverty predicate (i.e. income or expenditure)}
 
 \item{ncomp}{A numerical vector of the total number of components for the j-th family.}
 
@@ -18,23 +18,23 @@ eq_income(monetary, ncomp, age, scale.eq, newscale)
 \item{newscale}{a data.frame with two columns: "ncomp"  defining the number of components and  "s.eq" that define the corresponding}
 }
 \value{
-A numeric vector containing the equivalised monetary variable.
+A numeric vector containing the equivalised predicate variable.
 }
 \description{
-This function takes as input a numeric vector representing a monetary variable and turns it into its equivalised verision
+This function takes as input a numeric vector representing a predicate variable and turns it into its equivalised verision
 using different equivalence scales.
 }
 \examples{
 
-aa=runif(100, 0, 1000) # monetary
+aa=runif(100, 0, 1000) # predicate
 ncomp=rep(c(1,3,5,7,4),20) #n componenti
 age16=ncomp-1 #componenti < 16
-eq_income(monetary=aa, ncomp=ncomp, scale.eq="carbonaro") #carbonaro
-eq_income(monetary=aa, ncomp=ncomp, scale.eq="n.par") #non-parametric
-eq_income(monetary=aa, ncomp=ncomp, age=age16, scale.eq="OECD7050") #OECD7050
-eq_income(monetary=aa, ncomp=ncomp, age=age16, scale.eq="modifiedOECD") #modifiedOECD
+eq_income(predicate=aa, ncomp=ncomp, scale.eq="carbonaro") #carbonaro
+eq_income(predicate=aa, ncomp=ncomp, scale.eq="n.par") #non-parametric
+eq_income(predicate=aa, ncomp=ncomp, age=age16, scale.eq="OECD7050") #OECD7050
+eq_income(predicate=aa, ncomp=ncomp, age=age16, scale.eq="modifiedOECD") #modifiedOECD
 newscal=data.frame("ncomp"=c(1:9), "s.eq"=runif(9,1,10)) # new
 ncomp=rep(c(10,3,5,7,4),20)
-eq_income(monetary=aa, ncomp=ncomp,scale.eq="new", newscale=newscal)
+eq_income(predicate=aa, ncomp=ncomp,scale.eq="new", newscale=newscal)
 
 }

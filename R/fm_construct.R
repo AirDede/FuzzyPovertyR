@@ -7,7 +7,7 @@
 #' It implements the fuzzy set approach to monetary poverty measurement where
 #' the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $(0,1)$
 #'
-#' @param monetary A numeric vector of a monetary variable (i.e. equivalised income or expenditure)
+#' @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param fm The memebership function (deafult is "verma". Other options are "ZBM", "belhadj", "chakravarty". See references below.)
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
@@ -33,26 +33,26 @@
 #' data(eusilc)
 #' HCR <- .154
 #' hh.size <- sample(1:4, 1000, replace = TRUE)
-#' fm_construct(monetary = eusilc$red_eq, weight = eusilc$DB090,
+#' fm_construct(predicate = eusilc$red_eq, weight = eusilc$DB090,
 #' fm = "verma", HCR = HCR, ID = eusilc$ID)
 
 #' @export
-fm_construct <- function(monetary, weight, fm = "verma", ID = NULL,
+fm_construct <- function(predicate, weight, fm = "verma", ID = NULL,
                          HCR, interval = c(1,10), alpha = NULL,
                          hh.size, k=3,
                          z1, z2, b,
                          z,
                          breakdown = NULL,
                          verbose = TRUE){ # cambiare ordine dei parametri
-  N <- length(monetary)
+  N <- length(predicate)
   if(is.null(weight)) weight <- rep(N, N)
   switch(fm,
-         verma = {res <- fm_verma(monetary, weight, ID, HCR, interval, alpha, breakdown, verbose)},
-         ZBM = {res <- fm_ZBM(monetary, hh.size, weight, breakdown, k)},
-         belhadj = {res <- fm_belhadj2015(monetary, z1, z2, b, breakdown, weight)},
-         chakravarty = {res <- fm_Chakravarty(monetary, z, weight, breakdown)},
-         cerioli = {res <- fm_cerioli(monetary, z1, z2, weight, breakdown)},
-         TFR = {res <- fm_TFR(monetary, weight, ID, HCR, interval, alpha, breakdown, verbose)},
-         verma2 = {res <- fm_verma2(monetary, weight, ID, HCR, interval, alpha, breakdown, verbose)})
+         verma = {res <- fm_verma(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)},
+         ZBM = {res <- fm_ZBM(predicate, hh.size, weight, breakdown, k)},
+         belhadj = {res <- fm_belhadj2015(predicate, z1, z2, b, breakdown, weight)},
+         chakravarty = {res <- fm_Chakravarty(predicate, z, weight, breakdown)},
+         cerioli = {res <- fm_cerioli(predicate, z1, z2, weight, breakdown)},
+         TFR = {res <- fm_TFR(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)},
+         verma2 = {res <- fm_verma2(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)})
   return(res)
 }

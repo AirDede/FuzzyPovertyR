@@ -7,7 +7,7 @@
 bootP(x, R = 500)
 }
 \arguments{
-\item{x}{A numeric vector of a monetary variable (or poverty predicate)}
+\item{x}{A numeric vector of a predicate variable (or poverty predicate)}
 
 \item{R}{The number of bootstrap replicates (dafaults to 500)}
 }

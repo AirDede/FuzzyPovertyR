@@ -2,7 +2,7 @@
 #'
 #' @description Calculates bootstrap percentiles from Zedini and Belhadj (2015)
 #'
-#' @param x A numeric vector of a monetary variable (or poverty predicate)
+#' @param x A numeric vector of a predicate variable (or poverty predicate)
 #' @param R The number of bootstrap replicates (dafaults to 500)
 #'
 #' @return A matrix of bootrstapped percentiles
@@ -20,7 +20,7 @@ bootP <- function(x, R = 500){
 
 #' Fuzzy monetary poverty estimation
 #'
-#' @param x A numeric vector of a monetary variable (or poverty predicate)
+#' @param x A numeric vector of a predicate variable (or poverty predicate)
 #' @param a Membership function parameter
 #' @param b Membership function parameter
 #' @param c Membership function parameter
@@ -40,7 +40,7 @@ FN <- function(x, a, b, c){
 
 #' Fuzzy monetary poverty estimation
 #'
-#' @param x A numeric vector of a monetary variable (or poverty predicate)
+#' @param x A numeric vector of a predicate variable (or poverty predicate)
 #' @param P A matrix of bootrstapped percentiles
 #'
 #' @return The membership grade matrix
@@ -71,7 +71,7 @@ Fuzzy_conv <- function(x) {
 
 #' Fuzzy monetary poverty estimation
 #'
-#' @param monetary A numeric vector of a monetary variable (or poverty predicate)
+#' @param predicate A numeric vector of a predicate variable (or poverty predicate)
 #' @param hh.size A numeric vector with the size of the houshold
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
@@ -84,14 +84,14 @@ Fuzzy_conv <- function(x) {
 #' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the Tunisian Case. Review of Income and Wealth, 61(3), 465-476.
 #' Belhadj, B., & Matoussi, M. S. (2010). Poverty in tunisia: A fuzzy measurement approach. Swiss Journal of Economics and Statistics, 146(2), 431-450.
 
-fm_ZBM <- function(monetary, hh.size, weight, breakdown, k){
+fm_ZBM <- function(predicate, hh.size, weight, breakdown, k){
   # Zendini, Belhadi, Matoussi
-  N <- length(monetary)
+  N <- length(predicate)
   if(is.null(hh.size)) hh.size <- rep(1, N)
 
   #--- Step 0 ---#
-  P <- bootP(x = monetary) # bootstrap estimates of percentiles
-  MGM <- MemberhsipGradesMatrix(x = monetary, P = P)
+  P <- bootP(x = predicate) # bootstrap estimates of percentiles
+  MGM <- MemberhsipGradesMatrix(x = predicate, P = P)
 
   #--- Step 1 ---#
   cluster.idx <- lapply(1:N, function(i) ecp::e.divisive( X = matrix(MGM[i,], ncol = 1), k = k)$cluster)

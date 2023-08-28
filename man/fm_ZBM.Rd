@@ -4,10 +4,10 @@
 \alias{fm_ZBM}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_ZBM(monetary, hh.size, weight, breakdown, k)
+fm_ZBM(predicate, hh.size, weight, breakdown, k)
 }
 \arguments{
-\item{monetary}{A numeric vector of a monetary variable (or poverty predicate)}
+\item{predicate}{A numeric vector of a predicate variable (or poverty predicate)}
 
 \item{hh.size}{A numeric vector with the size of the houshold}
 

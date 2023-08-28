@@ -4,12 +4,12 @@
 \alias{fm_equate}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_equate(monetary.ord, weight.ord, interval)
+fm_equate(predicate.ord, weight.ord, interval)
 }
 \arguments{
-\item{monetary.ord}{a sorted vector of a monetary variable}
+\item{predicate.ord}{a sorted vector of a predicate variable}
 
-\item{weight.ord}{a sorted vector of weights (in the same order of monetary.ord)}
+\item{weight.ord}{a sorted vector of weights (in the same order of predicate.ord)}
 
 \item{interval}{The interval to look for the solution of the equation.}
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/fm_verma2.R
 \name{fm_mu2}
 \alias{fm_mu2}
-\title{Fuzzy monetary poverty estimation}
+\title{Fuzzy predicate poverty estimation}
 \usage{
-fm_mu2(monetary.ord, weight.ord, alpha)
+fm_mu2(predicate.ord, weight.ord, alpha)
 }
 \arguments{
-\item{monetary.ord}{A ordered numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
+\item{predicate.ord}{A ordered numeric vector of a predicate variable (i.e. equivalised income or expenditure)}
 
 \item{weight.ord}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
@@ -17,5 +17,5 @@ fm_mu2(monetary.ord, weight.ord, alpha)
 A numeric vector containing the estimated membership function.
 }
 \description{
-Fuzzy monetary poverty estimation
+Fuzzy predicate poverty estimation
 }

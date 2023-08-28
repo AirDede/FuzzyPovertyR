@@ -5,7 +5,7 @@
 \title{Fuzzy monetary poverty estimation}
 \usage{
 fm_var(
-  monetary,
+  predicate,
   weight,
   fm,
   ID = NULL,
@@ -29,7 +29,7 @@ fm_var(
 )
 }
 \arguments{
-\item{monetary}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
+\item{predicate}{A numeric vector representing the poverty predicate (i.e. income or expenditure)}
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
@@ -81,7 +81,7 @@ This function estimates the variance of the fuzzy monetary poverty index
 data(eusilc)
 HCR <- 0.14
 hh.size <- rep(1, 1000)
-fm_var(monetary = eusilc$red_eq, weight = eusilc$DB090,
+fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090,
 fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
 
 }

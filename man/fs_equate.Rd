@@ -4,7 +4,7 @@
 \alias{fs_equate}
 \title{Fuzzy supplementary poverty estimation}
 \usage{
-fs_equate(steps4_5, weight, HCR, interval = c(1, 10), verbose)
+fs_equate(steps4_5, weight, HCR, interval = c(1, 10), verbose = TRUE)
 }
 \arguments{
 \item{steps4_5}{The results obtained from \code{fs_weight}.}

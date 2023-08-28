@@ -7,7 +7,7 @@
 FN(x, a, b, c)
 }
 \arguments{
-\item{x}{A numeric vector of a monetary variable (or poverty predicate)}
+\item{x}{A numeric vector of a predicate variable (or poverty predicate)}
 
 \item{a}{Membership function parameter}
 

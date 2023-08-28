@@ -4,10 +4,10 @@
 \alias{fm_verma2}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_verma2(monetary, weight, ID, HCR, interval, alpha, breakdown, verbose)
+fm_verma2(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)
 }
 \arguments{
-\item{monetary}{A numeric vector of a monetary variable (i.e. equivalised income or expenditure)}
+\item{predicate}{A numeric vector of a predicate variable (i.e. equivalised income or expenditure)}
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 

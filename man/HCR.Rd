@@ -4,14 +4,14 @@
 \alias{HCR}
 \title{Head Count Ratio (HCR)}
 \usage{
-HCR(monetary, weight = NULL, p = 0.5, q = 0.6, poverty.line = NULL)
+HCR(predicate, weight = NULL, p = 0.5, q = 0.6, poverty.line = NULL)
 }
 \arguments{
-\item{monetary}{A numeric vector of a monetary variable (i.e. income or expenditure)}
+\item{predicate}{A numeric vector of a predicate variable (i.e. income or expenditure)}
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
-\item{p}{The quantile to be calculated from the monetary variable. Default is the median.}
+\item{p}{The quantile to be calculated from the predicate variable. Default is the median.}
 
 \item{q}{The percentage of the quantile to be used in determining the poverty line. default is 0.6.}
 
@@ -25,14 +25,14 @@ This function calculates the head count ratio.
 }
 \details{
 The head count ration is defined as the sum of the sampling weight of statistical units
-whose vale of the monetary variable is below the poverty line. The poverty line is usually defined as a
-fraction of a weighted quantile (in official statistics the median) of the monetary distribution
+whose vale of the predicate variable is below the poverty line. The poverty line is usually defined as a
+fraction of a weighted quantile (in official statistics the median) of the predicate distribution
 }
 \examples{
 N <- 100
 p <- 0.5
 q <- 0.6
-monetary <- rchisq(N, 15) # monetary variable
-HCR(monetary)
+predicate <- rchisq(N, 15) # predicate variable
+HCR(predicate)
 
 }
