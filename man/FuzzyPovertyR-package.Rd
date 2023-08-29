@@ -6,7 +6,7 @@
 \alias{FuzzyPovertyR-package}
 \title{FuzzyPovertyR: Estimation of Fuzzy Poverty Measures}
 \description{
-FuzzyPovertyR is an r package to estimate fuzzy measures of poverty and deprivation. It also estimates the sampling variance of these measures using bootstrap or jackknife repeated replications.
+FuzzyPovertyR is an R package to estimate fuzzy measures of poverty and deprivation. It also estimates the sampling variance of these measures using bootstrap or jackknife repeated replications.
 }
 \author{
 \strong{Maintainer}: Federico Crescenzi \email{federico.crescenzi@unitus.it} (\href{https://orcid.org/0000-0002-0701-4398}{ORCID})

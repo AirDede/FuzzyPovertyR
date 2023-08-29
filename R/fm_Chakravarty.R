@@ -10,7 +10,7 @@
 #' @examples
 #' x = rchisq(1000, 15)
 #' breakdown = sample(letters, size = length(x), replace = TRUE )
-#' fm_construct(monetary = x, weight = NULL, breakdown = breakdown, fm = "chakravarty", z = 10)
+#' fm_construct(predicate = x, weight = NULL, breakdown = breakdown, fm = "chakravarty", z = 10)
 #'
 #' @references
 #' Chakravarty, S. R. (2019). An axiomatic approach to multidimensional poverty measurement via fuzzy sets. Poverty, social exclusion and stochastic dominance, 123-141.

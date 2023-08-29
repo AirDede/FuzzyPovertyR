@@ -4,7 +4,7 @@
 \alias{fm_equate}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_equate(predicate.ord, weight.ord, interval)
+fm_equate(predicate.ord, weight.ord, interval, verbose)
 }
 \arguments{
 \item{predicate.ord}{a sorted vector of a predicate variable}
@@ -12,9 +12,11 @@ fm_equate(predicate.ord, weight.ord, interval)
 \item{weight.ord}{a sorted vector of weights (in the same order of predicate.ord)}
 
 \item{interval}{The interval to look for the solution of the equation.}
+
+\item{verbose}{Logical. whether to print the proceeding of the procedure.}
 }
 \value{
-the obtained exponent alfa
+the obtained exponent
 }
 \description{
 Solves the non-linear equation in Betti et. al, 2018.

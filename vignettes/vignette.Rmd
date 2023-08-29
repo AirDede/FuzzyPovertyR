@@ -110,7 +110,7 @@ if needed, the package has a built-in function `eq_income` to calculate the equi
 
 ```{r}
 verma = fm_construct(predicate = eusilc$red_eq, weight = eusilc$DB090, ID = NULL,
-                     HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "TFR")
+                     HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "verma")
 ```
 
 When `alpha = NULL` (the default) this function solves a non-linear equation finding the value $\alpha$ in `interval` that equates the expected value of the poverty measure to the Head Count Ratio calculated above (see #eq-betti2006). This can be avoided by specifying a numeric value of $\alpha$.
@@ -332,7 +332,7 @@ alpha = fm_construct(predicate = eusilc$red_eq, weight = eusilc$DB090, ID = NULL
 ```
 
 ```{r}
-fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .14, alpha = alpha, verbose = F)
+fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .14, alpha = alpha, verbose = T)
 fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
 ```
 

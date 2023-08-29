@@ -10,16 +10,18 @@
 #' @param predicate.ord a sorted vector of a predicate variable
 #' @param weight.ord a sorted vector of weights (in the same order of predicate.ord)
 #' @param interval The interval to look for the solution of the equation.
+#' @param verbose Logical. whether to print the proceeding of the procedure.
 #'
-#' @return the obtained exponent alfa
+#' @return the obtained exponent
 
-fm_equate <- function(predicate.ord, weight.ord, interval){
+fm_equate <- function(predicate.ord, weight.ord, interval, verbose){
 
   alpha <- uniroot(fm_objective,
                    interval = interval,
                    predicate.ord = predicate.ord,
                    weight.ord = weight.ord,
-                   HCR = HCR)$root
+                   HCR = HCR,
+                   verbose)$root
   if(verbose) cat('Done.\n')
   return(alpha)
 }
