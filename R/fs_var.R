@@ -27,7 +27,9 @@
 #' dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = 2,
 #' rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = TRUE)
 
-fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR, breakdown = NULL, alpha, rho = NULL, type = 'bootstrap', R = 500, M = NULL, stratum, psu, f = 0.01, verbose = TRUE){
+fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
+                   breakdown = NULL, alpha, rho = NULL, type = 'bootstrap',
+                   R = 500, M = NULL, stratum, psu, f = 0.01, verbose = TRUE){
 
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
   N <- nrow(data)
@@ -54,7 +56,14 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR, breakdown = 
            })
 
            if(!is.null(breakdown)){
-             var.hat <- list(variance = Reduce(modifiedSum, BootDistr)/R)
+             J <- length(unique(breakdown))
+             P <- 1+max(dimensions)
+             var.array = array(unlist(BootDistr), dim = c(J, P, R),
+                         dimnames = list(levels(breakdown),
+                                         c(paste0("FS", 1:(P-1)), "Overall"),
+                                         NULL))
+             var.hat = apply(var.array, 1:2, var, na.rm = TRUE)
+             # var.hat <- list(variance = Reduce(modifiedSum, BootDistr)/R)
            } else {
              var.hat <- list(variance = apply(do.call(rbind, BootDistr), 2, var))
              # par(mfrow = c(floor((1+max(dimensions))/2), 2))

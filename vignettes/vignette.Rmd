@@ -292,7 +292,8 @@ alpha = fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interva
 
 ```{r}
 FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
-FS
+FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
+FS$estimate
 ```
 
 The output of the `fs_construct` function is a list containing:
@@ -400,7 +401,7 @@ fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dime
 ```
 
 ```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)$variance %>% knitr::kable(digits = 4)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 500, verbose = F)$variance %>% knitr::kable(digits = 4)
 ```
 
 The following uses the Jackknife
