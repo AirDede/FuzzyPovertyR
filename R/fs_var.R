@@ -62,7 +62,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
                          dimnames = list(levels(breakdown),
                                          c(paste0("FS", 1:(P-1)), "Overall"),
                                          NULL))
-             var.hat = apply(var.array, 1:2, var, na.rm = TRUE)
+             var.hat = list(variance = apply(var.array, 1:2, var, na.rm = TRUE))
              # var.hat <- list(variance = Reduce(modifiedSum, BootDistr)/R)
            } else {
              var.hat <- list(variance = apply(do.call(rbind, BootDistr), 2, var))

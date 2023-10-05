@@ -291,7 +291,7 @@ alpha = fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interva
 ### Step 7 - Construction of the Fuzzy Supplementary measure.
 
 ```{r}
-FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL)
+# FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL) # no breakdown
 FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
 FS$estimate
 ```
@@ -307,7 +307,7 @@ FS$membership$FS1
 -   `estimate` the average of the membership function for each dimension
 
 ```{r}
-    FS$estimate
+FS$estimate
 ```
 
 -   `alpha` the parameter $\alpha$ estimated from data.
@@ -333,7 +333,7 @@ alpha = fm_construct(predicate = eusilc$red_eq, weight = eusilc$DB090, ID = NULL
 ```
 
 ```{r}
-fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .14, alpha = alpha, verbose = T)
+fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .14, alpha = alpha, verbose = F)
 fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "verma", type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
 ```
 
@@ -388,7 +388,7 @@ knitr::kable(cbind(
 fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = NULL, type = "bootstrap", z = 2000)
 ```
 
-```{r}
+```{r echo=FALSE}
 cbind(
   Bootstrap = fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000),
   Jackknife = fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)$estimate)
@@ -396,17 +396,17 @@ cbind(
 
 ### Fuzzy supplementary
 
-```{r}
+```{r eval=FALSE}
 fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)$variance %>% t() %>% knitr::kable(digits = 4)
 ```
 
 ```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 500, verbose = F)$variance %>% knitr::kable(digits = 4)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 50, verbose = F)$variance %>% knitr::kable(digits = 4)
 ```
 
 The following uses the Jackknife
 
-```{r}
+```{r eval=FALSE}
 fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, 
        breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', 
        stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01)$variance %>% knitr::kable(digits = 4)

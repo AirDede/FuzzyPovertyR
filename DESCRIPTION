@@ -9,7 +9,7 @@ Authors@R: c(
     person("Gianni", "Betti", , "betti@unisi.it", role = "ctb",
            comment = c(ORCID = "0000-0002-0414-7806"))
   )
-Description: FuzzyPovertyR is an R package to estimate fuzzy measures of poverty and deprivation. It also estimates the sampling variance of these measures using bootstrap or jackknife repeated replications.
+Description: Estimates fuzzy measures of poverty and deprivation. It also estimates the sampling variance of these measures using bootstrap or jackknife repeated replications.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
