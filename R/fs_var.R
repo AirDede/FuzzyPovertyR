@@ -36,7 +36,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
   if(!(type%in%c('bootstrap', 'jackknife'))) stop('incorrect variance estimation method.')
   if(is.null(M)) M <- nrow(data)
   if(is.null(ID)) ID <- seq_len(N)
-  if(is.null(weight)) weight <- N
+  if(is.null(weight)) weight <- rep(N, N)
   switch(type,
          bootstrap = {
            BootDistr <- lapply(1:R, function(x) {

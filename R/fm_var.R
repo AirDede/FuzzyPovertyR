@@ -44,7 +44,7 @@ fm_var <- function(predicate, weight, fm, ID = NULL,
                    z) {
 
   N <- length(predicate)
-  if(is.null(weight)) weight <- N
+  if(is.null(weight)) weight <- rep(N, N)
   if(is.null(ID)) ID <- seq_len(N)
   if(is.null(M)) M <- N
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
