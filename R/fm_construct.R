@@ -38,7 +38,7 @@
 #' fm = "verma", HCR = HCR, ID = eusilc$ID)
 
 #' @export
-fm_construct <- function(predicate, weight, fm = "verma", ID = NULL,
+fm_construct <- function(predicate, weight = NULL, fm = "verma", ID = NULL,
                          HCR, interval = c(1,10), alpha = NULL,
                          hh.size, k=3,
                          z1, z2, b,
