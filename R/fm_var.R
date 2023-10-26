@@ -14,15 +14,15 @@
 #' @param psu The vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).
 #' @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).
 #' @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
-#' @param HCR If fm="verma". The value of the head count ratio.
-#' @param interval If fm="verma". A numeric vector of length two to look for the value of alpha (if not supplied).
-#' @param alpha If fm="verma". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
+#' @param HCR If fm="verma" or fm="verma1999" or fm="TFR" . The value of the head count ratio.
+#' @param interval If fm="verma" or fm="verma1999" or fm="TFR". A numeric vector of length two to look for the value of alpha (if not supplied).
+#' @param alpha If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param hh.size If fm="ZBM". A numeric vector of household size.
 #' @param k If fm="ZBM". The number of change points locations to estimate.
-#' @param z1 If fm="belhadj".
-#' @param z2 If fm="belhadj".
-#' @param b If fm="belhadj". The shape parameter (if b=1 the mf is linear between z1 and z2)
-#' @param z If fm="chakravarty".
+#' @param z1 A parameter of the membership function if fm="belhadj" or fm="cerioli"
+#' @param z2 A parameter of the membership function if fm="belhadj" or fm="cerioli"
+#' @param b A parameter of the membership function if fm="belhadj". The shape parameter (if b=1 the mf is linear between z1 and z2)
+#' @param z A parameter of the membership function if fm="chakravarty".
 #'
 #' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
 #' @export
