@@ -157,33 +157,16 @@ fm_var <- function(predicate, weight, fm, ID = NULL,
 
            if(!is.null(breakdown)) {
              if(fm=="ZBM"){
-               var.hat <- list(estimate = apply(var_h, 2:3, sum, na.rm = T))
+               var.hat <- apply(var_h, 2:3, sum, na.rm = T)
              } else {
-             var.hat <- list(estimate = apply(var_h, 2, sum, na.rm = T) )
+             var.hat <- apply(var_h, 2, sum, na.rm = T)
              }
            } else {
-             var.hat <- list(estimate = sum(var_h, na.rm = T))
+             var.hat <- sum(var_h, na.rm = T)
 
            }
          })
   var.hat
 }
 
-# bootstrap.bill <- function(R, M, predicate, weight, ID, breakdown = NULL, verbose = T, ...){
-#   BootDistr <- sapply(1:R, function(x) {
-#     if(verbose == T) cat('Bootstrap Replicate : ', x, 'of', R, '\n')
-#     bootidx <- sample(1:N, size = M, replace = T)
-#     ID.boot <- ID[bootidx]
-#     predicate.boot <- predicate[bootidx]
-#     weight.boot <- weight[bootidx]
-#     if(!is.null(breakdown)) {
-#       breakdown.boot <- breakdown[bootidx]
-#       try(fm_construct(predicate.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown.boot)$estimate)
-#       # var.hat <- apply(bootstrap.bill, 1, var)
-#     } else {
-#       try(fm_construct(predicate.boot, weight.boot, ID.boot, HCR, interval, alpha, breakdown)$estimate)
-#       # var.hat <- var(bootstrap.bill)
-#     }
-#   })
-#   return(BootDistr)
-# }
+
