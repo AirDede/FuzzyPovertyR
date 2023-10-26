@@ -47,6 +47,7 @@ fm_construct <- function(predicate, weight, fm = "verma", ID = NULL,
                          verbose = TRUE){ # cambiare ordine dei parametri
   N <- length(predicate)
   if(is.null(weight)) weight <- rep(N, N)
+  if(!!(fm %in% c("verma", "verma1999", "chakravarty", "cerioli", "TFR", "ZBM"))) stop(cat("Select a membership function from the list: \n ", c('fm="verma"\n', 'fm="verma1999"\n', 'fm="chakravarty"\n', 'fm="cerioli"\n', 'fm="TFR"\n', 'fm="ZBM"\n')))
   switch(fm,
          verma = {res <- fm_verma(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)},
          ZBM = {res <- fm_ZBM(predicate, hh.size, weight, breakdown, k)},
