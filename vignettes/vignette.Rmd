@@ -341,8 +341,8 @@ If there are multiple sub-domains or sub-populations that need variance estimati
 
 ```{r echo=FALSE}
 knitr::kable(cbind(
-  Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = alpha, verbose = F),
-  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = .14, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)), digits = 4, caption = 'Variance estimates for sub-domains')
+  Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = hcr, alpha = alpha, verbose = FALSE),
+  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = hcr, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)), caption = 'Variance estimates for sub-domains')
 ```
 
 ### ZBM
@@ -351,14 +351,15 @@ The variance of the fuzzy index using `fm="ZBM"` is obtained as
 
 ```{r}
 z1 = 1000; z2 = 2000; b = 2
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj", breakdown = NULL, type = "bootstrap", z1 = z1, z2 = z2, b = b)
+fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", 
+       breakdown = NULL, type = "bootstrap", z1 = z1, z2 = z2, b = b)
 ```
 
 Results from sub-domains:
 
 ```{r message = FALSE}
 Bootstrap.zbm = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = NULL, verbose = F, R = 5)
-Jackknife.zbm = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "jackknife", hh.size = NULL, stratum = eusilc$stratum, psu = eusilc$psu)$estimate
+Jackknife.zbm = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "jackknife", hh.size = NULL, stratum = eusilc$stratum, psu = eusilc$psu)
 ```
 
 ```{r echo=FALSE}
@@ -368,16 +369,16 @@ kbl(data.frame(Bootstrap.zbm, Jackknife.zbm), digits = 4, col.names = rep(1:3,2)
 ### Belhadj
 
 ```{r}
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj", type = "bootstrap", z1 = z1, z2 = z2, b = b)
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj", type = "jackknife", z1 = z1, z2 = z2, b = b, stratum = eusilc$stratum, psu = eusilc$psu)$estimate
+fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", type = "bootstrap", z1 = z1, z2 = z2, b = b)
+fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", type = "jackknife", z1 = z1, z2 = z2, b = b, stratum = eusilc$stratum, psu = eusilc$psu)
 ```
 
 for different sub-domains instead use the `breakdown` argument
 
 ```{r echo=FALSE}
 knitr::kable(cbind(
-  Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "bootstrap", z1 = z1, z2 = z2, b = b), 
-  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj", breakdown = eusilc$db040, type = "jackknife", z1 = z1, z2 = z2, b = b, stratum = eusilc$stratum, psu = eusilc$psu)$estimate))
+  Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", breakdown = eusilc$db040, type = "bootstrap", z1 = z1, z2 = z2, b = b), 
+  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", breakdown = eusilc$db040, type = "jackknife", z1 = z1, z2 = z2, b = b, stratum = eusilc$stratum, psu = eusilc$psu)))
 ```
 
 ### Chackravarty
@@ -389,13 +390,13 @@ fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", 
 ```{r echo=FALSE}
 cbind(
   Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000),
-  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu)$estimate)
+  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu))
 ```
 
 ### Fuzzy supplementary
 
 ```{r eval=FALSE}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)$variance %>% t() %>% knitr::kable(digits = 4)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = hcr, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 20, verbose = F) %>% t() %>% knitr::kable(digits = 4)
 ```
 
 ```{r}

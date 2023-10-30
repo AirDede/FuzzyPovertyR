@@ -72,18 +72,11 @@ fm_var <- function(predicate, weight, fm, ID = NULL,
              if(!is.null(breakdown)) breakdown <- breakdown[bootidx]
              if(fm=="ZBM") {
                hh.size.boot <- hh.size[bootidx]
-               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z1, z2, b, z, breakdown)$estimate)
+               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z_min, z_max, z1, z2, b, z, breakdown)$estimate)
              } else {
-               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z1, z2, b, z, breakdown)$estimate)
+               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z_min, z_max, z1, z2, b, z, breakdown)$estimate)
              }
-             # if(!is.null(breakdown)) {
-             #   breakdown.boot <- breakdown[bootidx]
-             #   try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown.boot, z)$estimate)
-             #   # var.hat <- apply(bootstrap.bill, 1, var)
-             # } else {
-             #   try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size[bootidx], breakdown, z)$estimate)
-             #   # var.hat <- var(bootstrap.bill)
-             # }
+
            }, simplify = "array")
            if(!is.null(breakdown)){
                if (fm=="ZBM") {
@@ -94,11 +87,7 @@ fm_var <- function(predicate, weight, fm, ID = NULL,
 
            } else {
              var.hat <- var(BootDistr)
-             # mettere un if per belhadj (ma belhadj è multidimensionale per me forse va meglio sotto FS)
            }
-           # BootDistr <- sapply(mu.boot, mean) # fm_estimate for each replicate (meaningful only for breakdown?)
-           # hist(BootDistr, xlab = '', main = expression(paste("Bootstrap distribution of E(", mu, ')')), probability = T)
-           # var(BootDistr) #
          },
          jackknife = {
            tab <- data.frame(table(stratum, psu))
@@ -139,12 +128,12 @@ fm_var <- function(predicate, weight, fm, ID = NULL,
 
                if(!is.null(breakdown)){
                  if(fm=="ZBM") {
-                   z_hi[,,i] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z, breakdown[delete.idx])$estimate
+                   z_hi[,,i] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z_min, z_max, z1, z2, b, z, breakdown[delete.idx])$estimate
                  } else{
-                   z_hi[[i]] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z, breakdown[delete.idx])$estimate
+                   z_hi[[i]] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z_min, z_max, z1, z2, b, z, breakdown[delete.idx])$estimate
                  }
                } else {
-                 z_hi[i] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z1, z2, b, z)$estimate
+                 z_hi[i] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z_min, z_max, z1, z2, b, z)$estimate
                }
              }
 
