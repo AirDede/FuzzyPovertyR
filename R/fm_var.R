@@ -44,7 +44,15 @@ fm_var <- function(predicate, weight, fm, ID = NULL,
                    hh.size, k=3,
                    z_min, z_max,
                    z1, z2, b,
-                   z) {
+                   z,
+                   data = NULL) {
+  if(!is.null(data)){
+    predicate <- data[[predicate]]
+    weight <- data[[weight]]
+    breakdown <- data[[breakdown]]
+    hh.size <- data[[hh.size]]
+    ID <- data[[ID]]
+  }
   if(!(type %in% c("bootstrap ", "jackknife "))) stop("Select a variance estimation method from the list:  bootstrap, jackknife ")
   N <- length(predicate)
   if(is.null(weight)) weight <- rep(N, N)
