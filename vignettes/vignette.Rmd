@@ -97,20 +97,16 @@ The computation of a fuzzy poverty index that uses the `fm="verma"`argument goes
 1.  Estimation of the Head Count Ratio (HCR). The package `FuzzyPovertyR` provides the function `HCR` to estimate the Head Count Ratio from data. It outputs a list of three elements: a classification of units into being poor or not poor, the poverty line, and the value itself.
 
 ```{r}
-hcr = HCR(predicate = eusilc$red_eq, weight = eusilc$DB090, p = 0.5, q = 0.6)$HCR # add poverty threshold
+hcr = HCR(predicate = eusilc$eq_income, weight = eusilc$DB090, p = 0.5, q = 0.6)$HCR # add poverty threshold
 ```
 
-if needed, the package has a built-in function `eq_income` to calculate the equivalised disposable income using some equivalence scales.
-
-```{r}
-# eq_income
-```
+if needed, the package has a built-in function `eq_predicate` to calculate the equivalised disposable income using some equivalence scales.
 
 3.  Construction of the Fuzzy Monetary measure.
 
 ```{r}
-verma = fm_construct(predicate = eusilc$red_eq, weight = eusilc$DB090, ID = NULL,
-                     HCR = 0.12, interval = c(1,10), alpha = NULL, fm = "verma")
+verma = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = NULL,
+                     HCR = hcr, interval = c(1,10), alpha = NULL, fm = "verma")
 ```
 
 When `alpha = NULL` (the default) this function solves a non-linear equation finding the value $\alpha$ in `interval` that equates the expected value of the poverty measure to the Head Count Ratio calculated above (see #eq-betti2006). This can be avoided by specifying a numeric value of $\alpha$.
