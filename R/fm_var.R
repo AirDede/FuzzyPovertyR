@@ -19,9 +19,11 @@
 #' @param alpha If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param hh.size If fm="ZBM". A numeric vector of household size.
 #' @param k If fm="ZBM". The number of change points locations to estimate.
-#' @param z1 A parameter of the membership function if fm="belhadj" or fm="cerioli"
-#' @param z2 A parameter of the membership function if fm="belhadj" or fm="cerioli"
-#' @param b A parameter of the membership function if fm="belhadj". The shape parameter (if b=1 the mf is linear between z1 and z2)
+#' @param z_min A parameter of the membership function if fm="belhadj2011"
+#' @param z_max A parameter of the membership function if fm="belhadj2011"
+#' @param z1 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
+#' @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
+#' @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
 #' @param z A parameter of the membership function if fm="chakravarty".
 #'
 #' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
@@ -40,6 +42,7 @@ fm_var <- function(predicate, weight, fm, ID = NULL,
                    verbose = FALSE,
                    HCR, interval = c(1,10), alpha = NULL,
                    hh.size, k=3,
+                   z_min, z_max,
                    z1, z2, b,
                    z) {
   if(!(type %in% c("bootstrap ", "jackknife "))) stop("Select a variance estimation method from the list:  bootstrap, jackknife ")
