@@ -16,9 +16,11 @@
 #' @param alpha If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param hh.size If fm="ZBM". A numeric vector of household size.
 #' @param k If fm="ZBM". The number of change points locations to estimate.
-#' @param z1 A parameter of the membership function if fm="belhadj" or fm="cerioli"
-#' @param z2 A parameter of the membership function if fm="belhadj" or fm="cerioli"
-#' @param b A parameter of the membership function if fm="belhadj". The shape parameter (if b=1 the mf is linear between z1 and z2)
+#' @param z_min A parameter of the membership function if fm="belhadj2011"
+#' @param z_max A parameter of the membership function if fm="belhadj2011"
+#' @param z1 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
+#' @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
+#' @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
 #' @param z A parameter of the membership function if fm="chakravarty".
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
 #' @param verbose Logical. whether to print the proceeding of the procedure.
@@ -41,17 +43,19 @@
 fm_construct <- function(predicate, weight = NULL, fm = "verma", ID = NULL,
                          HCR, interval = c(1,10), alpha = NULL,
                          hh.size, k=3,
+                         z_min, z_max,
                          z1, z2, b,
                          z,
                          breakdown = NULL,
                          verbose = TRUE){ # cambiare ordine dei parametri
   N <- length(predicate)
   if(is.null(weight)) weight <- rep(N, N)
-  if(!(fm %in% c("verma", "verma1999", "chakravarty", "cerioli", "TFR", "ZBM"))) stop(cat("Select a membership function from the list: \n ", c('fm="verma"\n', 'fm="verma1999"\n', 'fm="chakravarty"\n', 'fm="cerioli"\n', 'fm="TFR"\n', 'fm="ZBM"\n')))
+  if(!(fm %in% c("verma", "verma1999", "chakravarty", "belhadj2011", "belhadj2015", "cerioli", "TFR", "ZBM"))) stop("Select a membership function from the list: verma, verma1999, chakravarty, belhadj2011, belhadj2015, cerioli, TFR, ZBM")
   switch(fm,
          verma = {res <- fm_verma(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)},
          ZBM = {res <- fm_ZBM(predicate, hh.size, weight, breakdown, k)},
-         belhadj = {res <- fm_belhadj2015(predicate, z1, z2, b, breakdown, weight)},
+         belhadj2011 = {res <- fm_belhadj2011(predicate, z_min, z_max, weight, breakdown)},
+         belhadj2015 = {res <- fm_belhadj2015(predicate, z1, z2, b, breakdown, weight)},
          chakravarty = {res <- fm_Chakravarty(predicate, z, weight, breakdown)},
          cerioli = {res <- fm_cerioli(predicate, z1, z2, weight, breakdown)},
          TFR = {res <- fm_TFR(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)},
