@@ -42,7 +42,7 @@ fm_var <- function(predicate, weight, fm, ID = NULL,
                    hh.size, k=3,
                    z1, z2, b,
                    z) {
-
+  if(!(type %in% c("bootstrap ", "jackknife "))) stop("Select a variance estimation method from the list:  bootstrap, jackknife ")
   N <- length(predicate)
   if(is.null(weight)) weight <- rep(N, N)
   if(is.null(ID)) ID <- seq_len(N)
