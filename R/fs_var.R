@@ -30,7 +30,7 @@
 fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
                    breakdown = NULL, alpha, rho = NULL, type = 'bootstrap',
                    R = 500, M = NULL, stratum, psu, f = 0.01, verbose = TRUE){
-
+  if(!(type %in% c("bootstrap ", "jackknife "))) stop("Select a variance estimation method from the list:  bootstrap, jackknife ")
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
   N <- nrow(data)
   if(!(type%in%c('bootstrap', 'jackknife'))) stop('incorrect variance estimation method.')
