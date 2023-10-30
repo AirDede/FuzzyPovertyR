@@ -29,7 +29,7 @@
 #'
 
 eq_predicate = function(predicate, ncomp, age, scale.eq,newscale){
-  if(!(scale.eq %in% c("Carbonaro", "n.par", "OECD7050", "modifiedOECD", "new"))) stop("Select a scale of equivalence from the list:  Carbonaro, n.par, OECD7050, modifiedOECD, new")
+  if(!(scale.eq %in% c("carbonaro", "n.par", "OECD7050", "modifiedOECD", "new"))) stop("Select a scale of equivalence from the list:  carbonaro, n.par, OECD7050, modifiedOECD, new")
   if (scale.eq=="carbonaro"){
     datascale=data.frame("ncomp"=c(1:7), "s.eq"=c(1,1.67,2.23,2.73,3.18,3.61,4.01))
     ncomp[ncomp>7]=7
