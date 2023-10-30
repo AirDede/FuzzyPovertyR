@@ -13,6 +13,10 @@
 #'
 #'
 fm_cerioli<- function (x, z1, z2, weight, breakdown) {
+  if(z1 < min(x) | z1 > max(x))stop("The value of z1 has to be between the minimum and the maximum of the predicate")
+  if(z2 < min(x) | z2 > max(x))stop("The value of z2 has to be between the minimum and the maximum of the predicate")
+  if(z2<z1)stop("The value of z2 has to be > z1")
+
   N <- length(x)
   y <- rep(NA, N)
   y[0 <= x & x < z1] <- 1
