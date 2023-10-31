@@ -78,6 +78,6 @@ the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $
 data(eusilc)
 HCR <- .154
 hh.size <- sample(1:4, 1000, replace = TRUE)
-fm_construct(predicate = eusilc$red_eq, weight = eusilc$DB090,
+fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090,
 fm = "verma", HCR = HCR, ID = eusilc$ID)
 }

@@ -400,7 +400,7 @@ fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dime
 ```
 
 ```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 50, verbose = F)$variance %>% knitr::kable(digits = 4)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 50, verbose = F) %>% knitr::kable(digits = 4)
 ```
 
 The following uses the Jackknife
@@ -408,5 +408,5 @@ The following uses the Jackknife
 ```{r eval=FALSE}
 fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, 
        breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', 
-       stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01)$variance %>% knitr::kable(digits = 4)
+       stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01) %>% knitr::kable(digits = 4)
 ```

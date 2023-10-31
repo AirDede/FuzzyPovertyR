@@ -25,6 +25,7 @@
 #' @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
 #' @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
 #' @param z A parameter of the membership function if fm="chakravarty".
+#' @param data an optional data frame containing the variables to be used.
 #'
 #' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
 #' @export
@@ -32,7 +33,7 @@
 #' data(eusilc)
 #' HCR <- 0.14
 #' hh.size <- rep(1, 1000)
-#' fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090,
+#' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
 #' fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
 #'
 fm_var <- function(predicate, weight, fm, ID = NULL,

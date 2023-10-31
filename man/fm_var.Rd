@@ -77,6 +77,8 @@ fm_var(
 \item{b}{A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)}
 
 \item{z}{A parameter of the membership function if fm="chakravarty".}
+
+\item{data}{an optional data frame containing the variables to be used.}
 }
 \value{
 The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
@@ -88,7 +90,7 @@ This function estimates the variance of the fuzzy monetary poverty index
 data(eusilc)
 HCR <- 0.14
 hh.size <- rep(1, 1000)
-fm_var(predicate = eusilc$red_eq, weight = eusilc$DB090,
+fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
 fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
 
 }
