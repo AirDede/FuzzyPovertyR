@@ -75,7 +75,7 @@ Fuzzy_conv <- function(x) {
 #' @param hh.size A numeric vector with the size of the houshold
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
-#' @param k The number of change points locations to estimate
+#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #'
 #' @import ecp
 #' @return The membership grades for each poverty state
@@ -84,13 +84,16 @@ Fuzzy_conv <- function(x) {
 #' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the Tunisian Case. Review of Income and Wealth, 61(3), 465-476.
 #' Belhadj, B., & Matoussi, M. S. (2010). Poverty in tunisia: A fuzzy measurement approach. Swiss Journal of Economics and Statistics, 146(2), 431-450.
 
-fm_ZBM <- function(predicate, hh.size, weight, breakdown, k){
+fm_ZBM <- function(predicate, hh.size, weight, breakdown , ID){
   # Zendini, Belhadi, Matoussi
+  k <- 3 # The number of change points locations to estimate
   N <- length(predicate)
+  if (is.null(ID)) ID <- seq_len(N)
   if(is.null(hh.size)) hh.size <- rep(1, N)
 
   #--- Step 0 ---#
   P <- bootP(x = predicate) # bootstrap estimates of percentiles
+  a = P[99]; b = 0.5*(P[99] + P[100]); c = P[100]
   MGM <- MemberhsipGradesMatrix(x = predicate, P = P)
 
   #--- Step 1 ---#
@@ -115,7 +118,13 @@ fm_ZBM <- function(predicate, hh.size, weight, breakdown, k){
         Q <- apply(step2_3.mat, 2, function(y) weighted.mean(x = y*hh.size, w = weight))
         P <- Fuzzy_conv(Q)
   }
-  return(list( mu = MGM, estimate = Q, P = P ))
+  fm_data <- data.frame(ID = ID, predicate = predicate, weight = weight)
+  order.idx <- order(fm_data$predicate)
+  fm_data <- fm_data[order.idx,]
+  return(list( results = fm_data,
+               mu = MGM,
+               mu_k =step2_3.mat[order.idx,],
+               estimate = Q, parameters = list(P = P, k =k, a  = a, b = b, c = c), fm = "ZBM"))
 }
 
 

@@ -4,7 +4,7 @@
 \alias{fm_ZBM}
 \title{Fuzzy monetary poverty estimation}
 \usage{
-fm_ZBM(predicate, hh.size, weight, breakdown, k)
+fm_ZBM(predicate, hh.size, weight, breakdown, k, ID)
 }
 \arguments{
 \item{predicate}{A numeric vector of a predicate variable (or poverty predicate)}
@@ -16,6 +16,8 @@ fm_ZBM(predicate, hh.size, weight, breakdown, k)
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
 
 \item{k}{The number of change points locations to estimate}
+
+\item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 }
 \value{
 The membership grades for each poverty state

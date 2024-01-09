@@ -15,7 +15,6 @@
 #' @param interval If fm="verma" or fm="verma1999" or fm="TFR". A numeric vector of length two to look for the value of alpha (if not supplied).
 #' @param alpha If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param hh.size If fm="ZBM". A numeric vector of household size.
-#' @param k If fm="ZBM". The number of change points locations to estimate.
 #' @param z_min A parameter of the membership function if fm="belhadj2011"
 #' @param z_max A parameter of the membership function if fm="belhadj2011"
 #' @param z1 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
@@ -43,7 +42,7 @@
 #' @export
 fm_construct <- function(predicate, weight = NULL, fm = "verma", ID = NULL,
                          HCR, interval = c(1,10), alpha = NULL,
-                         hh.size, k=3,
+                         hh.size,
                          z_min, z_max,
                          z1, z2, b,
                          z,
@@ -62,12 +61,13 @@ fm_construct <- function(predicate, weight = NULL, fm = "verma", ID = NULL,
   if(!(fm %in% c("verma", "verma1999", "chakravarty", "belhadj2011", "belhadj2015", "cerioli", "TFR", "ZBM"))) stop("Select a membership function from the list: verma, verma1999, chakravarty, belhadj2011, belhadj2015, cerioli, TFR, ZBM")
   switch(fm,
          verma = {res <- fm_verma(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)},
-         ZBM = {res <- fm_ZBM(predicate, hh.size, weight, breakdown, k)},
-         belhadj2011 = {res <- fm_belhadj2011(predicate, z_min, z_max, weight, breakdown)},
-         belhadj2015 = {res <- fm_belhadj2015(predicate, z1, z2, b, breakdown, weight)},
-         chakravarty = {res <- fm_Chakravarty(predicate, z, weight, breakdown)},
-         cerioli = {res <- fm_cerioli(predicate, z1, z2, weight, breakdown)},
+         ZBM = {res <- fm_ZBM(predicate, hh.size, weight, breakdown, ID)},
+         belhadj2011 = {res <- fm_belhadj2011(predicate, z_min, z_max, weight, breakdown, ID)},
+         belhadj2015 = {res <- fm_belhadj2015(predicate, z1, z2, b, breakdown, weight, ID)},
+         chakravarty = {res <- fm_Chakravarty(predicate, z, weight, breakdown, ID)},
+         cerioli = {res <- fm_cerioli(predicate, z1, z2, weight, breakdown, ID)},
          TFR = {res <- fm_TFR(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)},
          verma1999 = {res <- fm_verma2(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)})
+  res <- FuzzyPoverty(res)
   return(res)
 }

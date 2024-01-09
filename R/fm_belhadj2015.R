@@ -72,12 +72,15 @@ z_fun <- function(x, z1, z2, b){
 #' @param b Parameter
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
 #' @param weight A numeric vector of sampling weights
+#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #'
 #' @return a list containing the fuzzy membership function and the value of z found as of Belhadj(2015).
 #'
 #'
-fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight){
+fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight, ID){
   # uniroot(ddx_ub2, z2, b, interval = c(0, 100))
+  N <- length(x)
+  if(is.null(ID)) ID <- seq_len(N)
   z <- uniroot(z_fun, z1, z2, b, interval = c(z1, z2), extendInt = "yes")$root
   mu <- belhadj2015(x, z1, z2, z, b)
   if(!is.null(breakdown)) {
@@ -86,7 +89,12 @@ fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight){
   } else {
     estimate <- weighted.mean(x = mu, w = weight)
   }
-  return(list(mu = mu, estimate = estimate, z_star = z))
+  fm_data <- data.frame(ID = ID, predicate = x, weight = weight, mu = mu)
+  fm_data <- fm_data[order(fm_data$mu),]
+  return(list(results = fm_data,
+              estimate = estimate,
+              parameters = list(z1 = z1, z2 = z2, z = z, b = b),
+              fm = "Belhadj (2015)"))
 }
 
 
