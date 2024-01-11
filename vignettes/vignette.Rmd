@@ -66,9 +66,9 @@ $$
 
 -   `fm="belhadj"` (see @besma2015employment)
 
-    $$
+$$
         \mu_Q(x_i) = \begin{cases}        1    & y_i < z_1\\        \mu^1 = 1-\frac{1}{2}\left(\frac{y_i-z_1}{z_1}\right)^b & z_1 \le y_i < z^{*}\\        \mu^2 = 1-\frac{1}{2}\left(\frac{z_2 - y_i}{z_2}\right)^b   & z^{*} \le y_i < z_2\\        0     & y_i \ge z_2    \end{cases}
-    $$
+$$
 
 $$
 \mu_Q(x_i) = \begin{cases}
@@ -106,26 +106,14 @@ if needed, the package has a built-in function `eq_predicate` to calculate the e
 
 ```{r}
 verma = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = NULL,
-                     HCR = hcr, interval = c(1,10), alpha = NULL, fm = "verma")
+                     HCR = hcr, interval = c(1,20), alpha = NULL, fm = "TFR", verbose = FALSE)
+verma$fm
 class(verma)
 summary(verma)
+plot(verma)
 ```
 
-```{r}
-FL.curve = fm_FL(verma$results$predicate, verma$results$weight)
-verma.plot.data = data.frame(verma$results, Lorenz = FL.curve$Lorenz, WECDF = FL.curve$WECDF)
-verma.plot.data %>% dplyr::select(-weight) %>% 
-  tidyr::pivot_longer(cols = c(mu, Lorenz, WECDF), names_to = "curve", values_to = "value") %>%
-  ggplot(aes(x = predicate, y = value, linetype = curve)) +
-  geom_line(area = "black") + 
-  scale_linetype_manual(values = c("Lorenz" = "dashed", "mu" = "solid", "WECDF" = "dotted")) +
-  geom_area(position = "identity", alpha = .1) +
-  scale_x_continuous("Predicate", labels = function(x) format(x, scientific = FALSE), n.breaks = 6) + 
-  scale_y_continuous(expression(mu)) +
-  theme_minimal() + 
-  theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
-        legend.position = "bottom")
-```
+
 
 When `alpha = NULL` (the default) this function solves a non-linear equation finding the value $\alpha$ in `interval` that equates the expected value of the poverty measure to the Head Count Ratio calculated above (see #eq-betti2006). This can be avoided by specifying a numeric value of $\alpha$.
 
@@ -159,6 +147,17 @@ alpha = verma$alpha
 alpha
 ```
 
+```{r}
+verma.break$results %>% ggplot(aes(x = predicate, y = mu)) + 
+  geom_line() + geom_area(alpha = .2) + 
+  facet_wrap(~breakdown) + 
+  theme_minimal() + 
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
+        legend.position = "bottom",
+        axis.text.x = element_text(angle = 90))
+
+```
+
 ### ZBM
 
 The computation of the fuzzy index using the @zedini2015new membership function needs `fm = "ZBM"`. Note that in this cases you need to specify an additional argument `hh.size` which is the size of the household and an argument `k` denoting the number of poverty states that you want to investigate (see @zedini2015new for further details) . Leaving the `hh.size` argument empty is equivalent to say the household size for each unit is equal to 1. The default for `k` is `k=3` which corresponds to belonging to the states Weak deprivation, Medium Deprivation and Strong deprivation.
@@ -172,7 +171,8 @@ The output is list containing the
 hh.size = sample(1:4, length(eusilc$HB020), replace = T, prob = c(4,3,2,1))
 zbm = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size)
 
-data.frame(ID = zbm$results$ID, predicate = zbm$results$predicate, zbm$mu_k) %>% tidyr::pivot_longer(dplyr::contains("X"), names_to = "mu", values_to = "value") %>% 
+data.frame(ID = zbm$results$ID, predicate = zbm$results$predicate, zbm$mu_k) %>% 
+  tidyr::pivot_longer(dplyr::contains("X"), names_to = "mu", values_to = "value") %>% 
   ggplot2::ggplot(aes(x = predicate, y = value)) + geom_line() + geom_area(alpha = .2) + facet_wrap(~mu) + 
     scale_x_continuous("Predicate", labels = function(x) format(x, scientific = FALSE), n.breaks = 6) + 
   scale_y_continuous(expression(mu)) +
@@ -214,6 +214,7 @@ par.df = data.frame(Parameters = names(belhadj$parameters[-4]),
 par.lab = bquote(.(belhadj$parameters[4]))
 ggplot(belhadj$results, aes(x = predicate, y = mu)) + 
   geom_line(size = .8) + 
+  geom_area(alpha = .1) + 
   scale_x_continuous("Predicate", labels = function(x) format(x, scientific = FALSE), n.breaks = 6) + 
   scale_y_continuous(expression(mu)) +
   geom_vline(aes(xintercept = value, colour = Parameters), data = par.df, linetype = "dashed") +
@@ -237,20 +238,22 @@ belhadj.break = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090
 @chakravarty2019axiomatic axiomatic fuzzy index is obtained setting `fm = "chakravarty"`. The argument `z` needs user's specification
 
 ```{r}
-z =12000
+z = 60000
 chakravarty = fm_construct(predicate = eusilc$eq_income, eusilc$DB090, fm = "chakravarty", z = z)
 ```
 
 ```{r}
-par.df = data.frame(par = names(chakravarty$parameters),
+par.df = data.frame(Parameters = names(chakravarty$parameters),
                     value = unlist(chakravarty$parameters),
                     y = c(0))
 ggplot(chakravarty$results, aes(x = predicate, y = mu)) + 
-  geom_line() + 
+  geom_line() + geom_area(alpha = .1) + 
   scale_x_continuous("Predicate") + 
   scale_y_continuous(expression(mu)) +
-  geom_vline(aes(xintercept = value, colour = par), data = par.df, linetype = "dashed") +
-  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+  geom_vline(aes(xintercept = value, colour = Parameters), data = par.df, linetype = "dashed") +
+  theme_minimal() + 
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
+        legend.position = "bottom")
 ```
 
 ```{r}
@@ -359,7 +362,7 @@ alpha = fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interva
 ### Step 7 - Construction of the Fuzzy Supplementary measure.
 
 ```{r}
-# FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL) # no breakdown
+FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL) # no breakdown
 FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
 FS$estimate
 ```
@@ -370,6 +373,11 @@ The output of the `fs_construct` function is a list containing:
 
 ```{r eval=FALSE}
 FS$membership$FS1
+FS$membership$FS1 %>% ggplot(aes(x = s_hi, y = mu)) + geom_line() + facet_wrap(~breakdown)
+
+# no breakdown
+FS$membership$Overall %>% ggplot(aes(x = s_i, y = mu)) + geom_line()
+FS$membership$FS5 %>% ggplot(aes(x = s_hi, y = mu)) + geom_line()
 ```
 
 -   `estimate` the average of the membership function for each dimension

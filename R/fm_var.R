@@ -6,7 +6,7 @@
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param fm the type of membership function to use
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
-#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). Ff numeric will be coherced to a factor.
+#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.
 #' @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
 #' @param R The number of bootstrap replicates. Default is 500.
 #' @param M The size of bootstrap samples. Default is `nrow(data)`.
@@ -36,8 +36,10 @@
 #' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
 #' fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
 #'
-fm_var <- function(predicate, weight, fm, ID = NULL,
-                   breakdown = NULL, type = 'bootstrap',
+fm_var <- function(predicate, weight,
+                   fm, ID = NULL,
+                   breakdown = NULL,
+                   type = 'bootstrap',
                    R = 100, M = NULL,
                    stratum, psu, f = 0.01,
                    verbose = FALSE,

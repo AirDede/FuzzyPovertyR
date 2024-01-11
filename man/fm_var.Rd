@@ -40,7 +40,7 @@ fm_var(
 
 \item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 
-\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). Ff numeric will be coherced to a factor.}
+\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.}
 
 \item{type}{The variance estimation method chosen. One between \code{bootstrap} (default) or \code{jackknife}.}
 

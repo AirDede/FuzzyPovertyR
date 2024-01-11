@@ -13,7 +13,6 @@ fm_construct(
   interval = c(1, 10),
   alpha = NULL,
   hh.size,
-  k = 3,
   z_min,
   z_max,
   z1,
@@ -41,8 +40,6 @@ fm_construct(
 \item{alpha}{If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR}
 
 \item{hh.size}{If fm="ZBM". A numeric vector of household size.}
-
-\item{k}{If fm="ZBM". The number of change points locations to estimate.}
 
 \item{z_min}{A parameter of the membership function if fm="belhadj2011"}
 
