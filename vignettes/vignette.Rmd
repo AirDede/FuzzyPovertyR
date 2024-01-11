@@ -199,6 +199,8 @@ The parameter `b` $(>=1)$ rules the shape of the membership functions (set `b=1`
 ```{r}
 z1 = 20000; z2 = 70000; b = 2
 belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", z1 = z1, z2 = z2, b = b) # use id to return ordered as verma?
+belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2011", z_min = z1, z_max = z2) # use id to return ordered as verma?
+belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "cerioli", z1 = z1, z2 = z2) # use id to return ordered as verma?
 ```
 
 ```{r}

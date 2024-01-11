@@ -67,7 +67,7 @@ plot.FuzzyPoverty <- function(obj,...){
         ggplot2::theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
               legend.position = "bottom")
 
-    } else if (obj$fm == "chakravarty"){
+    } else if (obj$fm == "chakravarty" | obj$fm == "Cerioli and Zani" | obj$fm == "belhadj (2011)"){
       par.df = data.frame(Parameters = names(obj$parameters),
                           value = unlist(obj$parameters),
                           y = c(0))
@@ -79,7 +79,10 @@ plot.FuzzyPoverty <- function(obj,...){
         ggplot2::theme_minimal() +
         ggplot2::theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
               legend.position = "bottom")
+    } else if (obj$fm == "ZBM") {
+      paste("da fare")
     }
+
   } else {
     if(fm == "verma"){
       # lapply(split(obj$results, f = obj$results$breakdown), function(x) fm_FL(x$predicate, x$weight))
