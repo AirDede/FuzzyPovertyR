@@ -148,14 +148,8 @@ alpha
 ```
 
 ```{r}
-verma.break$results %>% ggplot(aes(x = predicate, y = mu)) + 
-  geom_line() + geom_area(alpha = .2) + 
-  facet_wrap(~breakdown) + 
-  theme_minimal() + 
-  theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
-        legend.position = "bottom",
-        axis.text.x = element_text(angle = 90))
-
+obj = verma.break
+obj$results
 ```
 
 ### ZBM
@@ -208,25 +202,8 @@ belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm =
 ```
 
 ```{r}
-par.df = data.frame(Parameters = names(belhadj$parameters[-4]),
-                    value = unlist(belhadj$parameters[-4]),
-                    y = c(0))
-par.lab = bquote(.(belhadj$parameters[4]))
-ggplot(belhadj$results, aes(x = predicate, y = mu)) + 
-  geom_line(size = .8) + 
-  geom_area(alpha = .1) + 
-  scale_x_continuous("Predicate", labels = function(x) format(x, scientific = FALSE), n.breaks = 6) + 
-  scale_y_continuous(expression(mu)) +
-  geom_vline(aes(xintercept = value, colour = Parameters), data = par.df, linetype = "dashed") +
-  scale_color_brewer(palette = "Dark2") + 
-  theme_minimal() + 
-  theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
-        legend.position = "bottom")
-```
-
-
-```{r}
 summary(belhadj)
+plot(belhadj)
 ```
 
 ```{r}
@@ -242,19 +219,6 @@ z = 60000
 chakravarty = fm_construct(predicate = eusilc$eq_income, eusilc$DB090, fm = "chakravarty", z = z)
 ```
 
-```{r}
-par.df = data.frame(Parameters = names(chakravarty$parameters),
-                    value = unlist(chakravarty$parameters),
-                    y = c(0))
-ggplot(chakravarty$results, aes(x = predicate, y = mu)) + 
-  geom_line() + geom_area(alpha = .1) + 
-  scale_x_continuous("Predicate") + 
-  scale_y_continuous(expression(mu)) +
-  geom_vline(aes(xintercept = value, colour = Parameters), data = par.df, linetype = "dashed") +
-  theme_minimal() + 
-  theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
-        legend.position = "bottom")
-```
 
 ```{r}
 summary(chakravarty)

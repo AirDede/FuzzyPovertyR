@@ -51,11 +51,37 @@ plot.FuzzyPoverty <- function(obj,...){
         ggplot2::theme_minimal() +
         ggplot2::theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
                        legend.position = "bottom")
-    } else {
-      paste(obj$fm)
+    } else if (obj$fm == "Belhadj (2015)") {
+      par.df = data.frame(Parameters = names(obj$parameters[-4]),
+                          value = unlist(obj$parameters[-4]),
+                          y = c(0))
+      par.lab = bquote(.(obj$parameters[4]))
+      ggplot2::ggplot(obj$results, aes(x = predicate, y = mu)) +
+        ggplot2::geom_line(linewidth = .8) +
+        ggplot2::geom_area(alpha = .1) +
+        ggplot2::scale_x_continuous("Predicate", labels = function(x) format(x, scientific = FALSE), n.breaks = 6) +
+        ggplot2::scale_y_continuous(expression(mu)) +
+        ggplot2::geom_vline(aes(xintercept = value, colour = Parameters), data = par.df, linetype = "dashed") +
+        ggplot2::scale_color_brewer(palette = "Dark2") +
+        ggplot2::theme_minimal() +
+        ggplot2::theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
+              legend.position = "bottom")
+
+    } else if (obj$fm == "chakravarty"){
+      par.df = data.frame(Parameters = names(obj$parameters),
+                          value = unlist(obj$parameters),
+                          y = c(0))
+      ggplot2::ggplot(obj$results, aes(x = predicate, y = mu)) +
+        ggplot2::geom_line() + geom_area(alpha = .1) +
+        ggplot2::scale_x_continuous("Predicate") +
+        ggplot2::scale_y_continuous(expression(mu)) +
+        ggplot2::geom_vline(aes(xintercept = value, colour = Parameters), data = par.df, linetype = "dashed") +
+        ggplot2::theme_minimal() +
+        ggplot2::theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
+              legend.position = "bottom")
     }
   } else {
-    if(fm = "verma"){
+    if(fm == "verma"){
       # lapply(split(obj$results, f = obj$results$breakdown), function(x) fm_FL(x$predicate, x$weight))
       obj$results %>% ggplot2::ggplot(ggplot2::aes(x = predicate, y = mu)) +
         ggplot2::geom_line() + ggplot2::geom_area(alpha = .2) +
