@@ -106,7 +106,7 @@ if needed, the package has a built-in function `eq_predicate` to calculate the e
 
 ```{r}
 verma = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = NULL,
-                     HCR = hcr, interval = c(1,20), alpha = NULL, fm = "TFR", verbose = FALSE)
+                     HCR = hcr, interval = c(1,20), alpha = NULL, fm = "verma1999", verbose = FALSE)
 verma$fm
 class(verma)
 summary(verma)
