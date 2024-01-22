@@ -20,7 +20,7 @@
 #' Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
 
 fs_weight <- function(dimensions, step2, rho = NULL){
-
+  step2 <- step2$step2
   J <- max(dimensions) # number of identified dimensions
   cor.list <- vector(mode = "list", length = J)
 
@@ -43,5 +43,7 @@ fs_weight <- function(dimensions, step2, rho = NULL){
     dplyr::group_by(ID) %>%
     dplyr::mutate(s_i =  mean(s_hi)) # CONTROLLARE FORMULA! CON P1080 BETTI EMPIRICAL ECONOMICS
 
-  return(result)
+  steps4_5 <- FuzzyPoverty(list(steps4_5 = result))
+
+  return(steps4_5)
 }

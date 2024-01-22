@@ -26,6 +26,7 @@
 #' weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
 
 fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
+  steps4_5 <- steps4_5$steps4_5
   if(!is.null(alpha)) if(alpha < 1) stop("The value of alpha has to be >=1")
   J <- max(steps4_5$Factor)
 
@@ -71,6 +72,7 @@ fs_construct <- function(steps4_5, weight, alpha, breakdown = NULL){
     colnames(estimate) <- headers
   }
 
-
-  return(list( membership = res.list, estimate = estimate, alpha = alpha))
+  res <- list( membership = res.list, estimate = estimate, alpha = alpha)
+  res <- FuzzyPoverty(res)
+  return(res)
 }

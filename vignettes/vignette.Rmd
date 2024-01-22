@@ -106,7 +106,7 @@ if needed, the package has a built-in function `eq_predicate` to calculate the e
 
 ```{r}
 verma = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = NULL,
-                     HCR = hcr, interval = c(1,20), alpha = NULL, fm = "verma1999", verbose = FALSE)
+                     HCR = hcr, interval = c(1,20), alpha = NULL, fm = "verma", verbose = FALSE)
 verma$fm
 class(verma)
 summary(verma)
@@ -162,21 +162,21 @@ The output is list containing the
 -   the fuzzy memberships for each poverty set
 
 ```{r}
-hh.size = sample(1:4, length(eusilc$HB020), replace = T, prob = c(4,3,2,1))
-zbm = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size)
-
-data.frame(ID = zbm$results$ID, predicate = zbm$results$predicate, zbm$mu_k) %>% 
-  tidyr::pivot_longer(dplyr::contains("X"), names_to = "mu", values_to = "value") %>% 
-  ggplot2::ggplot(aes(x = predicate, y = value)) + geom_line() + geom_area(alpha = .2) + facet_wrap(~mu) + 
-    scale_x_continuous("Predicate", labels = function(x) format(x, scientific = FALSE), n.breaks = 6) + 
-  scale_y_continuous(expression(mu)) +
-  theme_minimal() + 
-  theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
-        legend.position = "bottom",
-        axis.text.x = element_text(angle = 90))
-
-
-summary(zbm)
+# hh.size = sample(1:4, length(eusilc$HB020), replace = T, prob = c(4,3,2,1))
+# zbm = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", hh.size = hh.size)
+# 
+# data.frame(ID = zbm$results$ID, predicate = zbm$results$predicate, zbm$mu_k) %>% 
+#   tidyr::pivot_longer(dplyr::contains("X"), names_to = "mu", values_to = "value") %>% 
+#   ggplot2::ggplot(aes(x = predicate, y = value)) + geom_line() + geom_area(alpha = .2) + facet_wrap(~mu) + 
+#     scale_x_continuous("Predicate", labels = function(x) format(x, scientific = FALSE), n.breaks = 6) + 
+#   scale_y_continuous(expression(mu)) +
+#   theme_minimal() + 
+#   theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
+#         legend.position = "bottom",
+#         axis.text.x = element_text(angle = 90))
+# 
+# 
+# summary(zbm)
 ```
 
 
@@ -281,7 +281,7 @@ step1 = eusilc[,4:23]
 In this step the items are mapped from their original space to the $[0,1]$ interval using the function `fs_transform` (see [@betti2018simplified; @betti2008fuzzy])
 
 ```{r}
-step2 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID)
+step2 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID); class(step2)
 # step2.1 = fs_transform(step1, weight = eusilc$DB090, ID = eusilc$ID, depr.score = "d")
 ```
 
@@ -306,13 +306,13 @@ dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5)
 These steps computes the weights needed to aggregate transformed items values (see Step 2) into one value per dimension per unit.
 
 ```{r}
-steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL)
+steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL); class(steps4_5)
 ```
 
 The output is a longitudinal data frame that contains the weights $w_a, w_b, w = w_a\times w_b$ , the deprivation score $s_{hi}$ for unit $i$ and dimension $j$, and the overall score $s_i$ (the average over dimensions).
 
 ```{r}
-knitr::kable(head(steps4_5), digits = 4, caption = "Results from Steps 4 and 5.")
+knitr::kable(head(steps4_5$steps4_5), digits = 4, caption = "Results from Steps 4 and 5.")
 ```
 
 ### Step 6 - Calculation of the parameter $\alpha$
@@ -338,12 +338,12 @@ The output of the `fs_construct` function is a list containing:
 -   `membership` a `list` containing the FS measures for each statistical unit in the sample. Results for each dimension can be obtained by
 
 ```{r eval=FALSE}
-FS$membership$FS1
-FS$membership$FS1 %>% ggplot(aes(x = s_hi, y = mu)) + geom_line() + facet_wrap(~breakdown)
-
-# no breakdown
-FS$membership$Overall %>% ggplot(aes(x = s_i, y = mu)) + geom_line()
-FS$membership$FS5 %>% ggplot(aes(x = s_hi, y = mu)) + geom_line()
+# FS$membership$FS1
+# FS$membership$FS1 %>% ggplot(aes(x = s_hi, y = mu)) + geom_line() + facet_wrap(~breakdown)
+# 
+# # no breakdown
+# FS$membership$Overall %>% ggplot(aes(x = s_i, y = mu)) + geom_line()
+# FS$membership$FS5 %>% ggplot(aes(x = s_hi, y = mu)) + geom_line()
 ```
 
 -   `estimate` the average of the membership function for each dimension
