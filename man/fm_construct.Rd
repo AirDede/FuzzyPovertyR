@@ -20,8 +20,8 @@ fm_construct(
   b,
   z,
   breakdown = NULL,
-  verbose = TRUE,
-  data = NULL
+  data = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -55,9 +55,9 @@ fm_construct(
 
 \item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha).}
 
-\item{verbose}{Logical. whether to print the proceeding of the procedure.}
-
 \item{data}{an optional data frame containing the variables to be used.}
+
+\item{verbose}{Logical. whether to print the proceeding of the procedure.}
 }
 \value{
 a list containing the (fuzzy) membership function for each individual in the sample,

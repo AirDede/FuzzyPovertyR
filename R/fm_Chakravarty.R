@@ -17,7 +17,7 @@
 #' Chakravarty, S. R. (2019). An axiomatic approach to multidimensional poverty measurement via fuzzy sets. Poverty, social exclusion and stochastic dominance, 123-141.
 #'
 fm_Chakravarty <- function(x, z, weight, breakdown, ID){
-  if(z < min(x) | z > max(x))stop("The value of z has to be between the minimum and the maximum of the predicate")
+  if(z < min(x) | z > max(x)) stop("The value of z has to be between the minimum and the maximum of the predicate")
   N <- length(x)
   if(is.null(ID)) ID <- seq_len(N)
   y <- rep(NA, N)

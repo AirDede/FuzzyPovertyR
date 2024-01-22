@@ -6,7 +6,6 @@
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
 #' @param fm the type of membership function to use
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
-#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.
 #' @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
 #' @param R The number of bootstrap replicates. Default is 500.
 #' @param M The size of bootstrap samples. Default is `nrow(data)`.
@@ -25,6 +24,7 @@
 #' @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
 #' @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
 #' @param z A parameter of the membership function if fm="chakravarty".
+#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.
 #' @param data an optional data frame containing the variables to be used.
 #'
 #' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
@@ -38,16 +38,16 @@
 #'
 fm_var <- function(predicate, weight,
                    fm, ID = NULL,
-                   breakdown = NULL,
                    type = 'bootstrap',
                    R = 100, M = NULL,
                    stratum, psu, f = 0.01,
                    verbose = FALSE,
                    HCR, interval = c(1,10), alpha = NULL,
-                   hh.size, k=3,
+                   hh.size, #k=3,
                    z_min, z_max,
                    z1, z2, b,
                    z,
+                   breakdown = NULL,
                    data = NULL) {
   if(!is.null(data)){
     predicate <- data[[predicate]]
@@ -62,6 +62,7 @@ fm_var <- function(predicate, weight,
   if(is.null(ID)) ID <- seq_len(N)
   if(is.null(M)) M <- N
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
+  if(fm=="ZBM") k <- 3
   switch(type, # creare funzione bootstrap e funzione jacknife da chiamare qui invece che codificarle
          bootstrap = {
            BootDistr <- sapply(1:R, function(r) {
@@ -75,9 +76,9 @@ fm_var <- function(predicate, weight,
              if(!is.null(breakdown)) breakdown <- breakdown[bootidx]
              if(fm=="ZBM") {
                hh.size.boot <- hh.size[bootidx]
-               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z_min, z_max, z1, z2, b, z, breakdown)$estimate)
+               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, z_min, z_max, z1, z2, b, z, breakdown, data = NULL)$estimate)
              } else {
-               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, k, z_min, z_max, z1, z2, b, z, breakdown)$estimate)
+               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, z_min, z_max, z1, z2, b, z, breakdown, data = NULL)$estimate)
              }
 
            }, simplify = "array")
@@ -131,12 +132,12 @@ fm_var <- function(predicate, weight,
 
                if(!is.null(breakdown)){
                  if(fm=="ZBM") {
-                   z_hi[,,i] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z_min, z_max, z1, z2, b, z, breakdown[delete.idx])$estimate
+                   z_hi[,,i] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], z_min, z_max, z1, z2, b, z, breakdown[delete.idx], data)$estimate
                  } else{
-                   z_hi[[i]] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z_min, z_max, z1, z2, b, z, breakdown[delete.idx])$estimate
+                   z_hi[[i]] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], z_min, z_max, z1, z2, b, z, breakdown[delete.idx], data)$estimate
                  }
                } else {
-                 z_hi[i] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], k , z_min, z_max, z1, z2, b, z)$estimate
+                 z_hi[i] <- fm_construct(predicate[delete.idx], w[delete.idx], fm, ID[delete.idx], HCR, interval, alpha, hh.size[delete.idx], z_min, z_max, z1, z2, b, z)$estimate
                }
              }
 

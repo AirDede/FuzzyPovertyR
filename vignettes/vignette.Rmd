@@ -24,7 +24,7 @@ library(kableExtra)
 ```
 
 ```{r setup}
-library(FuzzyPovertyR)
+# library(FuzzyPovertyR)
 ```
 
 ## Introduction
@@ -118,7 +118,7 @@ plot(verma)
 When `alpha = NULL` (the default) this function solves a non-linear equation finding the value $\alpha$ in `interval` that equates the expected value of the poverty measure to the Head Count Ratio calculated above (see #eq-betti2006). This can be avoided by specifying a numeric value of $\alpha$.
 
 ```{r}
-verma = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = NULL, interval = c(1,10), alpha = 2)
+verma = fm_construct(predicate = eusilc$eq_income, fm = "verma1999", weight = eusilc$DB090, ID = NULL, interval = c(1,10), alpha = 2)
 ```
 
 The result of `fm_construct` using `fm="verma"` is a list containing
@@ -218,13 +218,13 @@ belhadj.break = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090
 
 ```{r}
 z = 60000
-chakravarty = fm_construct(predicate = eusilc$eq_income, eusilc$DB090, fm = "chakravarty", z = z)
+chakravarty = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", z = z)
 ```
 
 
 ```{r}
 summary(chakravarty)
-plot(chakravarty$results$predicate, chakravarty$results$mu, type = "l")
+plot(chakravarty)
 ```
 
 again is is possible to specify the `breakdown` argument to obtain estimates at sub-domains.
@@ -375,7 +375,7 @@ alpha = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = N
 ```
 
 ```{r}
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .14, alpha = alpha, verbose = F)
+fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .14, alpha = alpha, verbose = T)
 fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
 ```
 

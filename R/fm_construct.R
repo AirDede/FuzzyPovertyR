@@ -22,8 +22,8 @@
 #' @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
 #' @param z A parameter of the membership function if fm="chakravarty".
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
-#' @param verbose Logical. whether to print the proceeding of the procedure.
 #' @param data an optional data frame containing the variables to be used.
+#' @param verbose Logical. whether to print the proceeding of the procedure.
 #'
 #' @import dplyr
 #'
@@ -47,8 +47,8 @@ fm_construct <- function(predicate, weight = NULL, fm = "verma", ID = NULL,
                          z1, z2, b,
                          z,
                          breakdown = NULL,
-                         verbose = TRUE,
-                         data = NULL){ # cambiare ordine dei parametri
+                         data = NULL,
+                         verbose = FALSE){ # cambiare ordine dei parametri
   if(!is.null(data)){
     predicate <- data[[predicate]]
     weight <- data[[weight]]

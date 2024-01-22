@@ -9,7 +9,6 @@ fm_var(
   weight,
   fm,
   ID = NULL,
-  breakdown = NULL,
   type = "bootstrap",
   R = 100,
   M = NULL,
@@ -28,6 +27,7 @@ fm_var(
   z2,
   b,
   z,
+  breakdown = NULL,
   data = NULL
 )
 }
@@ -39,8 +39,6 @@ fm_var(
 \item{fm}{the type of membership function to use}
 
 \item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
-
-\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.}
 
 \item{type}{The variance estimation method chosen. One between \code{bootstrap} (default) or \code{jackknife}.}
 
@@ -77,6 +75,8 @@ fm_var(
 \item{b}{A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)}
 
 \item{z}{A parameter of the membership function if fm="chakravarty".}
+
+\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.}
 
 \item{data}{an optional data frame containing the variables to be used.}
 }
