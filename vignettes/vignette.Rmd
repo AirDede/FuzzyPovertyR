@@ -440,17 +440,17 @@ cbind(
 ### Fuzzy supplementary
 
 ```{r eval=FALSE}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = hcr, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 20, verbose = F) %>% t() %>% knitr::kable(digits = 4)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = hcr, alpha = 2, rho = NULL, type = 'bootstrap', M = NULL, R = 50, verbose = F) %>% t() %>% knitr::kable(digits = 4)
 ```
 
 ```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'bootstrap', M = NULL, R = 50, verbose = F) %>% knitr::kable(digits = 4)
+fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = 2, rho = NULL, type = 'bootstrap', M = NULL, R = 50, verbose = F) %>% knitr::kable(digits = 4)
 ```
 
 The following uses the Jackknife
 
 ```{r eval=FALSE}
 fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, 
-       breakdown = eusilc$db040, HCR = .16, alpha = alpha, rho = NULL, type = 'jackknife', 
+       breakdown = eusilc$db040, HCR = .16, alpha = 2, rho = NULL, type = 'jackknife', 
        stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01) %>% knitr::kable(digits = 4)
 ```
