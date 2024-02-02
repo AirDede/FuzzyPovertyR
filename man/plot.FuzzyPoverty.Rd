@@ -4,10 +4,12 @@
 \alias{plot.FuzzyPoverty}
 \title{The plot of a FuzzyPoverty object}
 \usage{
-\method{plot}{FuzzyPoverty}(obj, ...)
+\method{plot}{FuzzyPoverty}(x, ...)
 }
 \arguments{
-\item{An}{object of class "FuzzyPoverty"}
+\item{x}{An object of class "FuzzyPoverty"}
+
+\item{...}{Additional options}
 }
 \value{
 The plot

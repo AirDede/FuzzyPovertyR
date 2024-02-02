@@ -32,7 +32,7 @@ fs_transform = function(data, weight = NULL, ID = NULL, depr.score = "s", ...) {
   if(is.null(weight)) weight <- rep(N,N)
   deprivation_scores <- apply(data, 2, fuzzyScaleItem, weight, ID)
   transformed_items <- data.frame( ID, do.call(cbind, lapply(deprivation_scores, function(x) x[[depr.score]]) ), row.names = ID )
-  transformed_items <- FuzzyPoverty(list(step2 = transformed_items))
+  transformed_items <- FuzzySupplementary(list(step2 = transformed_items))
   return(transformed_items)
 
 }

@@ -17,7 +17,6 @@
 #' @param interval If fm="verma" or fm="verma1999" or fm="TFR". A numeric vector of length two to look for the value of alpha (if not supplied).
 #' @param alpha If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
 #' @param hh.size If fm="ZBM". A numeric vector of household size.
-#' @param k If fm="ZBM". The number of change points locations to estimate.
 #' @param z_min A parameter of the membership function if fm="belhadj2011"
 #' @param z_max A parameter of the membership function if fm="belhadj2011"
 #' @param z1 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
@@ -90,7 +89,7 @@ fm_var <- function(predicate, weight,
              }
 
            } else {
-             var.hat <- var(BootDistr)
+             var.hat <- var(BootDistr, na.rm = TRUE)
            }
          },
          jackknife = {
@@ -170,7 +169,9 @@ fm_var <- function(predicate, weight,
 
            }
          })
-  var.hat
+  var.hat <- list(variance = var.hat, type = type)
+  var.hat <- FuzzyPoverty(var.hat)
+  return(var.hat)
 }
 
 

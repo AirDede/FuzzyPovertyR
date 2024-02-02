@@ -1,6 +1,6 @@
 #' Fuzzy supplementary poverty estimation
 #'
-#' @description Step 4 and Step 5. Calculates the weights of dimensions discovered after factor analysis.
+#' @description Step 4 and Step 5. Calculates the weights of dimensions discovered after Dimension analysis.
 #'
 #' @details This function calculates the two set of weights w_a and w_b (see References)
 #'
@@ -33,17 +33,17 @@ fs_weight <- function(dimensions, step2, rho = NULL){
   # calcolare i coefficienti di variazione degli (1-s)
   result <- step2 %>%
     reshape2::melt(id.vars = 'ID', variable.name = 'Item', value.name = 's') %>%
-    dplyr::inner_join(data.frame(Item = Items, Factor = dimensions), by = 'Item') %>%
-    dplyr::group_by(Factor, Item) %>% # raggruppo per item, dimensione
+    dplyr::inner_join(data.frame(Item = Items, Dimension = dimensions), by = 'Item') %>%
+    dplyr::group_by(Dimension, Item) %>% # raggruppo per item, dimensione
     dplyr::mutate(w_a = sd(s) / mean(s) ) %>%
     dplyr::inner_join(wb.jh_df, by = 'Item') %>% # aggiungo i pesi dallo step prima
     dplyr::mutate(w = w_a*w_b) %>%
-    dplyr::group_by(Factor, ID) %>%
+    dplyr::group_by(Dimension, ID) %>%
     dplyr::mutate(s_hi = weighted.mean(s, w = w)) %>%
     dplyr::group_by(ID) %>%
     dplyr::mutate(s_i =  mean(s_hi)) # CONTROLLARE FORMULA! CON P1080 BETTI EMPIRICAL ECONOMICS
 
-  steps4_5 <- FuzzyPoverty(list(steps4_5 = result))
+  steps4_5 <- FuzzySupplementary(list(steps4_5 = result))
 
   return(steps4_5)
 }

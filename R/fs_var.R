@@ -64,7 +64,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
              var.hat = apply(var.array, 1:2, var, na.rm = TRUE)
              # var.hat <- list(variance = Reduce(modifiedSum, BootDistr)/R)
            } else {
-             var.hat <- apply(do.call(rbind, BootDistr), 2, var)
+             var.hat <- apply(do.call(rbind, BootDistr), 2, var, na.rm = TRUE)
              # par(mfrow = c(floor((1+max(dimensions))/2), 2))
              # for(i in 1:nrow(BootDistr)) hist(BootDistr, xlab = '', main = paste(rownames(BootDistr)[i], "Bootstrap distribution"), probability = T)
              # var.hat <- apply(BootDistr, 1, var) # decidere se restituire questo o anche la distributzione come sotto
@@ -83,7 +83,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
            w_jh <- tapply(weight, list(stratum, psu), sum, na.rm = T) # sum of the weights inside the strata
            w_h <- rowSums(w_jh) # sum of the weights inside the strata
            z_h = vector(mode = 'list', length = H)
-           col.labels <- c(paste0('Dimension ', 1:P), 'Overall')
+           col.labels <- c(paste0('FS', 1:P), 'Overall')
            var_h <- matrix(0, nrow = H, ncol = P+1); colnames(var_h) <- col.labels
            if(!is.null(breakdown)) var_h <- array(NA, dim = c(H, J, P+1), dimnames = list(NULL, levels(breakdown), col.labels))
            for(h in 1:H){ # for stratum
@@ -141,5 +141,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
            }
          })
 
-  var.hat
+  var.hat <- list(variance = var.hat, type = type)
+  var.hat <- FuzzySupplementary(var.hat)
+  return(var.hat)
 }

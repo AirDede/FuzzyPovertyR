@@ -4,10 +4,12 @@
 \alias{summary.FuzzyPoverty}
 \title{The summary of a FuzzyPoverty object}
 \usage{
-\method{summary}{FuzzyPoverty}(obj)
+\method{summary}{FuzzyPoverty}(object, ...)
 }
 \arguments{
-\item{An}{object of class "FuzzyPoverty"}
+\item{object}{An object of class "FuzzyPoverty"}
+
+\item{...}{Additional options}
 }
 \value{
 The summary method for class "FuzzyPoverty"

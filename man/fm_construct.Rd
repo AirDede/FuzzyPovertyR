@@ -21,7 +21,7 @@ fm_construct(
   z,
   breakdown = NULL,
   data = NULL,
-  verbose = TRUE
+  verbose = FALSE
 )
 }
 \arguments{
