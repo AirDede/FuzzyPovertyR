@@ -141,7 +141,11 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
            }
          })
 
-  var.hat <- list(variance = var.hat, type = type)
+  if(!is.null(breakdown)) {
+    var.hat <- list(variance = var.hat, size = table(breakdown), type = type)
+  } else {
+    var.hat <- list(variance = var.hat, type = type)
+  }
   var.hat <- FuzzySupplementary(var.hat)
   return(var.hat)
 }

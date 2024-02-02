@@ -1,14 +1,15 @@
-#' The summary of a FuzzyPoverty object
-#' @description Summary method for class "FuzzyPoverty"
+#' The summary of a FuzzyMonetary object
+#' @description Summary method for class "FuzzyMonetary"
 #'
-#' @param object An object of class "FuzzyPoverty"
+#' @param object An object of class "FuzzyMonetary"
 #' @param ... Additional options
 #'
-#' @return The summary method for class "FuzzyPoverty"
+#' @return The summary method for class "FuzzyMonetary"
 #' @export
 #'
-summary.FuzzyPoverty <- function(object,...) {
+summary.FuzzyMonetary <- function(object,...) {
   res <- object$results$mu; probs = c(0, .2, .4, .6, .8, 1)
+
   if(!is.null(object$fm)){
   if(object$fm!="ZBM" ) {
     cat("Fuzzy monetary results: \n\n",

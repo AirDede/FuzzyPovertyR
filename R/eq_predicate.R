@@ -11,7 +11,7 @@
 # value of equivalent people. It is to define only if scale.eq ="new"
 #' @import dplyr
 #'
-#' @return A numeric vector containing the equivalised predicate variable.
+#' @return A data.frame containing the equivalised predicate variable.
 #' @export
 #'
 #' @examples

@@ -21,7 +21,7 @@ fm_cerioli<- function (x, z1, z2, weight, breakdown, ID) {
   N <- length(x)
   if(is.null(ID)) ID <- seq_len(N)
 
-  y <- rep(NA, N)
+  y <- rep(NA_real_, N)
   y[0 <= x & x < z1] <- 1
   y[z1 <= x & x < z2] <- (z2 - x[z1 <= x & x < z2])/(z2-z1)
   y[x >= z2] <- 0

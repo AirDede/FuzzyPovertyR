@@ -169,7 +169,13 @@ fm_var <- function(predicate, weight,
 
            }
          })
+
+  # if(type=="bootstrap") var.hat <- list(variance = var.hat, quantiles = quantile(BootDistr, probs = c(.025, 0.5, 0.975)), type = type)
+  if(!is.null(breakdown)) {
+    var.hat <- list(variance = var.hat, size = table(breakdown), type = type)
+  } else {
   var.hat <- list(variance = var.hat, type = type)
+  }
   var.hat <- FuzzyPoverty(var.hat)
   return(var.hat)
 }

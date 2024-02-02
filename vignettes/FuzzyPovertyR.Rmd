@@ -11,20 +11,13 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  message = FALSE,
-  highlight = TRUE,
-  tidy = TRUE,
   comment = "#>"
 )
 ```
 
-```{r, echo=FALSE}
-library(dplyr)
-library(kableExtra)
-```
-
 ```{r setup}
-# library(FuzzyPovertyR)
+library(FuzzyPovertyR)
+library(kableExtra)
 ```
 
 ## Introduction
@@ -132,7 +125,7 @@ head(verma$results)
 -   The estimated FM measure (note that this equals the HCR if `breakdown=NULL`). However, one can obtain estimates for sub-domains using the `breakdown` argument as follows
 
 ```{r}
-verma.break = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = NULL, HCR = 0.12, interval = c(1,10), alpha = NULL, breakdown = eusilc$db040)
+verma.break = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = NULL, HCR = hcr, interval = c(1,10), alpha = NULL, breakdown = eusilc$db040)
 ```
 
 ```{r}
@@ -164,6 +157,7 @@ The output is list containing the
 
 ```{r}
 zbm = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", hh.size = eusilc$ncomp)
+plot(zbm)
 ```
 
 
@@ -298,36 +292,7 @@ These steps computes the weights needed to aggregate transformed items values (s
 ```{r}
 steps4_5 = fs_weight(dimensions, step2 = step2, rho = NULL); class(steps4_5)
 summary(steps4_5)
-
-
-steps4_5$steps4_5 %>% group_by(Item, Dimension) %>% 
-         summarise(Mean = mean(s)) %>% arrange(Dimension) %>%
-  ggplot(aes(x = reorder(Item, Dimension), y = Mean)) + 
-  geom_bar(aes(fill = factor(Dimension)), color = "black", stat = "identity", alpha = .7) + 
-  geom_line(aes(x = Item, y = value, group = weight, linetype = weight), 
-            data = steps4_5$steps4_5 %>% group_by(Item) %>% 
-         summarise(
-                   w = mean(w),
-                   w_a = mean(w_a),
-                   w_b = mean(w_b)) %>% 
-         pivot_longer(cols = c(w, w_a, w_b), names_to = "weight", values_to = "value")) +
-  theme_minimal() + 
-  scale_linetype_manual(values = c("solid", "dotted", "dashed"), labels = expression(w, w[a], w[b]))+
-  theme(axis.text.x = element_text(angle = 90), 
-        axis.title.y = element_blank(),
-        legend.position = "bottom",
-        legend.title = element_blank())
-
-steps4_5$steps4_5 %>% 
-  ungroup() %>%
-  select(Item, Dimension, w) %>% 
-  distinct() %>%
-  ggplot(aes(x = Dimension, y = w, fill = reorder(Item, Dimension))) + 
-  # coord_polar() +
-  geom_bar(stat = "identity", position = "fill", color = "black") + 
-  # facet_wrap(~Dimension) +
-  theme_minimal() + 
-  theme(legend.position = "bottom", axis.title.y = element_blank())
+plot(steps4_5)
 ```
 
 The output is a longitudinal data frame that contains the weights $w_a, w_b, w = w_a\times w_b$ , the deprivation score $s_{hi}$ for unit $i$ and dimension $j$, and the overall score $s_i$ (the average over dimensions).
@@ -341,7 +306,7 @@ knitr::kable(head(steps4_5$steps4_5), digits = 4, caption = "Results from Steps 
 This step is equivalent to that discussed in the Fuzzy Monetary section when `fm="verma"`. It needs either a former estimate of the Head Count Ratio or a value such that the expectation of the Fuzzy Supplementary measure has to be equal to.
 
 ```{r}
-alpha = fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interval = c(1,10))
+alpha = fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = hcr, interval = c(1,10))
 ```
 
 (*alternatively a user's defined specification of the `alpha` argument can be used as well.*)
@@ -352,23 +317,14 @@ alpha = fs_equate(steps4_5 = steps4_5, weight = eusilc$DB090, HCR = .16, interva
 FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = NULL) # no breakdown
 summary(FS)
 
-
 FS = fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)
 FS$estimate
+plot(FS)
 ```
 
 The output of the `fs_construct` function is a list containing:
 
 -   `membership` a `list` containing the FS measures for each statistical unit in the sample. Results for each dimension can be obtained by
-
-```{r eval=FALSE}
-# FS$membership$FS1
-# FS$membership$FS1 %>% ggplot(aes(x = s_hi, y = mu)) + geom_line() + facet_wrap(~breakdown)
-# 
-# # no breakdown
-# FS$membership$Overall %>% ggplot(aes(x = s_i, y = mu)) + geom_line()
-# FS$membership$FS5 %>% ggplot(aes(x = s_hi, y = mu)) + geom_line()
-```
 
 -   `estimate` the average of the membership function for each dimension
 
@@ -376,7 +332,7 @@ The output of the `fs_construct` function is a list containing:
 FS$estimate
 ```
 
--   `alpha` the parameter $\alpha$ estimated from data.
+- `alpha` the parameter $\alpha$ estimated from data.
 
 Again it is possible to obtain results for sub-domains by specifying the `breakdown`argument
 
@@ -399,8 +355,11 @@ alpha = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = N
 ```
 
 ```{r}
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .14, alpha = alpha, verbose = T)
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", type = "jackknife", HCR = .14, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
+boot.var = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma",  type = "bootstrap", HCR = .12, alpha = alpha, verbose = F, R = 10)
+
+# plot(boot.var)
+
+fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", type = "jackknife", HCR = .12, alpha = 9, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
 ```
 
 which gives the bootstrap estimate or the jackknife estimate.
@@ -412,6 +371,17 @@ knitr::kable(cbind(
   Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = hcr, alpha = alpha, verbose = FALSE),
   Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = hcr, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)), caption = 'Variance estimates for sub-domains')
 ```
+
+```{r}
+Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = hcr, alpha = alpha, verbose = FALSE)
+
+plot(Bootstrap)
+
+Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = hcr, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
+
+
+```
+
 
 ### ZBM
 
@@ -468,18 +438,22 @@ cbind(
 ### Fuzzy supplementary
 
 ```{r eval=FALSE}
-variance = fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = 0.15, alpha = 5, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)
+variance = fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = 0.12, alpha = 2, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)
 summary(variance)
+plot(variance)
 ```
 
 ```{r}
-fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = eusilc$db040, HCR = .16, alpha = 2, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F) %>% summary()
+Bootstrap = fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, 
+                  dimensions = dimensions, breakdown = eusilc$db040, HCR = .12,
+                   alpha = 2, rho = NULL, type = 'bootstrap', M = NULL, R = 100, verbose = F) 
+plot(Bootstrap)
 ```
 
 The following uses the Jackknife
 
 ```{r eval=FALSE}
 fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, 
-       breakdown = eusilc$db040, HCR = .16, alpha = 2, rho = NULL, type = 'jackknife', 
        stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01) %>% summary()
+       breakdown = eusilc$db040, HCR = .12, alpha = 2, rho = NULL, type = 'jackknife', 
 ```

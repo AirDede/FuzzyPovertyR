@@ -21,7 +21,7 @@ fm_belhadj2011 <- function (x, z_min, z_max, weight, breakdown, ID) {
   if(z_max<z_min)stop("The value of z_max has to be > z_min")
 
   N <- length(x)
-  y <- rep(NA, N)
+  y <- rep(NA_real_, N)
   y[0 <= x & x < z_min] <- 1
   y[z_min <= x & x < z_max] <- (z_max - x[z_min <= x & x < z_max])/(z_max-z_min)
   y[x >= z_max] <- 0

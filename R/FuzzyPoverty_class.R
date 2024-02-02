@@ -5,7 +5,7 @@
 #' @return an object of class FuzzyPoverty
 #'
 FuzzyPoverty <- function(x){
-  class(x) <- "FuzzyPoverty"
+  class(x) <- "FuzzyMonetary"
   return(x)
 }
 

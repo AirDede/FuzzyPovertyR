@@ -20,7 +20,7 @@ fm_Chakravarty <- function(x, z, weight, breakdown, ID){
   if(z < min(x) | z > max(x)) stop("The value of z has to be between the minimum and the maximum of the predicate")
   N <- length(x)
   if(is.null(ID)) ID <- seq_len(N)
-  y <- rep(NA, N)
+  y <- rep(NA_real_, N)
   y[x == 0] <- 1
   y[0<=x & x < z] <- (z - x[0<=x & x < z])/z
   y[x>=z] <- 0

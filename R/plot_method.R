@@ -1,7 +1,7 @@
-#' The plot of a FuzzyPoverty object
-#' @description plot method for class "FuzzyPoverty"
+#' The plot of a FuzzyMonetary object
+#' @description plot method for class "FuzzyMonetary"
 #'
-#' @param x An object of class "FuzzyPoverty"
+#' @param x An object of class "FuzzyMonetary"
 #' @param ... Additional options
 #' @import tidyr
 #' @import ggplot2
@@ -9,8 +9,8 @@
 #' @export
 #'
 
-plot.FuzzyPoverty <- function(x,...){
-#WECDF<--WECDF
+plot.FuzzyMonetary <- function(x,...){
+  if(!is.null(x$fm)){
     if(x$fm == "verma") {
       FL.curve = fm_FL(x$results$predicate, x$results$weight)
       x.plot.data = data.frame(x$results, Lorenz = FL.curve$Lorenz, "WECDF" = FL.curve$WECDF)
@@ -117,6 +117,21 @@ plot.FuzzyPoverty <- function(x,...){
         ggplot2::theme_minimal() +
         ggplot2::theme(axis.title.y = element_text(angle = 0, vjust = 0.5),
               legend.position = "bottom")
+    }
+  } else { # variance plot section
+
+
+    if(!("size" %in% names(x))) stop("no plot method if breakdown was not specified")
+    data.frame(x$variance) %>%
+      dplyr::mutate(Breakdown = row.names(.),
+                    Size = c(x$size)) %>%
+      tidyr::pivot_longer(!c(Size, Breakdown), names_to = "Dimension", values_to = "Variance") %>%
+      ggplot2::ggplot(ggplot2::aes(x = reorder(Breakdown, Size) , y = Variance, group = 1)) +
+      ggplot2::geom_line() + ggplot2::geom_point() + ggplot2::geom_area(alpha = .1) +
+      # geom_bar(stat = "identity", alpha = .7, color = "black") +
+      ggplot2::scale_x_discrete("Breakdown (sorted by ascending sample size)") +
+      ggplot2::theme_minimal()
+
     }
 
 }
