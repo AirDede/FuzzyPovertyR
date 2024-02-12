@@ -37,5 +37,5 @@ fm_belhadj2011 <- function (x, z_min, z_max, weight, breakdown, ID) {
   return(list(results = fm_data,
               estimate = estimate,
               parameters = list(z_min = z_min, z_max = z_max),
-              fm = "belhadj (2011)"))
+              fm = "belhadj2011"))
 }

@@ -47,7 +47,7 @@ fm_var(
 
 \item{stratum}{The vector identifying the stratum (if 'jackknife' is chosen as variance estimation technique).}
 
-\item{psu}{The vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).}
+\item{psu}{The vector identifying the psu (if 'jackknife' is chosen as variance estimation technique).}
 
 \item{f}{The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).}
 
@@ -73,12 +73,12 @@ fm_var(
 
 \item{z}{A parameter of the membership function if fm="chakravarty".}
 
-\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.}
+\item{breakdown}{A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a factor.}
 
 \item{data}{an optional data frame containing the variables to be used.}
 }
 \value{
-The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
+An object of class FuzzyMonetary containing the estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
 }
 \description{
 This function estimates the variance of the fuzzy monetary poverty index

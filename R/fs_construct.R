@@ -5,10 +5,10 @@
 #' @param steps4_5 The results from `fs_equate`.
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
 #' @param alpha The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
-#' @param breakdown A Dimension of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a Dimension.
+#' @param breakdown A Dimension of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a Dimension.
 #'
 #' @import dplyr
-#' @return A list of results containing the fuzzy meambership function for each unit, the point estimate (i.e. the expected value of the function), and the alpha parameter.
+#' @return An object of class FuzzySupplementary containing the fuzzy membership function for each unit, the point estimate (i.e. the expected value of the function), and the alpha parameter.
 #' @export
 #'
 #' @examples

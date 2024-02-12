@@ -3,9 +3,9 @@
 #' @description Calculates bootstrap percentiles from Zedini and Belhadj (2015)
 #'
 #' @param x A numeric vector of a predicate variable (or poverty predicate)
-#' @param R The number of bootstrap replicates (dafaults to 500)
+#' @param R The number of bootstrap replicates (defaults to 500)
 #'
-#' @return A matrix of bootrstapped percentiles
+#' @return A matrix of bootstrapped percentiles
 #'
 #' @references
 #' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the T unisian Case. Review of Income and Wealth, 61(3), 465-476.
@@ -25,10 +25,10 @@ bootP <- function(x, R = 500){
 #' @param b Membership function parameter
 #' @param c Membership function parameter
 #'
-#' @return The memebrship grade
+#' @return The membership grade
 #'
 #' @references
-#' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the T unisian Case. Review of Income and Wealth, 61(3), 465-476.
+#' Zedini, A., & Belhadj, B. (2015). A New Approach to Unidimensional Poverty Analysis: Application to the Tunisian Case. Review of Income and Wealth, 61(3), 465-476.
 
 FN <- function(x, a, b, c){
   y <- rep(NA_real_, length(x))
@@ -41,7 +41,7 @@ FN <- function(x, a, b, c){
 #' Fuzzy monetary poverty estimation
 #'
 #' @param x A numeric vector of a predicate variable (or poverty predicate)
-#' @param P A matrix of bootrstapped percentiles
+#' @param P A matrix of bootstapped percentiles
 #'
 #' @return The membership grade matrix
 
@@ -72,7 +72,7 @@ Fuzzy_conv <- function(x) {
 #' Fuzzy monetary poverty estimation
 #'
 #' @param predicate A numeric vector of a predicate variable (or poverty predicate)
-#' @param hh.size A numeric vector with the size of the houshold
+#' @param hh.size A numeric vector with the size of the household
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.

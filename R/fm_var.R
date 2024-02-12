@@ -10,7 +10,7 @@
 #' @param R The number of bootstrap replicates. Default is 500.
 #' @param M The size of bootstrap samples. Default is `nrow(data)`.
 #' @param stratum The vector identifying the stratum (if 'jackknife' is chosen as variance estimation technique).
-#' @param psu The vector identifying the psu (if 'jacknife' is chosen as variance estimation technique).
+#' @param psu The vector identifying the psu (if 'jackknife' is chosen as variance estimation technique).
 #' @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).
 #' @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
 #' @param HCR If fm="verma" or fm="verma1999" or fm="TFR" . The value of the head count ratio.
@@ -23,10 +23,10 @@
 #' @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
 #' @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
 #' @param z A parameter of the membership function if fm="chakravarty".
-#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a factor.
+#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a factor.
 #' @param data an optional data frame containing the variables to be used.
 #'
-#' @return The estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
+#' @return An object of class FuzzyMonetary containing the estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
 #' @export
 #' @examples
 #' data(eusilc)
@@ -62,7 +62,7 @@ fm_var <- function(predicate, weight,
   if(is.null(M)) M <- N
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
   if(fm=="ZBM") k <- 3
-  switch(type, # creare funzione bootstrap e funzione jacknife da chiamare qui invece che codificarle
+  switch(type, # creare funzione bootstrap e funzione jackknife da chiamare qui invece che codificarle
          bootstrap = {
            BootDistr <- sapply(1:R, function(r) {
              if(verbose == TRUE) {

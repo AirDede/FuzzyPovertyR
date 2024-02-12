@@ -29,7 +29,7 @@ belhadj2015 <- function(x, z1, z2, z, b){
 #' @param z1 Parameter
 #' @param b Parameter
 #'
-#' @return returns one of the two memebership functions as of Belhadj (2015).
+#' @return returns one of the two membership functions as of Belhadj (2015).
 #'
 ub1 <- function(x, z1, b){
   return( 1-0.5*((x-z1)/z1)^b)
@@ -41,7 +41,7 @@ ub1 <- function(x, z1, b){
 #' @param z2 Parameter
 #' @param b Parameter
 #'
-#' @return returns one of the two memebership functions as of Belhadj (2015).
+#' @return returns one of the two membership functions as of Belhadj (2015).
 #'
 ub2 <- function(x, z2, b){
   return( 0.5*((z2-x)/z2)^b )
@@ -58,7 +58,7 @@ ub2 <- function(x, z2, b){
 #' @param z2 Parameter
 #' @param b Parameter
 #'
-#' @return the difference between memberhip functions
+#' @return the difference between membership functions
 #'
 z_fun <- function(x, z1, z2, b){
   return( ub1(x, z1, b) - ub2(x, z2, b))
@@ -94,7 +94,7 @@ fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight, ID){
   return(list(results = fm_data,
               estimate = estimate,
               parameters = list(z1 = z1, z2 = z2, z = z, b = b),
-              fm = "Belhadj (2015)"))
+              fm = "belhadj2015"))
 }
 
 

@@ -8,7 +8,7 @@
 #' @param step2 The data frame resulting from step2.
 #' @param rho The critical value to be used for calculation of weights in the kendall correlation matrix.
 #'
-#' @return A data frame of weights and deprivation scores in each dimension identified.
+#' @return An object of class FuzzySupplementary with calculated weights and deprivation scores in each dimension identified.
 #' @export
 #'
 #' @examples

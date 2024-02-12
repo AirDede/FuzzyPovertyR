@@ -22,7 +22,7 @@ library(kableExtra)
 
 ## Introduction
 
-`FuzzyPovertyR` is a package for estimating fuzzy poverty indexes Broadly speaking, a fuzzy poverty index is an index that ranges in the set $Q=[0,1]$. A fuzzy indexes assigns to each statistical unit a value in this interval according to a given membership function $\mu(x_i)\in Q$ where $x$ is a poverty predicate. The more the value of $\mu$ the more the individual is reagarded as "poor" with respect to the poverty predicate $x$. In socio-economic surveys $x$ may be the equivalised disposable income, or expenditure. However, in principle $x$ may be a generic poverty predicate that the researcher needs to analyse, for example this could be a variable that relates to access to transports, services and other facilities.
+`FuzzyPovertyR` is a package for estimating fuzzy poverty indexes Broadly speaking, a fuzzy poverty index is an index that ranges in the set $Q=[0,1]$. A fuzzy indexes assigns to each statistical unit a value in this interval according to a given membership function $\mu(x_i)\in Q$ where $x$ is a poverty predicate. The more the value of $\mu$ the more the individual is regarded as "poor" with respect to the poverty predicate $x$. In socio-economic surveys $x$ may be the equivalised disposable income, or expenditure. However, in principle $x$ may be a generic poverty predicate that the researcher needs to analyse, for example this could be a variable that relates to access to transports, services and other facilities.
 
 Below we distinguish between monetary and supplementary poverty indexes (or measures). A fuzzy monetary poverty measure is calculated over a `numeric` vector of length $N$ (the available sample size). A supplementary poverty index is calculated on a `data.frame` of items of a questionnaire that relates to other dimensions of poverty other than monetary.
 
@@ -302,7 +302,7 @@ knitr::kable(fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = al
 
 ## Variance Estimation
 
-The variance of each Fuzzy Monetary measure can be estimated either via Boostrap or Jackknife Repeated Replications. We recommend the former each time the user has no knowledge of the sampling design, while we recommend the Jackknife when there is full information on the design and of the PSUs (see @betti2018simplified).
+The variance of each Fuzzy Monetary measure can be estimated either via Bootstrap or Jackknife Repeated Replications. We recommend the former each time the user has no knowledge of the sampling design, while we recommend the Jackknife when there is full information on the design and of the PSUs (see @betti2018simplified).
 
 ### Example using `fm=verma`
 

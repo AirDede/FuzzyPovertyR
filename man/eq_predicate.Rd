@@ -21,7 +21,7 @@ eq_predicate(predicate, ncomp, age, scale.eq, newscale)
 A data.frame containing the equivalised predicate variable.
 }
 \description{
-This function takes as input a numeric vector representing a predicate variable and turns it into its equivalised verision
+This function takes as input a numeric vector representing a predicate variable and turns it into its equivalised version
 using different equivalence scales.
 }
 \examples{

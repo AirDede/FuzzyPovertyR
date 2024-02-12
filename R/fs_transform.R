@@ -13,7 +13,7 @@
 #' @param depr.score The deprivation score to be used (see d or s in Betti et al (2018))
 #' @param ... other parameters
 #'
-#' @return a matrix of the same dimension of `data` with items mapped into the (0,1) interval
+#' @return An object of class FuzzySupplementary containing a matrix of the same dimension of `data` with items mapped into the (0,1) interval
 #' @export
 #'
 #' @examples

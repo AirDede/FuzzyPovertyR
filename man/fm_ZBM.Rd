@@ -9,7 +9,7 @@ fm_ZBM(predicate, hh.size, weight, breakdown, ID)
 \arguments{
 \item{predicate}{A numeric vector of a predicate variable (or poverty predicate)}
 
-\item{hh.size}{A numeric vector with the size of the houshold}
+\item{hh.size}{A numeric vector with the size of the household}
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used}
 

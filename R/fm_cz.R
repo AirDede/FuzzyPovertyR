@@ -37,5 +37,5 @@ fm_cerioli<- function (x, z1, z2, weight, breakdown, ID) {
   return(list(results = fm_data,
               estimate = estimate,
               parameters = list(z1 = z1, z2 = z2),
-              fm = "Cerioli and Zani"))
+              fm = "cerioli"))
 }

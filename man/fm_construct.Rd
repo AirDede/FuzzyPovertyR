@@ -29,7 +29,7 @@ fm_construct(
 
 \item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used.}
 
-\item{fm}{The memebership function (deafult is "verma". Other options are "ZBM", "belhadj", "chakravarty", "cerioli", "verma1999" and "TFR". See Betti et. al (2023) The fuzzy approach to poverty measurement. Research handbook of measuring poverty and depreivation (ed. by J. Silber))}
+\item{fm}{The membership function (defult is "verma". Other options are "ZBM", "belhadj", "chakravarty", "cerioli", "verma1999" and "TFR". See Betti et. al (2023) The fuzzy approach to poverty measurement. Research handbook of measuring poverty and deprivation (ed. by J. Silber))}
 
 \item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
 
@@ -60,9 +60,9 @@ fm_construct(
 \item{verbose}{Logical. whether to print the proceeding of the procedure.}
 }
 \value{
-a list containing the (fuzzy) membership function for each individual in the sample,
+an object of class FuzzyMonetary containing the (fuzzy) membership function for each individual in the sample,
 the estimated expected value (\code{estimate}) of the function and the parameters of the
-membership functions (supplied or calculated). if breakdown is supplied it gives an output for each level.
+membership functions (supplied or calculated). If breakdown is supplied it gives an output for each level.
 }
 \description{
 \code{fm_construct} constructs fuzzy monetary poverty estimates.

@@ -9,7 +9,7 @@
 #'
 #' @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)
 #' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
-#' @param fm The memebership function (deafult is "verma". Other options are "ZBM", "belhadj", "chakravarty", "cerioli", "verma1999" and "TFR". See Betti et. al (2023) The fuzzy approach to poverty measurement. Research handbook of measuring poverty and depreivation (ed. by J. Silber))
+#' @param fm The membership function (default is "verma". Other options are "ZBM", "belhadj", "chakravarty", "cerioli", "verma1999" and "TFR". See Betti et. al (2023) The fuzzy approach to poverty measurement. Research handbook of measuring poverty and deprivation (ed. by J. Silber))
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
 #' @param HCR If fm="verma" or fm="verma1999" or fm="TFR" . The value of the head count ratio.
 #' @param interval If fm="verma" or fm="verma1999" or fm="TFR". A numeric vector of length two to look for the value of alpha (if not supplied).
@@ -28,9 +28,9 @@
 #' @import dplyr
 #'
 #' @return
-#' a list containing the (fuzzy) membership function for each individual in the sample,
+#' an object of class FuzzyMonetary containing the (fuzzy) membership function for each individual in the sample,
 #' the estimated expected value (`estimate`) of the function and the parameters of the
-#' membership functions (supplied or calculated). if breakdown is supplied it gives an output for each level.
+#' membership functions (supplied or calculated). If breakdown is supplied it gives an output for each level.
 #'
 #' @examples
 #' data(eusilc)

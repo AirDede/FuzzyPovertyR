@@ -1,6 +1,6 @@
 #' Fuzzy predicate poverty estimation
 #'
-#' @description This function takes as input a numeric vector representing a predicate variable and turns it into its equivalised verision
+#' @description This function takes as input a numeric vector representing a predicate variable and turns it into its equivalised version
 #' using different equivalence scales.
 #'
 #' @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)

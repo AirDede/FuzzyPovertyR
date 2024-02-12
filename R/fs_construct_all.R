@@ -8,9 +8,9 @@
 #' @param HCR The value of the head count ratio.
 #' @param interval A numeric vector of length two to look for the value of alpha (if not supplied).
 #' @param alpha The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
-#' @param breakdown A Dimension of sub-domains to calculate estimates for (using the same alpha). If numeric will be coherced to a Dimension.
+#' @param breakdown A Dimension of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a Dimension.
 #'
-#' @return A list of results containing the fuzzy meambership function for each unit, the point estimate (i.e. the expected value of the function), and the alpha parameter.
+#' @return An object of class FuzzySupplementary containing the fuzzy membership function for each unit, the point estimate (i.e. the expected value of the function), and the alpha parameter.
 #' @export
 #'
 #' @examples

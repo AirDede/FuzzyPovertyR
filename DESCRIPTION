@@ -27,5 +27,7 @@ LazyData: true
 Suggests: 
     knitr,
     rmarkdown,
-    kableExtra
+    kableExtra,
+    spelling
 VignetteBuilder: knitr
+Language: en-US
