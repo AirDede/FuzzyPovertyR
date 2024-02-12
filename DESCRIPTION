@@ -1,6 +1,6 @@
 Package: FuzzyPovertyR
 Title: Estimation of Fuzzy Poverty Measures
-Version: 1.1.0
+Version: 2.0.0
 Authors@R: c(
     person("Federico", "Crescenzi", , "federico.crescenzi@unitus.it", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0701-4398")),
