@@ -83,7 +83,7 @@ $$
 
 For each of the functions below the `breakdown` argument can be specified in case the user's want to obtain estimates for given sub-domains.
 
-### Verma
+### Example using `fm=verma`
 
 The computation of a fuzzy poverty index that uses the `fm="verma"`argument goes trough the following steps:
 
@@ -141,36 +141,8 @@ alpha = verma$alpha
 alpha
 ```
 
-```{r}
-obj = verma.break
-obj$results
-```
 
-### ZBM
-
-The computation of the fuzzy index using the @zedini2015new membership function needs `fm = "ZBM"`. Note that in this cases you need to specify an additional argument `hh.size` which is the size of the household and an argument `k` denoting the number of poverty states that you want to investigate (see @zedini2015new for further details) . Leaving the `hh.size` argument empty is equivalent to say the household size for each unit is equal to 1. The default for `k` is `k=3` which corresponds to belonging to the states Weak deprivation, Medium Deprivation and Strong deprivation.
-
-The output is list containing the
-
--   `estimates` for each poverty set discovered using the function `e.divide` of the `ecp` package.
--   the fuzzy memberships for each poverty set
-
-```{r}
-zbm = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", hh.size = eusilc$ncomp)
-plot(zbm)
-```
-
-
-```{r}
-zbm.break = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", hh.size = NULL, breakdown = eusilc$db040)
-summary(zbm.break)
-```
-
-```{r echo=FALSE}
-knitr::kable(zbm.break$estimate, digits = 3, align = 'c', format = "html")
-```
-
-### Belhadj
+### Example using `fm=belhadj2015`
 
 The construction of a fuzzy index using the membership function as @besma2015employment is obtained by specifying `fm="belhadj"`. The arguments `z1`, `z2` and `b` need user's specification (see Formula above and @besma2015employment).
 
@@ -180,9 +152,7 @@ The parameter `b` $(>=1)$ rules the shape of the membership functions (set `b=1`
 
 ```{r}
 z1 = 20000; z2 = 70000; b = 2
-# belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", z1 = z1, z2 = z2, b = b) # use id to return ordered as verma?
-# belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2011", z_min = z1, z_max = z2) # use id to return ordered as verma?
-belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "cerioli", z1 = z1, z2 = z2) # use id to return ordered as verma?
+belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", z1 = z1, z2 = z2, b = b) 
 ```
 
 ```{r}
@@ -190,12 +160,8 @@ summary(belhadj)
 plot(belhadj)
 ```
 
-```{r}
-belhadj.break = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", z1 = z1, z2 = z2, b = b, breakdown = eusilc$db040) # use id to return ordered as verma?
-summary(belhadj.break)
-```
 
-### Chakravarty
+### Example using `fm=chakravarty`
 
 @chakravarty2019axiomatic axiomatic fuzzy index is obtained setting `fm = "chakravarty"`. The argument `z` needs user's specification
 
@@ -217,15 +183,7 @@ chakravarty.break = fm_construct(predicate = eusilc$eq_income, eusilc$DB090, fm 
 ```
 
 ```{r}
-knitr::kable(data.frame(verma.break$estimate, belhadj.break$estimate, chakravarty.break$estimate), col.names = c("Verma", "Belhadj", "Chakravarty"), digits = 4)
-```
-
-### Verma 1999
-
-```{r}
-verma1999 = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, 
-                      ID = NULL, HCR = hcr, interval = c(1,20), 
-                      alpha = NULL, fm = "verma1999")
+knitr::kable(data.frame(verma.break$estimate, chakravarty.break$estimate), col.names = c("Verma", "Chakravarty"), digits = 4)
 ```
 
 ------------------------------------------------------------------------
@@ -272,12 +230,12 @@ summary(step2$step2)
 which outputs
 
 ```{r}
-knitr::kable(head(step2), digits = 3, align = "c", caption = "Transformed items")
+knitr::kable(head(step2$step2), digits = 3, align = "c", caption = "Transformed items")
 ```
 
 ### Step 3 - Factor Analysis
 
-This fuzzy supplementary measure use factor analysis to undercover latent dimension in the data. There are multiple approaches to get factor analysis in R which we do not cover in this vignette, however the user can check for example the `lavaan` package. Anyways, factor analysis is not mandatory and the user may wish to unfertake a different approach to undercover a latent structure in the data. Indeed, it is possible to skip factor analysis or to use a personal assignment of columns in dimensions.
+This fuzzy supplementary measure use factor analysis to undercover latent dimension in the data. There are multiple approaches to get factor analysis in R which we do not cover in this vignette, however the user can check for example the `lavaan` package. Anyways, factor analysis is not mandatory and the user may wish to undertake a different approach to undercover a latent structure in the data. Indeed, it is possible to skip factor analysis or to use a personal assignment of columns in dimensions.
 
 Regardless of the chosen method, to go trough Step 3 the user has to specify a numeric vector of the same length of the number of items selected in Step 1 that assigns each column to a given dimension.
 
@@ -334,7 +292,7 @@ FS$estimate
 
 - `alpha` the parameter $\alpha$ estimated from data.
 
-Again it is possible to obtain results for sub-domains by specifying the `breakdown`argument
+Again, it is possible to obtain results for sub-domains by specifying the `breakdown` argument
 
 ```{r echo=FALSE}
 knitr::kable(fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = alpha, breakdown = eusilc$db040)$estimate, digits = 4 )
@@ -346,7 +304,7 @@ knitr::kable(fs_construct(steps4_5 = steps4_5, weight = eusilc$DB090, alpha = al
 
 The variance of each Fuzzy Monetary measure can be estimated either via Boostrap or Jackknife Repeated Replications. We recommend the former each time the user has no knowledge of the sampling design, while we recommend the Jackknife when there is full information on the design and of the PSUs (see @betti2018simplified).
 
-### Verma
+### Example using `fm=verma`
 
 In case of `fm="verma"`, we recommend the user to use the value of `alpha` from obtained from the function `fm_construct`. It is possible to specify different values of the parameter (i.e. `alpha=2`). We do not recommend to leave the argument `alpha=NULL` for the computation of variance.
 
@@ -368,8 +326,8 @@ If there are multiple sub-domains or sub-populations that need variance estimati
 
 ```{r echo=FALSE}
 knitr::kable(cbind(
-  Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = hcr, alpha = alpha, verbose = FALSE),
-  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = hcr, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)), caption = 'Variance estimates for sub-domains')
+  Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = hcr, alpha = alpha, verbose = FALSE)$variance,
+  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = hcr, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F))$variance, caption = 'Variance estimates for sub-domains')
 ```
 
 ```{r}
@@ -378,61 +336,6 @@ Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ve
 plot(Bootstrap)
 
 Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = hcr, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)
-
-
-```
-
-
-### ZBM
-
-The variance of the fuzzy index using `fm="ZBM"` is obtained as
-
-```{r}
-z1 = 1000; z2 = 2000; b = 2
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", 
-       breakdown = NULL, type = "bootstrap", z1 = z1, z2 = z2, b = b)
-```
-
-Results from sub-domains:
-
-```{r message = FALSE}
-Bootstrap.zbm = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "bootstrap", hh.size = NULL, verbose = F, R = 5)
-Jackknife.zbm = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ZBM", breakdown = eusilc$db040, type = "jackknife", hh.size = NULL, stratum = eusilc$stratum, psu = eusilc$psu)
-```
-
-```{r echo=FALSE}
-summary(Bootstrap.zbm)
-summary(Jackknife.zbm)
-```
-
-### Belhadj
-
-```{r}
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", type = "bootstrap", z1 = z1, z2 = z2, b = b)
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", type = "jackknife", z1 = z1, z2 = z2, b = b, stratum = eusilc$stratum, psu = eusilc$psu)
-```
-
-for different sub-domains instead use the `breakdown` argument
-
-```{r echo=FALSE}
-knitr::kable(cbind(
-  Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", breakdown = eusilc$db040, type = "bootstrap", z1 = z1, z2 = z2, b = b), 
-  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "belhadj2015", breakdown = eusilc$db040, type = "jackknife", z1 = z1, z2 = z2, b = b, stratum = eusilc$stratum, psu = eusilc$psu)))
-```
-
-### Chackravarty
-
-```{r}
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", breakdown = NULL, type = "bootstrap", z = 60000, R=1000) %>% summary()
-
-fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 60000, stratum = eusilc$stratum, psu = eusilc$psu) %>% summary()
-
-```
-
-```{r echo=FALSE}
-cbind(
-  Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "bootstrap", z = 2000),
-  Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "chakravarty", breakdown = eusilc$db040, type = "jackknife", z = 2000, stratum = eusilc$stratum, psu = eusilc$psu))
 ```
 
 ### Fuzzy supplementary

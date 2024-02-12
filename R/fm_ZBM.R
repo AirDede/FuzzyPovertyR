@@ -120,11 +120,15 @@ fm_ZBM <- function(predicate, hh.size, weight, breakdown , ID){
   }
   fm_data <- data.frame(ID = ID, predicate = predicate, weight = weight)
   order.idx <- order(fm_data$predicate)
+  fm_data$mu = FN(fm_data$predicate,
+                  a=a,
+                  b=b,
+                  c=c)
   fm_data <- fm_data[order.idx,]
   return(list( results = fm_data,
-               mu = MGM,
+               MGM = MGM,
                mu_k =step2_3.mat[order.idx,],
-               estimate = Q, parameters = list(P = P, k =k, a  = a, b = b, c = c), fm = "ZBM"))
+               estimate = Q, parameters = list(P = P, k = k, a  = a, b = b, c = c), fm = "ZBM"))
 }
 
 
