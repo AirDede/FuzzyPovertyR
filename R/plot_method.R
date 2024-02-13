@@ -74,7 +74,7 @@ plot.FuzzyMonetary <- function(x,...){
       ggplot2::ggplot(x$results, aes(x = predicate, y = mu)) +
         geom_area(alpha = .1) +
         ggplot2::geom_line() +
-        ggplot2::scale_x_continuous("Predicate") +
+        ggplot2::scale_x_continuous("Predicate", labels = function(x) format(x, scientific = FALSE), n.breaks = 6) +
         ggplot2::scale_y_continuous(expression(mu)) +
         ggplot2::geom_vline(aes(xintercept = value, colour = Parameters), data = par.df, linetype = "dashed") +
         ggplot2::theme_minimal() +
