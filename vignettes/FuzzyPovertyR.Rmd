@@ -104,6 +104,7 @@ verma$fm
 class(verma)
 summary(verma)
 plot(verma)
+plotly::ggplotly(plot(verma) + ggplot2::scale_y_continuous(name = ""))
 ```
 
 
@@ -158,6 +159,7 @@ belhadj = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, fm =
 ```{r}
 summary(belhadj)
 plot(belhadj)
+plotly::ggplotly(plot(belhadj) + ggplot2::scale_y_continuous(name = ""))
 ```
 
 
