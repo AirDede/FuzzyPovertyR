@@ -1,14 +1,14 @@
-#' Fuzzy monetary poverty estimation
-#'
-#' @param x A numeric vector of a monetary variable (or poverty predicate)
-#' @param z1 Parameter
-#' @param z2 Parameter
-#' @param z Parameter
-#' @param b Parameter
-#'
-#' @return The fuzzy membership function as of Belhadj (2015).
-#'
-#'
+# Fuzzy monetary poverty estimation
+#
+# @param x A numeric vector of a monetary variable (or poverty predicate)
+# @param z1 Parameter
+# @param z2 Parameter
+# @param z Parameter
+# @param b Parameter
+#
+# @return The fuzzy membership function as of Belhadj (2015).
+#
+#
 belhadj2015 <- function(x, z1, z2, z, b){
   if(z1 < min(x) | z1 > max(x)) stop("The value of z1 has to be between the minimum and the maximum of the predicate")
   if(z2 < min(x) | z2 > max(x)) stop("The value of z2 has to be between the minimum and the maximum of the predicate")
@@ -23,26 +23,26 @@ belhadj2015 <- function(x, z1, z2, z, b){
   return(y)
 }
 
-#' Fuzzy monetary poverty estimation
-#'
-#' @param x A numeric vector of a monetary variable (or poverty predicate)
-#' @param z1 Parameter
-#' @param b Parameter
-#'
-#' @return returns one of the two membership functions as of Belhadj (2015).
-#'
+# Fuzzy monetary poverty estimation
+#
+# @param x A numeric vector of a monetary variable (or poverty predicate)
+# @param z1 Parameter
+# @param b Parameter
+#
+# @return returns one of the two membership functions as of Belhadj (2015).
+#
 ub1 <- function(x, z1, b){
   return( 1-0.5*((x-z1)/z1)^b)
 }
 
-#' Fuzzy monetary poverty estimation
-#'
-#' @param x A numeric vector of a monetary variable (or poverty predicate)
-#' @param z2 Parameter
-#' @param b Parameter
-#'
-#' @return returns one of the two membership functions as of Belhadj (2015).
-#'
+# Fuzzy monetary poverty estimation
+#
+# @param x A numeric vector of a monetary variable (or poverty predicate)
+# @param z2 Parameter
+# @param b Parameter
+#
+# @return returns one of the two membership functions as of Belhadj (2015).
+#
 ub2 <- function(x, z2, b){
   return( 0.5*((z2-x)/z2)^b )
 }
@@ -51,32 +51,32 @@ ub2 <- function(x, z2, b){
 #   return((1/(2*z2))*b*(b-1)*(1-x/z2)^(b-2))
 # }
 
-#' Fuzzy monetary poverty estimation
-#'
-#' @param x A numeric vector of a monetary variable (or poverty predicate)
-#' @param z1 Parameter
-#' @param z2 Parameter
-#' @param b Parameter
-#'
-#' @return the difference between membership functions
-#'
+# Fuzzy monetary poverty estimation
+#
+# @param x A numeric vector of a monetary variable (or poverty predicate)
+# @param z1 Parameter
+# @param z2 Parameter
+# @param b Parameter
+#
+# @return the difference between membership functions
+#
 z_fun <- function(x, z1, z2, b){
   return( ub1(x, z1, b) - ub2(x, z2, b))
 }
 
-#' Fuzzy monetary poverty estimation
-#'
-#' @param x A numeric vector of a monetary variable (or poverty predicate)
-#' @param z1 Parameter
-#' @param z2 Parameter
-#' @param b Parameter
-#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
-#' @param weight A numeric vector of sampling weights
-#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
-#'
-#' @return a list containing the fuzzy membership function and the value of z found as of Belhadj(2015).
-#'
-#'
+# Fuzzy monetary poverty estimation
+#
+# @param x A numeric vector of a monetary variable (or poverty predicate)
+# @param z1 Parameter
+# @param z2 Parameter
+# @param b Parameter
+# @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha).
+# @param weight A numeric vector of sampling weights
+# @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
+#
+# @return a list containing the fuzzy membership function and the value of z found as of Belhadj(2015).
+#
+#
 fm_belhadj2015 <- function(x, z1, z2, b, breakdown, weight, ID){
   # uniroot(ddx_ub2, z2, b, interval = c(0, 100))
   N <- length(x)

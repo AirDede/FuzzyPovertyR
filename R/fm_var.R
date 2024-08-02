@@ -1,40 +1,40 @@
-#' Fuzzy monetary poverty estimation
-#'
-#' @description This function estimates the variance of the fuzzy monetary poverty index
-#'
-#' @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)
-#' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
-#' @param fm the type of membership function to use
-#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
-#' @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
-#' @param R The number of bootstrap replicates. Default is 500.
-#' @param M The size of bootstrap samples. Default is `nrow(data)`.
-#' @param stratum The vector identifying the stratum (if 'jackknife' is chosen as variance estimation technique).
-#' @param psu The vector identifying the psu (if 'jackknife' is chosen as variance estimation technique).
-#' @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).
-#' @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
-#' @param HCR If fm="verma" or fm="verma1999" or fm="TFR" . The value of the head count ratio.
-#' @param interval If fm="verma" or fm="verma1999" or fm="TFR". A numeric vector of length two to look for the value of alpha (if not supplied).
-#' @param alpha If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
-#' @param hh.size If fm="ZBM". A numeric vector of household size.
-#' @param z_min A parameter of the membership function if fm="belhadj2011"
-#' @param z_max A parameter of the membership function if fm="belhadj2011"
-#' @param z1 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
-#' @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
-#' @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
-#' @param z A parameter of the membership function if fm="chakravarty".
-#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a factor.
-#' @param data an optional data frame containing the variables to be used.
-#'
-#' @return An object of class FuzzyMonetary containing the estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
-#' @export
-#' @examples
-#' data(eusilc)
-#' HCR <- 0.14
-#' hh.size <- rep(1, 1000)
-#' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
-#' fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
-#'
+# Fuzzy monetary poverty estimation
+#
+# @description This function estimates the variance of the fuzzy monetary poverty index
+#
+# @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)
+# @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
+# @param fm the type of membership function to use
+# @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
+# @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
+# @param R The number of bootstrap replicates. Default is 500.
+# @param M The size of bootstrap samples. Default is `nrow(data)`.
+# @param stratum The vector identifying the stratum (if 'jackknife' is chosen as variance estimation technique).
+# @param psu The vector identifying the psu (if 'jackknife' is chosen as variance estimation technique).
+# @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).
+# @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
+# @param HCR If fm="verma" or fm="verma1999" or fm="TFR" . The value of the head count ratio.
+# @param interval If fm="verma" or fm="verma1999" or fm="TFR". A numeric vector of length two to look for the value of alpha (if not supplied).
+# @param alpha If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
+# @param hh.size If fm="ZBM". A numeric vector of household size.
+# @param z_min A parameter of the membership function if fm="belhadj2011"
+# @param z_max A parameter of the membership function if fm="belhadj2011"
+# @param z1 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
+# @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
+# @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
+# @param z A parameter of the membership function if fm="chakravarty".
+# @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a factor.
+# @param data an optional data frame containing the variables to be used.
+#
+# @return An object of class FuzzyMonetary containing the estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
+# @export
+# @examples
+# data(eusilc)
+# HCR <- 0.14
+# hh.size <- rep(1, 1000)
+# fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
+# fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
+#
 fm_var <- function(predicate, weight,
                    fm, ID = NULL,
                    type = 'bootstrap',

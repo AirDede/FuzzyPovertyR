@@ -1,11 +1,11 @@
-#' Fuzzy supplementary poverty estimation.
-#'
-#' @param s.ord A vector of ordered deprivation scores.
-#' @param w.ord A vector of ordered sampling weights. In the same order of `s.ord`.
-#' @param alpha The alpha parameter.
-#'
-#' @return the fuzzy membership function.
-#'
+# Fuzzy supplementary poverty estimation.
+#
+# @param s.ord A vector of ordered deprivation scores.
+# @param w.ord A vector of ordered sampling weights. In the same order of `s.ord`.
+# @param alpha The alpha parameter.
+#
+# @return the fuzzy membership function.
+#
 fs_mu <- function(s.ord, w.ord, alpha){
 
   #@ s.ord. a sorted vector of deprivation scores.

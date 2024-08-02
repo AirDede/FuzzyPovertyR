@@ -1,12 +1,12 @@
-#' Calculating a weighted quantile.
-#'
-#' @description This function calculates a weighted quantile
-#'
-#' @param x a numeric vector representing a statistical variable
-#' @param w a numeric vector containing sampling weights
-#' @param p the order of quantile
-#'
-#' @return a weighted quantile
+# Calculating a weighted quantile.
+#
+# @description This function calculates a weighted quantile
+#
+# @param x a numeric vector representing a statistical variable
+# @param w a numeric vector containing sampling weights
+# @param p the order of quantile
+#
+# @return a weighted quantile
 
 weighted_quantile <- function(x, w, p) {
 

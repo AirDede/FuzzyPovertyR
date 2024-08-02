@@ -1,18 +1,18 @@
-#' Fuzzy monetary poverty estimation
-#'
-#' @description
-#' constructs fuzzy monetary poverty estimates as of Belhadj (2011)
-#'
-#' @param x poverty predicate
-#' @param z_min parameter
-#' @param z_max parameter
-#' @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
-#' @param breakdown A factor of sub-domains to calculate estimates for.
-#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
-#'
-#' @return a list containing the membership function values and its expected value
-#'
-#'
+# Fuzzy monetary poverty estimation
+#
+# @description
+# constructs fuzzy monetary poverty estimates as of Belhadj (2011)
+#
+# @param x poverty predicate
+# @param z_min parameter
+# @param z_max parameter
+# @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
+# @param breakdown A factor of sub-domains to calculate estimates for.
+# @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
+#
+# @return a list containing the membership function values and its expected value
+#
+
 fm_belhadj2011 <- function (x, z_min, z_max, weight, breakdown, ID) {
   N <- length(x)
   if(is.null(ID)) ID <- seq_len(N)

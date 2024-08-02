@@ -1,16 +1,16 @@
-#' Fuzzy supplementary poverty estimation.
-#'
-#' @param j The number identifying one of the latent dimensions discovered
-#' @param step2 The result obtained from Step2 of the fuzzy supplementary procedure.
-#' @param dimensions A numeric vector enumerating the dimensions discovered
-#' @param rho The critical value to be used for calculation of weights in the kendall correlation matrix.
-#' @param ... other parameters
-#'
-#' @return The weight obtained for item j in dimension h as of Formula 12 of Betti and Verma 2008.
-#'
-#' @references
-#' Betti, G., & Verma, V. (2008). Fuzzy measures of the incidence of relative poverty and deprivation: a multi-dimensional perspective. Statistical Methods and Applications, 17(2), 225-250.
-#'
+# Fuzzy supplementary poverty estimation.
+#
+# @param j The number identifying one of the latent dimensions discovered
+# @param step2 The result obtained from Step2 of the fuzzy supplementary procedure.
+# @param dimensions A numeric vector enumerating the dimensions discovered
+# @param rho The critical value to be used for calculation of weights in the kendall correlation matrix.
+# @param ... other parameters
+#
+# @return The weight obtained for item j in dimension h as of Formula 12 of Betti and Verma 2008.
+#
+# @references
+# Betti, G., & Verma, V. (2008). Fuzzy measures of the incidence of relative poverty and deprivation: a multi-dimensional perspective. Statistical Methods and Applications, 17(2), 225-250.
+#
 wb.jh <- function(j, step2, dimensions, rho, ...){
   col_sel <- (dimensions==j)
   X <- step2[,col_sel]

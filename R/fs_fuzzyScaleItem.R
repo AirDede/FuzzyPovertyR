@@ -1,17 +1,17 @@
-#' Fuzzy supplementary poverty estimation
-#'
-#' @description Step 2. It calculates deprivation score
-#' @param item A factor or numeric vector representing answers to an item (a column of data) that has to be rescaled. it will be converted to an ordered factor.
-#' @param weight A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.
-#' @param ID A vector of length `nrow(data)` containing individuals IDs. if NULL (the default) row numbers will be used.
-#' @param ... other parameters
-#'
-#' @import dplyr
-#' @return The item rescaled according to Betti et. al 2018.
-#'
-#'
-#' @references
-#' #' Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
+# Fuzzy supplementary poverty estimation
+#
+# @description Step 2. It calculates deprivation score
+# @param item A factor or numeric vector representing answers to an item (a column of data) that has to be rescaled. it will be converted to an ordered factor.
+# @param weight A vector of sampling weights. If it is NULL (the default) weights are assigned assuming simple random sampling of units.
+# @param ID A vector of length `nrow(data)` containing individuals IDs. if NULL (the default) row numbers will be used.
+# @param ... other parameters
+#
+# @import dplyr
+# @return The item rescaled according to Betti et. al 2018.
+#
+#
+# @references
+# # Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
 
 fuzzyScaleItem = function(item, weight, ID, ...){
   ordered_item = factor(item, ordered = T)

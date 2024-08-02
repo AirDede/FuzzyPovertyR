@@ -32,7 +32,7 @@ fs_weight <- function(dimensions, step2, rho = NULL){
   Items <- colnames(step2)[-1] # elimino la colonna ID, si potrebbe evitare lo step?
   # calcolare i coefficienti di variazione degli (1-s)
   result <- step2 %>%
-    reshape2::melt(id.vars = 'ID', variable.name = 'Item', value.name = 's') %>%
+    tidyr::gather('Item', 's', -'ID') %>%
     dplyr::inner_join(data.frame(Item = Items, Dimension = dimensions), by = 'Item') %>%
     dplyr::group_by(Dimension, Item) %>% # raggruppo per item, dimensione
     dplyr::mutate(w_a = sd(s) / mean(s) ) %>%
