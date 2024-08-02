@@ -1,43 +1,96 @@
-# Fuzzy monetary poverty estimation
-#
-# @description This function estimates the variance of the fuzzy monetary poverty index
-#
-# @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)
-# @param weight A numeric vector of sampling weights. if NULL simple random sampling weights will be used.
-# @param fm the type of membership function to use
-# @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.
-# @param type The variance estimation method chosen. One between `bootstrap` (default) or `jackknife`.
-# @param R The number of bootstrap replicates. Default is 500.
-# @param M The size of bootstrap samples. Default is `nrow(data)`.
-# @param stratum The vector identifying the stratum (if 'jackknife' is chosen as variance estimation technique).
-# @param psu The vector identifying the psu (if 'jackknife' is chosen as variance estimation technique).
-# @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique).
-# @param verbose Logical. whether to print the proceeding of the variance estimation procedure.
-# @param HCR If fm="verma" or fm="verma1999" or fm="TFR" . The value of the head count ratio.
-# @param interval If fm="verma" or fm="verma1999" or fm="TFR". A numeric vector of length two to look for the value of alpha (if not supplied).
-# @param alpha If fm="verma" or fm="verma1999" or fm="TFR". The value of the exponent in equation $E(mu)^(alpha-1) = HCR$. If NULL it is calculated so that it equates the expectation of the membership function to HCR
-# @param hh.size If fm="ZBM". A numeric vector of household size.
-# @param z_min A parameter of the membership function if fm="belhadj2011"
-# @param z_max A parameter of the membership function if fm="belhadj2011"
-# @param z1 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
-# @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli"
-# @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
-# @param z A parameter of the membership function if fm="chakravarty".
-# @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a factor.
-# @param data an optional data frame containing the variables to be used.
-#
-# @return An object of class FuzzyMonetary containing the estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
-# @export
-# @examples
-# data(eusilc)
-# HCR <- 0.14
-# hh.size <- rep(1, 1000)
-# fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
-# fm = "verma", breakdown = eusilc$db040, type = "bootstrap", HCR = .14, alpha = 9)
-#
+#' Fuzzy monetary poverty estimation
+#'
+#' @description This function estimates the variance of the fuzzy monetary poverty index
+#'
+#' @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)
+#' @param weight A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)
+#' @param fm The membership function (default is "verma". Other options are "ZBM", "belhadj2015", "belhadj2011", "chakravarty", "cerioli", "verma1999" and "TFR". See Betti et. al., 2023)
+#' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence
+#' @param type The variance estimation method chosen. One between `bootstrap_naive` (default), `bootstrap_calibrated` or `jackknife`
+#' @param R The number of bootstrap replicates. Default is 500
+#' @param M The size of bootstrap samples. Default is `nrow(data)`
+#' @param stratum The vector identifying the stratum (if 'jackknife' is chosen as variance estimation technique)
+#' @param psu The vector identifying the psu (if 'jackknife' is chosen as variance estimation technique)
+#' @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique)
+#' @param verbose Logical. whether to print the proceeding of the variance estimation procedure
+#' @param HCR If fm="verma" or fm="verma1999" or fm="TFR" . The value of the head count ratio used to compute alpha so that the membership function equals the HCR
+#' @param interval If fm="verma" or fm="verma1999" or fm="TFR". A numeric vector of length two to look for the value of alpha (if not supplied)
+#' @param alpha The value of the exponent in equations of "verma", "verma1999" and "TFR". If NULL it is calculated so that it equates the expectation of the membership function to HCR.
+#' @param hh.size If fm="ZBM". A numeric vector of household size
+#' @param z_min A parameter of the membership function if fm="belhadj2011", i.e. the z_min: $mu=1 for 0 <y_i<z_min$ (see: See Betti et. al, 2023)
+#' @param z_max A parameter of the membership function if fm="belhadj2011", i.e. the z_max: $mu=0 for y_i>z_max$ (see: See Betti et. al, 2023)
+#' @param z1 A parameter of the membership function if fm="belhadj2015" or fm="cerioli". For  "belhadj2015" z1: $mu=1 for y_i<z1$ while for  "cerioli" $mu=1 for 0 <y_i<z1$ (see: See Betti et. al, 2023)
+#' @param z2 A parameter of the membership function if fm="belhadj2015" or fm="cerioli". For  "belhadj2015" z2: $mu=0 for y_i>z2$   while for  "cerioli" the z1: $mu=0 for y_i>z2$ (see: See Betti et. al, 2023)
+#' @param b A parameter of the membership function if fm="belhadj2015". The shape parameter (if b=1 the mf is linear between z1 and z2)
+#' @param z A parameter of the membership function if fm="chakravarty", i.e. $mu=0 for y_i>=z$ (see: See Betti et. al, 2023)
+#' @param Xs A matrix (i x j) of calibration variables. i number of units, j number of variables
+#' @param total A Vector of population totals of dimension 1 x j
+#' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a factor
+#' @param data An optional data frame containing the variables to be used
+#'
+#' @import sampling
+#' @return An object of class FuzzyMonetary containing the estimate of variance with the method selected. if breakdown is not NULL, the variance is estimated for each sub-domain.
+#' @export
+#' @examples
+#' #The following examples are based on the dataset eusilc
+#' #included in the package.
+#'
+#' #Example 1 using bootstrap and breakdown
+#'
+#' #fm = "verma"
+#'
+#' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
+#'        fm = "verma", breakdown = eusilc$db040, type = "bootstrap_calibrated",
+#'        alpha = 4, Xs = eusilc[,4:6], total = c(20, 30, 40))
+#'
+#' #fm = "belhadj2015"
+#'
+#' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
+#'        fm = "belhadj2015", breakdown = eusilc$db040, type = "bootstrap_naive",
+#'        z1 = 100, z2 = 15000, b = 2)
+#'
+#'
+#' #Example 2 using jackknife without breakdown
+#'
+#' #fm = "verma1999"
+#'
+#' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
+#'        fm = "verma1999",  type = "jackknife",
+#'        stratum = eusilc$stratum , psu = eusilc$psu,
+#'        alpha = 4)
+#'
+#' #fm = "cerioli"
+#'
+#' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
+#'        fm = "cerioli",  type = "jackknife",
+#'        stratum = eusilc$stratum , psu = eusilc$psu,
+#'        z1 = 1000, z2 = 12000)
+
+#' @references
+#'
+#' Belhadj, B. (2011). A new fuzzy unidimensional poverty index from an information theory perspective. Empirical Economics, 40(1):687–704.
+#'
+#' Belhadj, B. (2015). Employment measure in developing countries via minimum wage and poverty new fuzzy approach. Opsearch, 52(1):329–339.
+#'
+#' Betti, G., Cheli, B., Lemmi, A., and Verma, V. (2006). Multidimensional and longitudinal poverty: an integrated fuzzy approach. In Betti, G. and Lemmi, A., editors, Fuzzy set approach to multidimensional poverty measurement, pages 115–137. Springer, Boston, USA.
+#'
+#' Betti, G., D’Agostino, A., Lemmi, A., & Neri, L. (2023). The fuzzy approach to poverty measurement. In Research Handbook on Measuring Poverty and Deprivation Edited by Silber, J. (pp. 489-500). Edward Elgar Publishing.
+#'
+#' Betti, G. and Verma, V. (1999). Measuring the degree of poverty in a dynamic and comparative context: a multi-dimensional approach using fuzzy set theory. In Proceedings, iccs-vi, volume 11, pages 289–300.
+#'
+#' Cerioli, A. and Zani, S. (1990). A fuzzy approach to the measurement of poverty. In Income and Wealth Distribution, Inequality and Poverty: Proceedings of the Second International Conference on Income Distribution by Size: Generation, Distribution, Measurement and Applications., 272–284. Springer, Boston, USA.
+#'
+#' Chakravarty, S. R. (2006). An Axiomatic Approach to Multidimensional Poverty Measurement via Fuzzy Sets. Fuzzy Set Approach to Multidimensional Poverty Measurement, 49-72.
+#'
+#' Cheli, B. and Lemmi, A. (1995). A ’totally’ fuzzy and relative approach to the multidimensional analysis of poverty. 24(1):115–134.
+#'
+#' Zedini, A. and Belhadj, B. (2015). A new approach to unidimensional poverty analysis: Application to the Tunisian case. Review of Income and Wealth, 61(3):465–476.
+#'
+#' Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
+
 fm_var <- function(predicate, weight,
                    fm, ID = NULL,
-                   type = 'bootstrap',
+                   type = 'bootstrap_naive',
                    R = 100, M = NULL,
                    stratum, psu, f = 0.01,
                    verbose = FALSE,
@@ -46,6 +99,7 @@ fm_var <- function(predicate, weight,
                    z_min, z_max,
                    z1, z2, b,
                    z,
+                   Xs, total,
                    breakdown = NULL,
                    data = NULL) {
   if(!is.null(data)){
@@ -55,7 +109,8 @@ fm_var <- function(predicate, weight,
     hh.size <- data[[hh.size]]
     ID <- data[[ID]]
   }
-  if(!(type %in% c("bootstrap", "jackknife"))) stop("Select a variance estimation method from the list:  bootstrap, jackknife ")
+  if(!(type %in% c("bootstrap_naive","bootstrap_calibrated", "jackknife"))) stop("Select a variance estimation method from the list: bootstrap_naive, bootstrap_calibrated, jackknife ")
+
   N <- length(predicate)
   if(is.null(weight)) weight <- rep(N, N)
   if(is.null(ID)) ID <- seq_len(N)
@@ -63,7 +118,7 @@ fm_var <- function(predicate, weight,
   if(!is.null(breakdown)) breakdown <- as.factor(breakdown)
   if(fm=="ZBM") k <- 3
   switch(type, # creare funzione bootstrap e funzione jackknife da chiamare qui invece che codificarle
-         bootstrap = {
+         bootstrap_naive = {
            BootDistr <- sapply(1:R, function(r) {
              if(verbose == TRUE) {
                if(R%%100==0) cat('Bootstrap Replicate : ', r, 'of', R, '\n')
@@ -82,9 +137,38 @@ fm_var <- function(predicate, weight,
 
            }, simplify = "array")
            if(!is.null(breakdown)){
-               if (fm=="ZBM") {
+             if (fm=="ZBM") {
                var.hat <- apply(BootDistr, 1:2, var, na.rm = TRUE)
-               } else {
+             } else {
+               var.hat <- apply(BootDistr, 1, var, na.rm = TRUE)
+             }
+
+           } else {
+             var.hat <- var(BootDistr, na.rm = TRUE)
+           }
+         },
+         bootstrap_calibrated = {
+           BootDistr <- sapply(1:R, function(r) {
+             if(verbose == TRUE) {
+               if(R%%100==0) cat('Bootstrap Replicate : ', r, 'of', R, '\n')
+             }
+             bootidx <- sample(1:N, size = M, replace = T)
+             ID.boot <- ID[bootidx]
+             predicate.boot <- predicate[bootidx]
+             weight.boot <- sampling::calib(Xs = Xs, d = weight[bootidx], total = total, method = "linear")
+             if(!is.null(breakdown)) breakdown <- breakdown[bootidx]
+             if(fm=="ZBM") {
+               hh.size.boot <- hh.size[bootidx]
+               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, z_min, z_max, z1, z2, b, z, breakdown, data = NULL)$estimate)
+             } else {
+               try(fm_construct(predicate.boot, weight.boot, fm, ID.boot, HCR, interval, alpha, hh.size.boot, z_min, z_max, z1, z2, b, z, breakdown, data = NULL)$estimate)
+             }
+
+           }, simplify = "array")
+           if(!is.null(breakdown)){
+             if (fm=="ZBM") {
+               var.hat <- apply(BootDistr, 1:2, var, na.rm = TRUE)
+             } else {
                var.hat <- apply(BootDistr, 1, var, na.rm = TRUE)
              }
 
@@ -147,10 +231,10 @@ fm_var <- function(predicate, weight,
                  squared.dev <- (z_hi - z_hi.bar)^2
                  var_h[h,,] <- Reduce('+', lapply(1:a_h, function(i) g_hi[i]*squared.dev[,,i])) # oppure usare modified sum
                } else {
-               z_hi.breakdown <- do.call(rbind, z_hi)
-               means.breakdown <- rep(1, a_h)%*%t(apply(z_hi.breakdown,2,mean))
-               var_h.breakdown <- (1-f)*t(g_hi)%*%(z_hi.breakdown - means.breakdown)^2
-               var_h[h,] <- var_h.breakdown
+                 z_hi.breakdown <- do.call(rbind, z_hi)
+                 means.breakdown <- rep(1, a_h)%*%t(apply(z_hi.breakdown,2,mean))
+                 var_h.breakdown <- (1-f)*t(g_hi)%*%(z_hi.breakdown - means.breakdown)^2
+                 var_h[h,] <- var_h.breakdown
                }
 
              } else { # if not breakdown
@@ -162,7 +246,7 @@ fm_var <- function(predicate, weight,
              if(fm=="ZBM"){
                var.hat <- apply(var_h, 2:3, sum, na.rm = T)
              } else {
-             var.hat <- apply(var_h, 2, sum, na.rm = T)
+               var.hat <- apply(var_h, 2, sum, na.rm = T)
              }
            } else {
              var.hat <- sum(var_h, na.rm = T)
@@ -170,14 +254,13 @@ fm_var <- function(predicate, weight,
            }
          })
 
+
   # if(type=="bootstrap") var.hat <- list(variance = var.hat, quantiles = quantile(BootDistr, probs = c(.025, 0.5, 0.975)), type = type)
   if(!is.null(breakdown)) {
     var.hat <- list(variance = var.hat, size = table(breakdown), type = type)
   } else {
-  var.hat <- list(variance = var.hat, type = type)
+    var.hat <- list(variance = var.hat, type = type)
   }
   var.hat <- FuzzyPoverty(var.hat)
   return(var.hat)
 }
-
-
