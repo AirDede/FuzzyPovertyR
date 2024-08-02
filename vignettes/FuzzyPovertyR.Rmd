@@ -349,7 +349,7 @@ plot(variance)
 ```{r}
 Bootstrap = fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, 
                   dimensions = dimensions, breakdown = eusilc$db040, HCR = .12,
-                   alpha = 2, rho = NULL, type = 'bootstrap', M = NULL, R = 100, verbose = F) 
+                   alpha = 2, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F) 
 plot(Bootstrap)
 ```
 
