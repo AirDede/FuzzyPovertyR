@@ -18,6 +18,7 @@ Imports:
     dplyr,
     tidyr,
     ggplot2,
+    sampling,
     ecp,
     stats,
     graphics,
