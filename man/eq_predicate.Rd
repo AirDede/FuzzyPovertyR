@@ -15,7 +15,8 @@ eq_predicate(predicate, ncomp, age, scale.eq, newscale)
 
 \item{scale.eq}{The equivalence scale. Options are: Carbonaro, n.par (non parametric), OECD7050, modifiedOECD or new}
 
-\item{newscale}{a data.frame with two columns: "ncomp"  defining the number of components and  "s.eq" that define the corresponding}
+\item{newscale}{a data.frame with two columns: "ncomp"  defining the number of components and  "s.eq" that define the corresponding
+value of equivalent people. It is to define only if scale.eq ="new"}
 }
 \value{
 A data.frame containing the equivalised predicate variable.
@@ -26,15 +27,33 @@ using different equivalence scales.
 }
 \examples{
 
-aa=runif(100, 0, 1000) # predicate
-ncomp=rep(c(1,3,5,7,4),20) #n componenti
-age16=ncomp-1 #componenti < 16
-eq_predicate(predicate=aa, ncomp=ncomp, scale.eq="carbonaro") #carbonaro
-eq_predicate(predicate=aa, ncomp=ncomp, scale.eq="n.par") #non-parametric
-eq_predicate(predicate=aa, ncomp=ncomp, age=age16, scale.eq="OECD7050") #OECD7050
-eq_predicate(predicate=aa, ncomp=ncomp, age=age16, scale.eq="modifiedOECD") #modifiedOECD
-newscal=data.frame("ncomp"=c(1:9), "s.eq"=runif(9,1,10)) # new
-ncomp=rep(c(10,3,5,7,4),20)
-eq_predicate(predicate=aa, ncomp=ncomp,scale.eq="new", newscale=newscal)
+pred=runif(100, 0, 1000) #predicate
 
+ncomp=rep(c(1,3,5,7,4),20)
+
+age16=ncomp-1
+
+eq_predicate(predicate=pred, ncomp=ncomp, scale.eq="carbonaro") #carbonaro
+
+eq_predicate(predicate=pred, ncomp=ncomp, scale.eq="n.par") #non-parametric
+
+eq_predicate(predicate=pred, ncomp=ncomp, age=age16, scale.eq="OECD7050") #OECD7050
+
+eq_predicate(predicate=pred, ncomp=ncomp, age=age16, scale.eq="modifiedOECD") #modifiedOECD
+
+#Define a new scale
+
+newscal=data.frame("ncomp"=c(1:9), "s.eq"=runif(9,1,10)) # new
+
+ncomp=rep(c(10,3,5,7,4),20)
+
+eq_predicate(predicate=pred, ncomp=ncomp,scale.eq="new", newscale=newscal)
+
+}
+\references{
+Bernini, C., Emili, S., & Ferrante, M. R. (2024). Regional disparities in the sensitivity of wellbeing to poverty measures. In Spatial Inequalities and Wellbeing (pp. 136-157). Edward Elgar Publishing.
+
+Betti, G. (1999). Nonparametric equivalence scales with application to Poland. Statistics Research Report.
+
+Chanfreau, J., & Burchardt, T. (2008). Equivalence scales: rationales, uses and assumptions. Edinburgh: Scottish Government.
 }

@@ -1,4 +1,5 @@
 ##################
+#--- Variance ---#
 #' Fuzzy supplementary poverty estimation.
 #'
 #' @param data A matrix or data frame of items
@@ -39,18 +40,6 @@
 #'        rho = NULL, type = 'bootstrap_naive', M = NULL, R = 2, verbose = TRUE)
 #'
 #'
-#' #Do not run
-#'
-#' #############
-#' ##Jackknife##
-#' #############
-#'
-#'  #fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL,
-#'  #      dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5), # step 3
-#'  #      breakdown = NULL, alpha = 2,
-#'  #      rho = NULL, type = 'jackknife',
-#'  #     M = NULL, stratum = eusilc$stratum,
-#'  #      psu = eusilc$psu, verbose = FALSE)
 #'
 #'
 #' @references
@@ -59,6 +48,7 @@
 #' Betti, G., Gagliardi, F., Lemmi, A., & Verma, V. (2015). Comparative measures of multidimensional deprivation in the European Union. Empirical Economics, 49(3), 1071-1100.
 #'
 #' Betti, G., Gagliardi, F., & Verma, V. (2018). Simplified Jackknife variance estimates for fuzzy measures of multidimensional poverty. International Statistical Review, 86(1), 68-86.
+#'
 #'
 fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
                    breakdown = NULL, alpha, rho = NULL, type = 'bootstrap_naive',

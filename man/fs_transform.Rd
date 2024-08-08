@@ -2,16 +2,16 @@
 % Please edit documentation in R/fs_transform.R
 \name{fs_transform}
 \alias{fs_transform}
-\title{Fuzzy supplementary poverty estimation}
+\title{Fuzzy supplementary poverty estimation (Step 2)}
 \usage{
 fs_transform(data, weight = NULL, ID = NULL, depr.score = "s", ...)
 }
 \arguments{
 \item{data}{A matrix or a data frame of identified items (see Step 1 of Betti et. al, 2018)}
 
-\item{weight}{A numeric vector of sampling weights. if NULL simple random sampling weights will be used}
+\item{weight}{A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)}
 
-\item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence.}
+\item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence}
 
 \item{depr.score}{The deprivation score to be used (see d or s in Betti et al (2018))}
 
@@ -29,7 +29,11 @@ To obtain consistent measures of supplementary poverty it is important that item
 Lower levels of the items have to correspond to more deprivation while higher levels of the items to a less deprivation.
 }
 \examples{
-data(eusilc)
+#This example is based on the dataset eusilc included in the package
+#step 1 is the choice of the eusilc dataset
+
+#Step 2
+
 step2 = fs_transform(eusilc[,4:23], weight = eusilc$DB090, ID = eusilc$ID)
 
 }

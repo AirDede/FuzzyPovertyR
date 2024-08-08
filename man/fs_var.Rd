@@ -81,18 +81,6 @@ fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL,
        rho = NULL, type = 'bootstrap_naive', M = NULL, R = 2, verbose = TRUE)
 
 
-#Do not run
-
-#############
-##Jackknife##
-#############
-
- #fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL,
- #      dimensions = c(1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5), # step 3
- #      breakdown = NULL, alpha = 2,
- #      rho = NULL, type = 'jackknife',
- #     M = NULL, stratum = eusilc$stratum,
- #      psu = eusilc$psu, verbose = FALSE)
 
 
 }
