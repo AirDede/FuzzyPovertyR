@@ -1,6 +1,6 @@
 Package: FuzzyPovertyR
 Title: Estimation of Fuzzy Poverty Measures
-Version: 2.1.0
+Version: 3.0.0
 Authors@R: c(
     person("Federico", "Crescenzi", , "federico.crescenzi@unitus.it", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0701-4398")),
@@ -13,7 +13,7 @@ Description: Estimates fuzzy measures of poverty and deprivation. It also estima
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     tidyr,
