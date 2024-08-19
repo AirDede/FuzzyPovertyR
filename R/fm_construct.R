@@ -8,7 +8,7 @@
 #' the usual dichotomy poor (1) not-poor(0) is replaced with a continuum score in $(0,1)$
 #'
 #' @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)
-#' @param weight A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)
+#' @param weight A numeric vector of sampling weights of the same length of predicate. if NULL weights will set equal to n (n = sample size)
 #' @param fm The membership function (default is "verma". Other options are "ZBM", "belhadj2015", "belhadj2011", "chakravarty", "cerioli", "verma1999" and "TFR". See Betti et. al., 2023)
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence
 #' @param HCR If fm="verma" or fm="verma1999" or fm="TFR" . The value of the head count ratio used to compute alpha so that the membership function equals the HCR
@@ -173,6 +173,7 @@ fm_construct <- function(predicate, weight = NULL, fm = "verma", ID = NULL,
   }
   N <- length(predicate)
   if(is.null(weight)) weight <- rep(N, N)
+  if(!is.null(alpha)) if(alpha < 1) stop("The value of alpha has to be >=1")
   if(!(fm %in% c("verma", "verma1999", "chakravarty", "belhadj2011", "belhadj2015", "cerioli", "TFR", "ZBM"))) stop("Select a membership function from the list: verma, verma1999, chakravarty, belhadj2011, belhadj2015, cerioli, TFR, ZBM")
   switch(fm,
          verma = {res <- fm_verma(predicate, weight, ID, HCR, interval, alpha, breakdown, verbose)},

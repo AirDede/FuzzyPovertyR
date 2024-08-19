@@ -15,7 +15,6 @@
 
 fuzzyScaleItem = function(item, weight, ID, ...){
   ordered_item = factor(item, ordered = T)
-
   weight_sum = sum(weight)
 
   # compute weights

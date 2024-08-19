@@ -3,7 +3,7 @@
 #' Fuzzy supplementary poverty estimation.
 #'
 #' @param data A matrix or data frame of items
-#' @param weight A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)
+#' @param weight A numeric vector of sampling weights of length nrow(step1). if NULL weights will set equal to n (n = sample size)
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence
 #' @param dimensions A numeric vector (of length  `ncol(data)`) of assignments of items in data to dimensions
 #' @param HCR The value of the head count ratio used to compute alpha so that the expected value of the membership function equals HCR

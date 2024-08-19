@@ -3,7 +3,7 @@
 #' @description This function estimates the variance of the fuzzy monetary poverty index
 #'
 #' @param predicate A numeric vector representing the poverty predicate (i.e. income or expenditure)
-#' @param weight A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)
+#' @param weight A numeric vector of sampling weights of the same length of predicate. if NULL weights will set equal to n (n = sample size)
 #' @param fm The membership function (default is "verma". Other options are "ZBM", "belhadj2015", "belhadj2011", "chakravarty", "cerioli", "verma1999" and "TFR". See Betti et. al., 2023)
 #' @param ID A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence
 #' @param type The variance estimation method chosen. One between `bootstrap_naive` (default), `bootstrap_calibrated` or `jackknife`

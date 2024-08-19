@@ -3,7 +3,7 @@
 #' @description Step 7. Constructs the fuzzy supplementary poverty measure based on Steps1-6.
 #'
 #' @param steps4_5 The results from `fs_equate`.
-#' @param weight A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)
+#' @param weight A numeric vector of sampling weights of length nrow(step1). if NULL weights will set equal to n (n = sample size)
 #' @param alpha The value of the exponent in the FM equation. If NULL it is calculated so that it equates the expectation of the membership function to HCR.
 #' @param breakdown A Dimension of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a Dimension.
 #'
