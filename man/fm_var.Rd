@@ -35,7 +35,7 @@ fm_var(
 \arguments{
 \item{predicate}{A numeric vector representing the poverty predicate (i.e. income or expenditure)}
 
-\item{weight}{A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)}
+\item{weight}{A numeric vector of sampling weights of the same length of predicate. if NULL weights will set equal to n (n = sample size)}
 
 \item{fm}{The membership function (default is "verma". Other options are "ZBM", "belhadj2015", "belhadj2011", "chakravarty", "cerioli", "verma1999" and "TFR". See Betti et. al., 2023)}
 

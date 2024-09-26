@@ -9,7 +9,7 @@ fs_construct(steps4_5, weight, alpha, breakdown = NULL)
 \arguments{
 \item{steps4_5}{The results from \code{fs_equate}.}
 
-\item{weight}{A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)}
+\item{weight}{A numeric vector of sampling weights of length nrow(step1). if NULL weights will set equal to n (n = sample size)}
 
 \item{alpha}{The value of the exponent in the FM equation. If NULL it is calculated so that it equates the expectation of the membership function to HCR.}
 

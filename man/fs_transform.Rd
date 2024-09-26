@@ -9,7 +9,7 @@ fs_transform(data, weight = NULL, ID = NULL, depr.score = "s", ...)
 \arguments{
 \item{data}{A matrix or a data frame of identified items (see Step 1 of Betti et. al, 2018)}
 
-\item{weight}{A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)}
+\item{weight}{A numeric vector of sampling weights of length nrow(step1). if NULL weights will set equal to n (n = sample size)}
 
 \item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence}
 

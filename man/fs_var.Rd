@@ -27,7 +27,7 @@ fs_var(
 \arguments{
 \item{data}{A matrix or data frame of items}
 
-\item{weight}{A numeric vector of sampling weights. if NULL weights will set equal to n (n = sample size)}
+\item{weight}{A numeric vector of sampling weights of length nrow(step1). if NULL weights will set equal to n (n = sample size)}
 
 \item{ID}{A numeric or character vector of IDs. if NULL (the default) it is set as the row sequence}
 
