@@ -6,7 +6,7 @@
 #' @param predicate A numeric vector  (or the variable name) representing the poverty predicate (i.e. income or expenditure)
 #' @param ncomp A numerical vector (or the variable name) of the total number of components for the j-th family.
 #' @param age A numerical vector (or the variable name) of the number of components for the j-th family less than 16 years-old
-#' @param scale.eq The equivalence scale. Options are: Carbonaro, n.par (non parametric), OECD7050, modifiedOECD (Default) or new
+#' @param scale.eq The equivalence scale. Options are: "carbonaro", "n.par" (non parametric), "OECD7050", "modifiedOECD" (Default) or "new"
 #' @param newscale a data.frame with two columns: "ncomp"  defining the number of components and  "s.eq" that define the corresponding
 # value of equivalent people. It is to define only if scale.eq ="new"
 #' @param data An optional data frame containing the variables to be used
@@ -28,12 +28,11 @@
 #'
 #' #Define a new scale
 #'
-#' newscal <- data.frame("ncomp" = c(1:9), "s.eq" = runif(9,1,10) ) # new
+#' newscal <- data.frame("ncomp" = c(1:7), "s.eq" = runif(7,1,10) ) # new
 #'
-#' ncomp <- rep( c(10,3,5,7,4), 20)
 #'
-#' eq_predicate(predicate = eusilc$HY022, ncomp = eusilc$ncomp, scale.eq = "new",
-#'              newscale = newscal)
+#' eq_predicate(predicate = "HY022", ncomp = "ncomp", scale.eq = "new",
+#'              newscale = newscal, data = eusilc)
 #'
 #' @references
 #'
@@ -49,13 +48,13 @@ eq_predicate = function(predicate,
                         age = NULL,
                         scale.eq = "modifiedOECD",
                         newscale,
-                        data) {
+                        data = NULL) {
   if (!(scale.eq %in% c("carbonaro", "n.par", "OECD7050", "modifiedOECD", "new")))
     stop(
       "Select a scale of equivalence from the list:  carbonaro, n.par, OECD7050, modifiedOECD, new"
     )
 
-  if (scale.eq  %in%  c("carbonaro", "n.par")) {
+  if (scale.eq  %in%  c("carbonaro", "n.par", "new")) {
     if (!is.null(data)) {
       predicate <- data[[predicate]]
       ncomp <- data[[ncomp]]
