@@ -546,7 +546,7 @@ alpha = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = N
 ```
 
 ```{r}
-boot.var = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma",  type = "bootstrap_naive", HCR = .12, alpha = alpha, verbose = F, R = 10)
+boot.var = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma",  type = "bootstrap_naive", HCR = .12, alpha = alpha, verbose = F, R = 10, fixed = T)
 
 # plot(boot.var)
 
@@ -561,7 +561,7 @@ argument of the function `fm_var`. For example:
 
 ```{r echo=FALSE}
 
-Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap_naive", HCR = hcr, alpha = alpha, verbose = FALSE) %>% summary()
+Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap_naive", HCR = hcr, alpha = alpha, verbose = FALSE, fixed = T) %>% summary()
 
 Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = hcr, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)%>% summary()
 ```
@@ -593,5 +593,5 @@ The following uses the Jackknife
 ```{r eval=FALSE}
 fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, 
        stratum = eusilc$stratum, psu = eusilc$psu, verbose = F, f = .01,
-       breakdown = eusilc$db040, alpha = 3, rho = NULL, type = "jackknife")%>%summary()
+       breakdown = NULL, alpha = 3, rho = NULL, type = "jackknife", fixed = T)%>%summary()
 ```
