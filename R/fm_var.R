@@ -26,7 +26,7 @@
 #' @param Xs A matrix (i x j) of calibration variables. i number of units, j number of variables
 #' @param total A Vector of population totals of dimension 1 x j
 #' @param breakdown A factor of sub-domains to calculate estimates for (using the same alpha). If numeric will be coerced to a factor
-#' @param fixed Whether the membership function needs to be re-calculted at each bootstrap or jackknife replicate (defauls is FALSE)
+#' @param fixed Whether the membership function needs to be re-calculated at each bootstrap or jackknife replicate (default is FALSE)
 #' @param data An optional data frame containing the variables to be used
 #'
 #' @import sampling
@@ -42,13 +42,13 @@
 #'
 #' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
 #'        fm = "verma", breakdown = NULL, type = "bootstrap_calibrated",
-#'        alpha = 4, Xs = eusilc[,4:6], total = c(20, 30, 40), fixed = T)
+#'        alpha = 4, Xs = eusilc[,4:6], total = c(20, 30, 40))
 #'
 #' #fm = "belhadj2015"
 #'
 #' fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090,
 #'        fm = "belhadj2015", breakdown = eusilc$db040, type = "bootstrap_naive",
-#'        z1 = 100, z2 = 15000, b = 2, fixed = T)
+#'        z1 = 100, z2 = 15000, b = 2)
 #'
 #'
 #' #Example 2 using jackknife without breakdown

@@ -18,7 +18,7 @@
 #' @param f The finite population correction fraction (if 'jackknife' is chosen as variance estimation technique
 #' @param Xs A matrix (i x j) of calibration variables. i number of units, j number of variables
 #' @param total A Vector of population totals of dimension 1 x j
-#' @param fixed Whether the membership function needs to be re-calculted at each bootstrap or jackknife replicate (defauls is FALSE)
+#' @param fixed Whether the membership function needs to be re-calculated at each bootstrap or jackknife replicate (default is FALSE)
 #' @param verbose Logical. whether to print the proceeding of the variance estimation procedure
 #'
 #' @import sampling
@@ -74,7 +74,7 @@ fs_var <- function(data, weight = NULL, ID = NULL, dimensions, HCR,
              ID.boot <- ID[bootidx]
              data.boot <- data[ID.boot,]
              weight.boot <- weight[ID.boot]
-             step2.boot <- fs_transform(data.boot, weight.boot, ID.boot)
+             step2.boot <- fs_transform(data.boot, weight.boot)
              step3.boot <- fs_weight(dimensions, step2.boot, rho)
              if(fixed){
                mu.boot <- fs.mf$mu[ID.boot%in%fs.mf$ID]

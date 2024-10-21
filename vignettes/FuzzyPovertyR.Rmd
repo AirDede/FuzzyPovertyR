@@ -546,7 +546,7 @@ alpha = fm_construct(predicate = eusilc$eq_income, weight = eusilc$DB090, ID = N
 ```
 
 ```{r}
-boot.var = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma",  type = "bootstrap_naive", HCR = .12, alpha = alpha, verbose = F, R = 10, fixed = T)
+boot.var = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma",  type = "bootstrap_naive", HCR = .12, alpha = alpha, verbose = F, R = 10)
 
 # plot(boot.var)
 
@@ -561,7 +561,7 @@ argument of the function `fm_var`. For example:
 
 ```{r echo=FALSE}
 
-Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap_naive", HCR = hcr, alpha = alpha, verbose = FALSE, fixed = T) %>% summary()
+Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "bootstrap_naive", HCR = hcr, alpha = alpha, verbose = FALSE) %>% summary()
 
 Jackknife = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "verma", breakdown = eusilc$db040, type = "jackknife", HCR = hcr, alpha = alpha, stratum = eusilc$stratum, psu = eusilc$psu, verbose = F)%>% summary()
 ```
@@ -577,14 +577,18 @@ Bootstrap = fm_var(predicate = eusilc$eq_income, weight = eusilc$DB090, fm = "ve
 ### Fuzzy supplementary
 
 ```{r eval=FALSE}
-variance = fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, dimensions = dimensions, breakdown = NULL, HCR = 0.12, alpha = 2, rho = NULL, type = 'bootstrap', M = NULL, R = 2, verbose = F)
+variance = fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, 
+                  dimensions = dimensions, breakdown = NULL, HCR = 0.12,
+                  alpha = 2, rho = NULL, type = 'bootstrap_naive', 
+                  M = NULL, R = 50, verbose = F)
 summary(variance)
 ```
 
 ```{r, echo=FALSE, fig.height=6, fig.width=6}
 Bootstrap = fs_var(data = eusilc[,4:23], weight = eusilc$DB090, ID = NULL, 
                   dimensions = dimensions, breakdown = eusilc$db040, HCR = .12,
-                   alpha = 2, rho = NULL, type = 'bootstrap_naive', M = NULL, R = 10, verbose = F) 
+                   alpha = 2, rho = NULL, 
+                  type = 'bootstrap_naive', M = NULL, R = 10, verbose = F) 
 plot(Bootstrap)
 ```
 
